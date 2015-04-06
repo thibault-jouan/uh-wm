@@ -15,4 +15,8 @@ Gem::Specification.new do |s|
   s.executables = s.files.grep(/\Abin\//) { |f| File.basename(f) }
 
   s.add_dependency 'uh', '~> 2.0'
+
+  s.add_development_dependency 'aruba',     '~> 0.6'
+  s.add_development_dependency 'cucumber',  '~> 2.0'
+  s.add_development_dependency 'rake',      '~> 10.4'
 end
