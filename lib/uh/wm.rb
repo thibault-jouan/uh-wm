@@ -1,6 +1,7 @@
 require 'uh'
 
 require 'uh/wm/cli'
+require 'uh/wm/env'
 
 module Uh
   module WM

@@ -8,21 +8,21 @@ module Uh
       EX_USAGE = 64
 
       class << self
-        def run arguments, **options
-          cli = new arguments, **options
+        def run arguments, stdout: $stdout, stderr: $stderr
+          cli = new arguments, stdout: stdout
           cli.parse_arguments!
           cli.run
         rescue ArgumentError => e
-          $stderr.puts e
+          stderr.puts e
           exit EX_USAGE
         end
       end
 
-      def initialize args, stdin: $stdin, stdout: $stdout, stderr: $stderr
+      attr_reader :env
+
+      def initialize args, stdout: $stdout
         @arguments  = args
-        @stdin      = stdin
-        @stdout     = stdout
-        @stderr     = stderr
+        @env        = Env.new(stdout.tap { |o| o.sync = true })
       end
 
       def parse_arguments!
@@ -32,10 +32,9 @@ module Uh
       end
 
       def run
-        @stdout.sync = true
         @display = Display.new
         @display.open
-        @stdout.puts "Connected to X server on `#{@display}'"
+        @env.log "Connected to X server on `#{@display}'"
       end
 
 
@@ -48,7 +47,7 @@ module Uh
           opts.separator 'options:'
 
           opts.on '-h', '--help', 'print this message' do
-            @stdout.print opts
+            @env.print opts
             exit
           end
         end

@@ -8,16 +8,17 @@ module Uh
       let(:stdout)    { StringIO.new }
       let(:stderr)    { StringIO.new }
       let(:arguments) { [] }
-      let(:options)   { { stdout: stdout, stderr: stderr } }
 
-      subject(:cli)   { described_class.new arguments, **options }
+      subject(:cli)   { described_class.new arguments, stdout: stdout }
 
       describe '.run' do
-        subject(:run) { described_class.run arguments, **options }
+        subject(:run) do
+          described_class.run arguments, stdout: stdout, stderr: stderr
+        end
 
         it 'builds a new CLI with given arguments' do
           expect(described_class)
-            .to receive(:new).with(arguments, options).and_call_original
+            .to receive(:new).with(arguments, stdout: stdout).and_call_original
           run
         end
 
@@ -38,18 +39,27 @@ module Uh
         context 'with invalid arguments' do
           let(:arguments) { %w[--unknown-option] }
 
-          it 'prints the usage' do
-            expect { trap_exit { run } }.to output(/\AUsage: .+/).to_stderr
+          it 'prints the usage on standard error stream' do
+            trap_exit { run }
+            expect(stderr.string).to match /\AUsage: .+/
           end
 
           it 'exits with a return status of 64' do
-            stderr_original = $stderr
-            $stderr = stderr
             expect { run }.to raise_error(SystemExit) do |e|
               expect(e.status).to eq 64
             end
-            $stderr = stderr_original
           end
+        end
+      end
+
+      describe '#initialize' do
+        it 'builds an env with given stdout' do
+          expect(cli.env.output).to be stdout
+        end
+
+        it 'syncs the output' do
+          expect(stdout).to receive(:sync=).with(true)
+          cli
         end
       end
 
