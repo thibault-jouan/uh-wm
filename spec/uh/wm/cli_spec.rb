@@ -8,7 +8,6 @@ module Uh
       let(:stdout)    { StringIO.new }
       let(:stderr)    { StringIO.new }
       let(:arguments) { [] }
-
       subject(:cli)   { described_class.new arguments, stdout: stdout }
 
       describe '.run' do
