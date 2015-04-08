@@ -15,6 +15,14 @@ module Uh
         @manager  = manager
       end
 
+      def stopped?
+        !!@stopped
+      end
+
+      def stop!
+        @stopped = true
+      end
+
       def connect_manager
         @manager.connect
         @env.log "Connected to X server"

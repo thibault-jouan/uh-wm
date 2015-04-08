@@ -28,6 +28,34 @@ module Uh
         it 'assigns a new Manager' do
           expect(runner.manager).to be_a Manager
         end
+
+        it 'is not stopped' do
+          expect(runner).not_to be_stopped
+        end
+      end
+
+      describe '#stopped?' do
+        context 'when not stopped' do
+          it 'returns false' do
+            expect(runner.stopped?).to be false
+          end
+        end
+
+        context 'when stopped' do
+          before { runner.stop! }
+
+          it 'returns true' do
+            expect(runner.stopped?).to be true
+          end
+        end
+      end
+
+      describe '#stop!' do
+        it 'sets the runner as stopped' do
+          expect { runner.stop! }
+            .to change { runner.stopped? }
+            .from(false).to(true)
+        end
       end
 
       describe '#connect_manager' do
