@@ -10,10 +10,10 @@ module Uh
 
       attr_reader :env, :events, :manager
 
-      def initialize env, manager: Manager.new, stopped: false
+      def initialize env, manager: nil, stopped: false
         @env      = env
         @events   = Dispatcher.new
-        @manager  = manager
+        @manager  = manager || Manager.new(@events)
         @stopped  = stopped
       end
 

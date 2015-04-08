@@ -1,8 +1,9 @@
 module Uh
   module WM
     RSpec.describe Manager do
+      let(:events)      { Dispatcher.new }
       let(:display)     { Display.new }
-      subject(:manager) { described_class.new display }
+      subject(:manager) { described_class.new events, display }
 
       describe '#initialize' do
         it 'assigns a new display' do

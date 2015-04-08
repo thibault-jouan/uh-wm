@@ -3,8 +3,9 @@ module Uh
     class Manager
       attr_reader :display
 
-      def initialize display = Display.new
-        @display = display
+      def initialize events, display = Display.new
+        @events   = events
+        @display  = display
       end
 
       def connect
