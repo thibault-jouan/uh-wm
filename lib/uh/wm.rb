@@ -3,6 +3,7 @@ require 'uh'
 require 'uh/wm/cli'
 require 'uh/wm/env'
 require 'uh/wm/manager'
+require 'uh/wm/runner'
 
 module Uh
   module WM
