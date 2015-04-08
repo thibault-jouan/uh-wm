@@ -23,14 +23,14 @@ module Uh
         end
 
         it 'parses new CLI arguments' do
-          cli = instance_spy CLI
+          cli
           allow(described_class).to receive(:new) { cli }
           expect(cli).to receive :parse_arguments!
           run
         end
 
         it 'runs new CLI' do
-          cli = instance_spy CLI
+          cli
           allow(described_class).to receive(:new) { cli }
           expect(cli).to receive :run
           run
