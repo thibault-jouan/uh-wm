@@ -21,6 +21,9 @@ module Uh
       end
 
       def handle event
+        case event.type
+        when :key_press then @events.emit :key, event.key.to_sym
+        end
       end
     end
   end

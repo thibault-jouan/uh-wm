@@ -55,7 +55,14 @@ module Uh
       end
 
       describe '#handle' do
-        it 'handles an event'
+        context 'when key_release event is given' do
+          let(:event) { double 'event', type: :key_press, key: 'q' }
+
+          it 'emits :key event with the corresponding key' do
+            events.on(:key, :q) { throw :key_press_code }
+            expect { manager.handle event }.to throw_symbol :key_press_code
+          end
+        end
       end
     end
   end
