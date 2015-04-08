@@ -16,6 +16,10 @@ module Uh
         @hooks[translate_key key] << block
       end
 
+      def emit *key
+        @hooks[translate_key key].tap { |o| o.each { |e| e.call } if o }
+      end
+
 
       private
 

@@ -39,6 +39,26 @@ module Uh
           expect(dispatcher.hooks[%i[hook key]]).to be
         end
       end
+
+      describe '#emit' do
+        it 'calls hooks registered for given key' do
+          dispatcher.on(:hook_key) { throw :hook_code }
+          expect { dispatcher.emit :hook_key }.to throw_symbol :hook_code
+        end
+
+        context 'when no hooks are registered for given key' do
+          it 'does not call another hook' do
+            dispatcher.on(:hook_key) { throw :hook_code }
+            expect { dispatcher.emit :other_hook_key }.not_to throw_symbol
+          end
+        end
+
+        context 'when no hooks are registered at all' do
+          it 'does not raise any error' do
+            expect { dispatcher.emit :hook_key }.not_to raise_error
+          end
+        end
+      end
     end
   end
 end
