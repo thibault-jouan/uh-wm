@@ -63,18 +63,9 @@ module Uh
       end
 
       describe '#run' do
-        let(:display) { instance_spy Display }
-
-        before { allow(Display).to receive(:new) { display } }
-
-        it 'opens a new X display' do
-          expect(display).to receive :open
+        it 'runs a runner with the env' do
+          expect(Runner).to receive(:run).with(cli.env)
           cli.run
-        end
-
-        it 'prints a message on standard output when connected' do
-          cli.run
-          expect(stdout.string).to match /connected/i
         end
       end
 
