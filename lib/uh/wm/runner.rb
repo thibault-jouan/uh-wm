@@ -8,10 +8,11 @@ module Uh
         end
       end
 
-      attr_reader :env, :manager
+      attr_reader :env, :events, :manager
 
       def initialize env, manager: Manager.new
         @env      = env
+        @events   = Dispatcher.new
         @manager  = manager
       end
 

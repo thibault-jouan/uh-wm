@@ -25,6 +25,10 @@ module Uh
           expect(runner.env).to be env
         end
 
+        it 'assigns a new Dispatcher' do
+          expect(runner.events).to be_a Dispatcher
+        end
+
         it 'assigns a new Manager' do
           expect(runner.manager).to be_a Manager
         end
