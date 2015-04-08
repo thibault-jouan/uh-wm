@@ -3,8 +3,8 @@ module Uh
     class Manager
       attr_reader :display
 
-      def initialize
-        @display = Display.new
+      def initialize display = Display.new
+        @display = display
       end
 
       def connect
