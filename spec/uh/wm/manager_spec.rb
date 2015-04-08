@@ -15,6 +15,14 @@ module Uh
           manager.connect
         end
       end
+
+      describe '#grab_key' do
+        it 'grabs given key on the display' do
+          expect(manager.display)
+            .to receive(:grab_key).with('q', KEY_MODIFIERS[:mod1])
+          manager.grab_key :q
+        end
+      end
     end
   end
 end
