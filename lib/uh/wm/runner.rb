@@ -10,9 +10,9 @@ module Uh
 
       attr_reader :env, :manager
 
-      def initialize env
+      def initialize env, manager: Manager.new
         @env      = env
-        @manager  = Manager.new
+        @manager  = manager
       end
 
       def connect_manager
