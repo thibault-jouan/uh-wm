@@ -2,8 +2,8 @@ module Uh
   module WM
     class Runner
       class << self
-        def run env
-          runner = new env
+        def run env, **options
+          runner = new env, **options
           runner.connect_manager
         end
       end
