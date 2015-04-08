@@ -3,4 +3,3 @@
 require 'uh/wm'
 
 Uh::WM::CLI.run(ARGV)
-sleep 8

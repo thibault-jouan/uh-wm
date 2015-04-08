@@ -15,6 +15,10 @@ module Uh
           described_class.run arguments, stdout: stdout, stderr: stderr
         end
 
+        # FIXME: remove this hack we currently need to prevent the Runner from
+        # blocking.
+        before { allow(Runner).to receive :run }
+
         it 'builds a new CLI with given arguments' do
           expect(described_class)
             .to receive(:new).with(arguments, stdout: stdout).and_call_original

@@ -5,15 +5,23 @@ module Uh
       subject(:runner)  { described_class.new env }
 
       describe '.run' do
-        subject(:run) { described_class.run env }
+        subject(:run) { described_class.run env, stopped: true }
 
         it 'builds a new Runner with given env' do
-          expect(described_class).to receive(:new).with(env).and_call_original
+          expect(described_class)
+            .to receive(:new).with(env, anything).and_call_original
+          run
+        end
+
+        it 'registers event hooks' do
+          runner.stop!
+          allow(described_class).to receive(:new) { runner }
+          expect(runner).to receive(:register_event_hooks)
           run
         end
 
         it 'connects the manager' do
-          runner
+          runner.stop!
           allow(described_class).to receive(:new) { runner }
           expect(runner).to receive(:connect_manager)
           run
@@ -62,7 +70,19 @@ module Uh
         end
       end
 
+      describe '#register_event_hooks' do
+        context 'key bindings' do
+          it 'registers key bindings event hooks' do
+            runner.register_event_hooks
+            expect(runner.events[:key, :q]).not_to be_empty
+          end
+        end
+      end
+
       describe '#connect_manager' do
+        let(:manager)     { instance_spy Manager }
+        subject(:runner)  { described_class.new env, manager: manager }
+
         it 'connects the manager' do
           expect(runner.manager).to receive :connect
           runner.connect_manager
@@ -70,6 +90,11 @@ module Uh
 
         it 'logs a message when connected' do
           expect(env).to receive(:log).with /connected/i
+          runner.connect_manager
+        end
+
+        it 'tells the manager to grab keys' do
+          expect(runner.manager).to receive(:grab_key).with :q
           runner.connect_manager
         end
       end
