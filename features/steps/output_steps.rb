@@ -2,16 +2,17 @@ def uhwm_wait_output message, timeout: 1
   Timeout.timeout(timeout) do
     loop do
       break if case message
-      when Regexp
-        @process.read_stdout =~ message
-      when String
-        assert_partial_output_interactive message
+        when Regexp then @process.read_stdout =~ message
+        when String then assert_partial_output_interactive message
       end
       sleep 0.1
     end
   end
 rescue Timeout::Error
-  fail "expected message `#{message}' not seen after #{timeout} seconds"
+  fail [
+    "expected `#{message}' not seen after #{timeout} seconds in:",
+    "```\n#{@process.stdout + @process.stderr}```"
+  ].join "\n"
 end
 
 Then /^the output must contain exactly the usage$/ do
