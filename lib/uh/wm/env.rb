@@ -7,9 +7,9 @@ module Uh
 
       attr_reader :output, :logger
 
-      def initialize output, logger_: Logger.new(output)
+      def initialize output, logger: Logger.new(output)
         @output = output
-        @logger = logger_
+        @logger = logger
       end
     end
   end

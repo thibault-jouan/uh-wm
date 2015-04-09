@@ -3,7 +3,7 @@ module Uh
     RSpec.describe Env do
       let(:output)  { StringIO.new }
       let(:logger)  { Logger.new(StringIO.new) }
-      subject(:env) { described_class.new output, logger_: logger }
+      subject(:env) { described_class.new output, logger: logger }
 
       describe '#logger' do
         it 'returns a logger' do
