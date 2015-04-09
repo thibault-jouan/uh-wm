@@ -40,6 +40,13 @@ module Uh
         end
       end
 
+      describe '#log_logger_level' do
+        it 'logs the logger level' do
+          expect(logger).to receive(:info).with /log.+(warn|info|debug).+level/i
+          env.log_logger_level
+        end
+      end
+
       describe '#print' do
         it 'prints the message to the output' do
           env.print 'some message'

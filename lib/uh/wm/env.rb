@@ -1,6 +1,8 @@
 module Uh
   module WM
     class Env
+      LOGGER_LEVEL_STRINGS = %w[DEBUG INFO WARN ERROR FATAL UNKNOWN]
+
       extend Forwardable
       def_delegator :@logger, :info, :log
       def_delegator :@output, :print
@@ -15,6 +17,10 @@ module Uh
 
       def verbose?
         !!@verbose
+      end
+
+      def log_logger_level
+        log "Logging at #{LOGGER_LEVEL_STRINGS[@logger.level]} level"
       end
     end
   end
