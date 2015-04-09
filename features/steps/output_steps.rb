@@ -22,6 +22,7 @@ Usage: uhwm [options]
 options:
     -h, --help                       print this message
     -v, --version                    enable verbose mode
+    -d, --debug                      enable debug mode
   eoh
 end
 

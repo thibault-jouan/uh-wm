@@ -102,6 +102,20 @@ module Uh
           end
         end
 
+        context 'with debug option' do
+          let(:arguments) { %w[-d] }
+
+          it 'sets the env as debug' do
+            cli.parse_arguments!
+            expect(cli.env).to be_debug
+          end
+
+          it 'tells the env to log its logger level' do
+            expect(cli.env).to receive :log_logger_level
+            cli.parse_arguments!
+          end
+        end
+
         context 'with invalid option' do
           let(:arguments) { %w[--unknown-option] }
 

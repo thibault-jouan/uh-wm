@@ -9,6 +9,10 @@ module Uh
         expect(env).not_to be_verbose
       end
 
+      it 'has debug mode disabled' do
+        expect(env).not_to be_debug
+      end
+
       describe '#verbose?' do
         context 'when verbose mode is disabled' do
           before { env.verbose = false }
@@ -27,6 +31,24 @@ module Uh
         end
       end
 
+      describe '#debug?' do
+        context 'when debug mode is disabled' do
+          before { env.debug = false }
+
+          it 'returns false' do
+            expect(env.debug?).to be false
+          end
+        end
+
+        context 'when debug mode is enabled' do
+          before { env.debug = true }
+
+          it 'returns true' do
+            expect(env.debug?).to be true
+          end
+        end
+      end
+
       describe '#logger' do
         it 'returns a logger' do
           expect(env.logger).to be_a Logger
@@ -39,9 +61,17 @@ module Uh
         context 'when verbose mode is enabled' do
           before { env.verbose = true }
 
-        it 'has logger level info set' do
-          expect(env.logger.level).to be Logger::INFO
+          it 'has logger level info set' do
+            expect(env.logger.level).to be Logger::INFO
+          end
         end
+
+        context 'when debug mode is enabled' do
+          before { env.debug = true }
+
+          it 'has logger level debug set' do
+            expect(env.logger.level).to be Logger::DEBUG
+          end
         end
       end
 
