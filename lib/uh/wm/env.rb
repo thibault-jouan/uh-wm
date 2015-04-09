@@ -1,6 +1,3 @@
-require 'logger'
-require 'forwardable'
-
 module Uh
   module WM
     class Env
