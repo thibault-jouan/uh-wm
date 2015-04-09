@@ -10,3 +10,7 @@ module Aruba
 end
 
 Headless.new.start
+
+After do |scenario|
+  @process and @process.terminate
+end
