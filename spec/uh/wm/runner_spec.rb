@@ -73,6 +73,15 @@ module Uh
           runner.connect_manager
         end
       end
+
+      describe '#run_until' do
+        it 'tells the manager to handle events until given block is true' do
+          block = proc { }
+          allow(block).to receive(:call).and_return(false, false, false, true)
+          expect(runner.manager).to receive(:handle_pending_events).exactly(3).times
+          runner.run_until &block
+        end
+      end
     end
   end
 end

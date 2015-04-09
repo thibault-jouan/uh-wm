@@ -29,6 +29,10 @@ module Uh
         @manager.connect
         @env.log "Connected to X server"
       end
+
+      def run_until &block
+        @manager.handle_pending_events until block.call
+      end
     end
   end
 end
