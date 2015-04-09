@@ -1,12 +1,11 @@
 module Uh
   module WM
     RSpec.describe Dispatcher do
-      let(:hooks)           { {} }
-      subject(:dispatcher)  { described_class.new hooks }
+      subject(:dispatcher)  { described_class.new }
 
       describe '#[]' do
         context 'when given key for existing hook' do
-          let(:hooks) { { hook_key: [:hook] } }
+          before { dispatcher.hooks[:hook_key] = [:hook] }
 
           it 'returns registered hooks for this key' do
             expect(dispatcher[:hook_key]).to eq [:hook]
@@ -14,7 +13,7 @@ module Uh
         end
 
         context 'when given multiple keys for existing hook' do
-          let(:hooks) { { %i[hook key] => [:hook] } }
+          before { dispatcher.hooks[%i[hook key]] = [:hook] }
 
           it 'returns registered hooks for this key' do
             expect(dispatcher[:hook, :key]).to eq [:hook]
