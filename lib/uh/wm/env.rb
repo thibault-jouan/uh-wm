@@ -4,7 +4,7 @@ module Uh
       LOGGER_LEVEL          = Logger::WARN
       LOGGER_LEVEL_VERBOSE  = Logger::INFO
       LOGGER_LEVEL_DEBUG    = Logger::DEBUG
-      LOGGER_LEVEL_STRINGS = %w[DEBUG INFO WARN ERROR FATAL UNKNOWN]
+      LOGGER_LEVEL_STRINGS  = %w[DEBUG INFO WARN ERROR FATAL UNKNOWN]
 
       extend Forwardable
       def_delegator :logger, :info, :log
