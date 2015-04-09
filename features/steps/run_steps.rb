@@ -4,6 +4,15 @@ def uhwm_run options = nil
   @interactive = @process = run command.join ' '
 end
 
+def uhwm_run_wait_ready
+  uhwm_run
+  uhwm_wait_output 'Connected to'
+end
+
+Given /^uhwm is running$/ do
+  uhwm_run_wait_ready
+end
+
 When /^I start uhwm$/ do
   uhwm_run
 end
@@ -14,4 +23,8 @@ end
 
 Then /^the exit status must be (\d+)$/ do |exit_status|
   assert_exit_status exit_status.to_i
+end
+
+Then /^uhwm should terminate successfully$/ do
+  assert_exit_status 0
 end

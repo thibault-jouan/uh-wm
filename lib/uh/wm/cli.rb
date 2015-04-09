@@ -32,9 +32,7 @@ module Uh
       end
 
       def run
-        @display = Display.new
-        @display.open
-        @env.log "Connected to X server on `#{@display}'"
+        Runner.run env
       end
 
 
