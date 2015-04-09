@@ -53,6 +53,11 @@ module Uh
             @env.verbose = true
             @env.log_logger_level
           end
+
+          opts.on '-d', '--debug', 'enable debug mode' do
+            @env.debug = true
+            @env.log_logger_level
+          end
         end
       end
     end
