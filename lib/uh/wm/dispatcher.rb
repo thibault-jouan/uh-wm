@@ -15,8 +15,8 @@ module Uh
         @hooks[translate_key key] << block
       end
 
-      def emit *key
-        @hooks[translate_key key].each { |e| e.call }
+      def emit *key, args: []
+        @hooks[translate_key key].each { |e| e.call *args }
       end
 
 
