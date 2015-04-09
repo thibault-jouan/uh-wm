@@ -1,5 +1,6 @@
 require 'forwardable'
 require 'logger'
+require 'optparse'
 require 'uh'
 
 require 'uh/wm/cli'
