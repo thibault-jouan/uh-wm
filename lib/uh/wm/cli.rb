@@ -48,6 +48,11 @@ module Uh
             @env.print opts
             exit
           end
+
+          opts.on '-v', '--version', 'enable verbose mode' do
+            @env.verbose = true
+            @env.log_logger_level
+          end
         end
       end
     end

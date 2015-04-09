@@ -3,18 +3,59 @@ module Uh
     RSpec.describe Env do
       let(:output)  { StringIO.new }
       let(:logger)  { Logger.new(StringIO.new) }
-      subject(:env) { described_class.new output, logger: logger }
+      subject(:env) { described_class.new output }
+
+      it 'has verbose mode disabled' do
+        expect(env).not_to be_verbose
+      end
+
+      describe '#verbose?' do
+        context 'when verbose mode is disabled' do
+          before { env.verbose = false }
+
+          it 'returns false' do
+            expect(env.verbose?).to be false
+          end
+        end
+
+        context 'when verbose mode is enabled' do
+          before { env.verbose = true }
+
+          it 'returns true' do
+            expect(env.verbose?).to be true
+          end
+        end
+      end
 
       describe '#logger' do
         it 'returns a logger' do
-          expect(env.logger).to be_a ::Logger
+          expect(env.logger).to be_a Logger
+        end
+
+        it 'has logger level warn set' do
+          expect(env.logger.level).to be Logger::WARN
+        end
+
+        context 'when verbose mode is enabled' do
+          before { env.verbose = true }
+
+        it 'has logger level info set' do
+          expect(env.logger.level).to be Logger::INFO
+        end
         end
       end
 
       describe '#log' do
         it 'logs given message at info level' do
-          expect(logger).to receive(:info).with 'some message'
+          expect(env.logger).to receive(:info).with 'some message'
           env.log 'some message'
+        end
+      end
+
+      describe '#log_logger_level' do
+        it 'logs the logger level' do
+          expect(env.logger).to receive(:info).with /log.+(warn|info|debug).+level/i
+          env.log_logger_level
         end
       end
 
