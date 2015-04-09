@@ -82,6 +82,13 @@ module Uh
         end
       end
 
+      describe '#log_debug' do
+        it 'logs given message at debug level' do
+          expect(env.logger).to receive(:debug).with 'some message'
+          env.log_debug 'some message'
+        end
+      end
+
       describe '#log_logger_level' do
         it 'logs the logger level' do
           expect(env.logger).to receive(:info).with /log.+(warn|info|debug).+level/i

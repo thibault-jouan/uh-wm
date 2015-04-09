@@ -8,6 +8,7 @@ module Uh
 
       extend Forwardable
       def_delegator :logger, :info, :log
+      def_delegator :logger, :debug, :log_debug
       def_delegator :@output, :print
 
       attr_reader   :output
