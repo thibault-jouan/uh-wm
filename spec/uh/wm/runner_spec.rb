@@ -7,6 +7,11 @@ module Uh
       describe '.run' do
         subject(:run) { described_class.run env, stopped: true }
 
+        before do
+          allow(Display)
+            .to receive(:new) { double('display', open: nil).as_null_object }
+        end
+
         it 'builds a new Runner with given env' do
           expect(described_class)
             .to receive(:new).with(env, anything).and_call_original
