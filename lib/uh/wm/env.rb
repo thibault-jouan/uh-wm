@@ -3,6 +3,7 @@ module Uh
     class Env
       LOGGER_LEVEL          = Logger::WARN
       LOGGER_LEVEL_VERBOSE  = Logger::INFO
+      LOGGER_LEVEL_DEBUG    = Logger::DEBUG
       LOGGER_LEVEL_STRINGS = %w[DEBUG INFO WARN ERROR FATAL UNKNOWN]
 
       extend Forwardable
@@ -26,7 +27,8 @@ module Uh
 
       def logger
         @logger ||= Logger.new(@output).tap do |o|
-          o.level = verbose? ? LOGGER_LEVEL_VERBOSE : LOGGER_LEVEL
+          o.level = debug? ? LOGGER_LEVEL_DEBUG :
+            verbose? ? LOGGER_LEVEL_VERBOSE : LOGGER_LEVEL
         end
       end
 

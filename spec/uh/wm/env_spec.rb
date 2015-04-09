@@ -61,9 +61,17 @@ module Uh
         context 'when verbose mode is enabled' do
           before { env.verbose = true }
 
-        it 'has logger level info set' do
-          expect(env.logger.level).to be Logger::INFO
+          it 'has logger level info set' do
+            expect(env.logger.level).to be Logger::INFO
+          end
         end
+
+        context 'when debug mode is enabled' do
+          before { env.debug = true }
+
+          it 'has logger level debug set' do
+            expect(env.logger.level).to be Logger::DEBUG
+          end
         end
       end
 
