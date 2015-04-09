@@ -5,7 +5,7 @@ end
 def x_socket_check pid
   case RbConfig::CONFIG['host_os']
   when /linux/
-    `netstat -xp`.lines.grep /\s+#{pid}\/ruby/
+    `netstat -xp 2> /dev/null`.lines.grep /\s+#{pid}\/ruby/
   else
     `sockstat -u`.lines.grep /\s+ruby.+\s+#{pid}/
   end.any?
