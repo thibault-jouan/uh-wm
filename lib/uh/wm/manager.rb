@@ -9,7 +9,9 @@ module Uh
       end
 
       def connect
+        @events.emit :display, :connecting, args: @display
         @display.open
+        @events.emit :display, :connected, args: @display
       end
 
       def grab_key keysym

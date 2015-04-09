@@ -12,9 +12,37 @@ module Uh
       end
 
       describe '#connect' do
+        let(:block) { proc { } }
+
         it 'opens the display' do
           expect(manager.display).to receive :open
           manager.connect
+        end
+
+        it 'emits :display, :connecting event with the display' do
+          events.on :display, :connecting, &block
+          expect(block).to receive(:call) do |*args|
+            expect(args).to eq [display]
+          end
+          manager.connect
+        end
+
+        it 'emits :display, :connected event with the display' do
+          events.on :display, :connected, &block
+          expect(block).to receive(:call) do |*args|
+            expect(args).to eq [display]
+          end
+          manager.connect
+        end
+
+        context 'when connection fails' do
+          before { allow(display).to receive(:open) { fail } }
+
+          it 'does not emit :display, :connected event' do
+            events.on :display, :connected, &block
+            expect(block).not_to receive :call
+            manager.connect rescue nil
+          end
         end
       end
 

@@ -28,12 +28,12 @@ module Uh
       end
 
       def register_event_hooks
+        register_manager_hooks
         register_key_bindings_hooks
       end
 
       def connect_manager
         @manager.connect
-        @env.log "Connected to X server"
         @manager.grab_key :q
       end
 
@@ -43,6 +43,15 @@ module Uh
 
 
       private
+
+      def register_manager_hooks
+        @events.on(:display, :connecting) do |display|
+          @env.log_debug "Connecting to X server on `#{display}'"
+        end
+        @events.on(:display, :connected) do |display|
+          @env.log "Connected to X server on `#{display}'"
+        end
+      end
 
       def register_key_bindings_hooks
         @events.on(:key, :q) { stop! }
