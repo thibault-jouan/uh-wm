@@ -88,6 +88,20 @@ module Uh
           end
         end
 
+        context 'with verbose option' do
+          let(:arguments) { %w[-v] }
+
+          it 'sets the env as verbose' do
+            cli.parse_arguments!
+            expect(cli.env).to be_verbose
+          end
+
+          it 'tells the env to log its logger level' do
+            expect(cli.env).to receive :log_logger_level
+            cli.parse_arguments!
+          end
+        end
+
         context 'with invalid option' do
           let(:arguments) { %w[--unknown-option] }
 

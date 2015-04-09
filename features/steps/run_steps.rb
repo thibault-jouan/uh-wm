@@ -1,4 +1,4 @@
-def uhwm_run options = nil
+def uhwm_run options = '-v'
   command = %w[uhwm]
   command << options if options
   @interactive = @process = run command.join ' '
