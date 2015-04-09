@@ -10,7 +10,7 @@ module Uh
       def_delegator :@output, :print
 
       attr_reader   :output
-      attr_accessor :verbose
+      attr_accessor :verbose, :debug
 
       def initialize output
         @output = output
@@ -18,6 +18,10 @@ module Uh
 
       def verbose?
         !!@verbose
+      end
+
+      def debug?
+        !!@debug
       end
 
       def logger

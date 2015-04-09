@@ -9,6 +9,10 @@ module Uh
         expect(env).not_to be_verbose
       end
 
+      it 'has debug mode disabled' do
+        expect(env).not_to be_debug
+      end
+
       describe '#verbose?' do
         context 'when verbose mode is disabled' do
           before { env.verbose = false }
@@ -23,6 +27,24 @@ module Uh
 
           it 'returns true' do
             expect(env.verbose?).to be true
+          end
+        end
+      end
+
+      describe '#debug?' do
+        context 'when debug mode is disabled' do
+          before { env.debug = false }
+
+          it 'returns false' do
+            expect(env.debug?).to be false
+          end
+        end
+
+        context 'when debug mode is enabled' do
+          before { env.debug = true }
+
+          it 'returns true' do
+            expect(env.debug?).to be true
           end
         end
       end
