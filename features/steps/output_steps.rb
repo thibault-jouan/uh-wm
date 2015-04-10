@@ -11,7 +11,7 @@ def uhwm_wait_output message, timeout: 1
 rescue Timeout::Error
   fail [
     "expected `#{message}' not seen after #{timeout} seconds in:",
-    "```\n#{@process.stdout + @process.stderr}```"
+    "  ```\n  #{@process.stdout + @process.stderr}  ```"
   ].join "\n"
 end
 
