@@ -24,6 +24,7 @@ options:
     -v, --version                    enable verbose mode
     -d, --debug                      enable debug mode
     -r, --require PATH               require ruby feature
+    -l, --layout LAYOUT              specify layout
   eoh
 end
 

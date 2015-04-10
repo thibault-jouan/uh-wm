@@ -12,7 +12,7 @@ module Uh
       def_delegator :@output, :print
 
       attr_reader   :output
-      attr_accessor :verbose, :debug
+      attr_accessor :verbose, :debug, :layout_class
 
       def initialize output
         @output = output

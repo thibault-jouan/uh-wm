@@ -13,6 +13,10 @@ module Uh
         expect(env).not_to be_debug
       end
 
+      it 'has no layout_class set' do
+        expect(env.layout_class).not_to be
+      end
+
       describe '#verbose?' do
         context 'when verbose mode is disabled' do
           before { env.verbose = false }

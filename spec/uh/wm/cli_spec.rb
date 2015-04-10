@@ -130,6 +130,15 @@ module Uh
           end
         end
 
+        context 'with layout option' do
+          let(:arguments) { %w[-l Object] }
+
+          it 'assigns the layout class in the env' do
+            cli.parse_arguments!
+            expect(cli.env.layout_class).to eq Object
+          end
+        end
+
         context 'with invalid option' do
           let(:arguments) { %w[--unknown-option] }
 
