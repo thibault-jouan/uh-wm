@@ -76,10 +76,10 @@ module Uh
       end
 
       describe '#register_event_hooks' do
-        it 'registers manager event hooks' do
+        it 'registers manager event hooks for logging' do
           runner.register_event_hooks
-          expect(runner.events[:display, :connecting]).not_to be_empty
-          expect(runner.events[:display, :connected]).not_to be_empty
+          expect(env).to receive(:log)
+          runner.events.emit :display, :connected
         end
 
         it 'registers key bindings event hooks' do
