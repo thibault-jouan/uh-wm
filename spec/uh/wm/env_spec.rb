@@ -53,6 +53,24 @@ module Uh
         end
       end
 
+      describe '#layout' do
+        context 'when a layout class is set' do
+          let(:some_layout) { Class.new }
+
+          before { env.layout_class = some_layout }
+
+          it 'returns a new instance of this layout class' do
+            expect(env.layout).to be_an_instance_of some_layout
+          end
+        end
+
+        context 'when a layout class is not set' do
+          it 'returns an instance of the default layout' do
+            expect(env.layout).to be_an_instance_of ::Uh::Layout
+          end
+        end
+      end
+
       describe '#logger' do
         it 'returns a logger' do
           expect(env.logger).to be_a Logger

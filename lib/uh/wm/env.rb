@@ -26,6 +26,15 @@ module Uh
         !!@debug
       end
 
+      def layout
+        @layout ||= if layout_class
+          layout_class.new
+        else
+          require 'uh/layout'
+          ::Uh::Layout.new
+        end
+      end
+
       def logger
         @logger ||= Logger.new(@output).tap do |o|
           o.level = debug? ? LOGGER_LEVEL_DEBUG :

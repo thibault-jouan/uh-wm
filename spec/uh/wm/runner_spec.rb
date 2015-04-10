@@ -55,17 +55,6 @@ module Uh
         it 'is not stopped' do
           expect(runner).not_to be_stopped
         end
-
-        it 'assigns a new layout instance' do
-          expect(runner.layout).to be_an_instance_of SomeLayout
-        end
-
-        context 'when the env has no layout set' do
-          before { env.layout_class = nil }
-          it 'raises an ArgumentError' do
-            expect { runner }.to raise_error WM::ArgumentError
-          end
-        end
       end
 
       describe '#stopped?' do
@@ -101,7 +90,7 @@ module Uh
 
         it 'registers layout hook for :connected event' do
           runner.register_event_hooks
-          expect(runner.layout).to receive(:register).with :display
+          expect(env.layout).to receive(:register).with :display
           runner.events.emit :connected, args: :display
         end
 
