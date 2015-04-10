@@ -76,19 +76,15 @@ module Uh
       end
 
       describe '#register_event_hooks' do
-        context 'manager' do
-          it 'registers manager event hooks' do
-            runner.register_event_hooks
-            expect(runner.events[:display, :connecting]).not_to be_empty
-            expect(runner.events[:display, :connected]).not_to be_empty
-          end
+        it 'registers manager event hooks' do
+          runner.register_event_hooks
+          expect(runner.events[:display, :connecting]).not_to be_empty
+          expect(runner.events[:display, :connected]).not_to be_empty
         end
 
-        context 'key bindings' do
-          it 'registers key bindings event hooks' do
-            runner.register_event_hooks
-            expect(runner.events[:key, :q]).not_to be_empty
-          end
+        it 'registers key bindings event hooks' do
+          runner.register_event_hooks
+          expect(runner.events[:key, :q]).not_to be_empty
         end
       end
 
