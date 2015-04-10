@@ -10,4 +10,9 @@ RSpec.configure do |config|
   end
 
   config.disable_monkey_patching!
+
+  config.before :all do
+    # Ensure current X display is not available from rspec test suite.
+    ENV.delete 'DISPLAY'
+  end
 end

@@ -14,6 +14,9 @@ module Uh
       describe '#connect' do
         let(:block) { proc { } }
 
+        # Prevent Manager to open a real display.
+        before { allow(display).to receive :open }
+
         it 'opens the display' do
           expect(manager.display).to receive :open
           manager.connect
