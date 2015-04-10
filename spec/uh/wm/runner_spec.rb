@@ -1,4 +1,6 @@
-SomeLayout = Class.new
+SomeLayout = Class.new do
+  define_method(:register) { |*args| }
+end
 
 module Uh
   module WM
@@ -95,6 +97,12 @@ module Uh
           runner.register_event_hooks
           expect(env).to receive(:log)
           runner.events.emit :connected
+        end
+
+        it 'registers layout hook for :connected event' do
+          runner.register_event_hooks
+          expect(runner.layout).to receive(:register).with :display
+          runner.events.emit :connected, args: :display
         end
 
         it 'registers key bindings event hooks' do
