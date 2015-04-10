@@ -10,12 +10,14 @@ module Uh
         end
       end
 
-      attr_reader :env, :events, :manager
+      attr_reader :env, :events, :manager, :layout
 
       def initialize env, manager: nil, stopped: false
+        raise ArgumentError, 'missing env layout class' unless env.layout_class
         @env      = env
         @events   = Dispatcher.new
         @manager  = manager || Manager.new(@events)
+        @layout   = @env.layout_class.new
         @stopped  = stopped
       end
 

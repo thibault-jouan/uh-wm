@@ -1,8 +1,12 @@
+SomeLayout = Class.new
+
 module Uh
   module WM
     RSpec.describe Runner do
-      let(:env)         { Env.new(StringIO.new) }
-      subject(:runner)  { described_class.new env }
+      let(:env) do
+        Env.new(StringIO.new).tap { |o| o.layout_class = SomeLayout }
+      end
+      subject(:runner) { described_class.new env }
 
       describe '.run' do
         subject(:run) { described_class.run env, stopped: true }
@@ -48,6 +52,17 @@ module Uh
 
         it 'is not stopped' do
           expect(runner).not_to be_stopped
+        end
+
+        it 'assigns a new layout instance' do
+          expect(runner.layout).to be_an_instance_of SomeLayout
+        end
+
+        context 'when the env has no layout set' do
+          before { env.layout_class = nil }
+          it 'raises an ArgumentError' do
+            expect { runner }.to raise_error WM::ArgumentError
+          end
         end
       end
 
