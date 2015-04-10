@@ -26,6 +26,6 @@ options:
   eoh
 end
 
-Then /^the current output must match \/([^\/]+)\/([a-z]+)$/ do |pattern, options|
+Then /^the current output must match \/([^\/]+)\/([a-z]*)$/ do |pattern, options|
   uhwm_wait_output Regexp.new(pattern, options)
 end
