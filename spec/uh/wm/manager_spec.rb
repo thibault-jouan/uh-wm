@@ -19,16 +19,16 @@ module Uh
           manager.connect
         end
 
-        it 'emits :display, :connecting event with the display' do
-          events.on :display, :connecting, &block
+        it 'emits :connecting event with the display' do
+          events.on :connecting, &block
           expect(block).to receive(:call) do |*args|
             expect(args).to eq [display]
           end
           manager.connect
         end
 
-        it 'emits :display, :connected event with the display' do
-          events.on :display, :connected, &block
+        it 'emits :connected event with the display' do
+          events.on :connected, &block
           expect(block).to receive(:call) do |*args|
             expect(args).to eq [display]
           end
@@ -38,8 +38,8 @@ module Uh
         context 'when connection fails' do
           before { allow(display).to receive(:open) { fail } }
 
-          it 'does not emit :display, :connected event' do
-            events.on :display, :connected, &block
+          it 'does not emit :connected event' do
+            events.on :connected, &block
             expect(block).not_to receive :call
             manager.connect rescue nil
           end

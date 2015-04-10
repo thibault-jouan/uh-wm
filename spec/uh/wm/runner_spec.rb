@@ -79,7 +79,7 @@ module Uh
         it 'registers manager event hooks for logging' do
           runner.register_event_hooks
           expect(env).to receive(:log)
-          runner.events.emit :display, :connected
+          runner.events.emit :connected
         end
 
         it 'registers key bindings event hooks' do

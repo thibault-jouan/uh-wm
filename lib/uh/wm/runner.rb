@@ -45,10 +45,10 @@ module Uh
       private
 
       def register_manager_hooks
-        @events.on(:display, :connecting) do |display|
+        @events.on(:connecting) do |display|
           @env.log_debug "Connecting to X server on `#{display}'"
         end
-        @events.on(:display, :connected) do |display|
+        @events.on(:connected) do |display|
           @env.log "Connected to X server on `#{display}'"
         end
       end
