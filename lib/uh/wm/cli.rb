@@ -58,6 +58,11 @@ module Uh
             @env.debug = true
             @env.log_logger_level
           end
+
+          opts.on '-r', '--require PATH', 'require ruby feature' do |feature|
+            require feature
+            @env.log "Loaded `#{feature}' ruby feature"
+          end
         end
       end
     end

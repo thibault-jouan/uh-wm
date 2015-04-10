@@ -116,6 +116,21 @@ module Uh
           end
         end
 
+        context 'with require option' do
+          let(:arguments) { %w[-r abbrev] }
+
+          it 'requires the given ruby feature' do
+            expect { cli.parse_arguments! }
+              .to change { $LOADED_FEATURES.grep(/abbrev/).any? }
+              .from(false).to(true)
+          end
+
+          it 'logs a message about the feature being loaded' do
+            expect(cli.env).to receive(:log).with /load.+abbrev.+ruby feature/i
+            cli.parse_arguments!
+          end
+        end
+
         context 'with invalid option' do
           let(:arguments) { %w[--unknown-option] }
 
