@@ -7,3 +7,6 @@ rvm:
 before_install:
   - sudo apt-get update -qq
   - sudo apt-get install -qq xdotool
+matrix:
+  allow_failures:
+    - rvm: ruby-head
