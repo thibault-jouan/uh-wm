@@ -63,6 +63,10 @@ module Uh
             require feature
             @env.log "Loaded `#{feature}' ruby feature"
           end
+
+          opts.on '-l', '--layout LAYOUT', 'specify layout' do |layout|
+            @env.layout_class = self.class.const_get layout.to_sym
+          end
         end
       end
     end

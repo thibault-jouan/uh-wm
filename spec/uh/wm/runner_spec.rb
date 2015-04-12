@@ -1,8 +1,14 @@
+SomeLayout = Class.new do
+  define_method(:register) { |*args| }
+end
+
 module Uh
   module WM
     RSpec.describe Runner do
-      let(:env)         { Env.new(StringIO.new) }
-      subject(:runner)  { described_class.new env }
+      let(:env) do
+        Env.new(StringIO.new).tap { |o| o.layout_class = SomeLayout }
+      end
+      subject(:runner) { described_class.new env }
 
       describe '.run' do
         subject(:run) { described_class.run env, stopped: true }
@@ -80,6 +86,12 @@ module Uh
           runner.register_event_hooks
           expect(env).to receive(:log)
           runner.events.emit :connected
+        end
+
+        it 'registers layout hook for :connected event' do
+          runner.register_event_hooks
+          expect(env.layout).to receive(:register).with :display
+          runner.events.emit :connected, args: :display
         end
 
         it 'registers key bindings event hooks' do

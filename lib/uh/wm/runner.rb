@@ -10,6 +10,9 @@ module Uh
         end
       end
 
+      extend Forwardable
+      def_delegator :@env, :layout
+
       attr_reader :env, :events, :manager
 
       def initialize env, manager: nil, stopped: false
@@ -29,6 +32,7 @@ module Uh
 
       def register_event_hooks
         register_manager_hooks
+        register_layout_event_hooks
         register_key_bindings_hooks
       end
 
@@ -50,6 +54,12 @@ module Uh
         end
         @events.on(:connected) do |display|
           @env.log "Connected to X server on `#{display}'"
+        end
+      end
+
+      def register_layout_event_hooks
+        @events.on(:connected) do |display|
+          layout.register display
         end
       end
 

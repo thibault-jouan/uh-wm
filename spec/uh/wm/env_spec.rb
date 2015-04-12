@@ -13,6 +13,10 @@ module Uh
         expect(env).not_to be_debug
       end
 
+      it 'has no layout_class set' do
+        expect(env.layout_class).not_to be
+      end
+
       describe '#verbose?' do
         context 'when verbose mode is disabled' do
           before { env.verbose = false }
@@ -45,6 +49,24 @@ module Uh
 
           it 'returns true' do
             expect(env.debug?).to be true
+          end
+        end
+      end
+
+      describe '#layout' do
+        context 'when a layout class is set' do
+          let(:some_layout) { Class.new }
+
+          before { env.layout_class = some_layout }
+
+          it 'returns a new instance of this layout class' do
+            expect(env.layout).to be_an_instance_of some_layout
+          end
+        end
+
+        context 'when a layout class is not set' do
+          it 'returns an instance of the default layout' do
+            expect(env.layout).to be_an_instance_of ::Uh::Layout
           end
         end
       end

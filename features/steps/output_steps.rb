@@ -24,9 +24,18 @@ options:
     -v, --version                    enable verbose mode
     -d, --debug                      enable debug mode
     -r, --require PATH               require ruby feature
+    -l, --layout LAYOUT              specify layout
   eoh
 end
 
 Then /^the current output must match \/([^\/]+)\/([a-z]*)$/ do |pattern, options|
   uhwm_wait_output Regexp.new(pattern, options)
+end
+
+Then /^the current output must contain:$/ do |content|
+  uhwm_wait_output content.to_s
+end
+
+Then /^the current output must contain current display$/ do
+  uhwm_wait_output ENV['DISPLAY']
 end

@@ -12,7 +12,7 @@ module Uh
       def_delegator :@output, :print
 
       attr_reader   :output
-      attr_accessor :verbose, :debug
+      attr_accessor :verbose, :debug, :layout_class
 
       def initialize output
         @output = output
@@ -24,6 +24,15 @@ module Uh
 
       def debug?
         !!@debug
+      end
+
+      def layout
+        @layout ||= if layout_class
+          layout_class.new
+        else
+          require 'uh/layout'
+          ::Uh::Layout.new
+        end
       end
 
       def logger
