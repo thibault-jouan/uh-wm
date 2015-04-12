@@ -52,6 +52,39 @@ module Uh
             end
           end
         end
+
+        context 'when the new CLI raises a runtime error' do
+          before do
+            allow(cli).to receive(:run) { fail RuntimeError, 'some error' }
+            allow(described_class).to receive(:new) { cli }
+          end
+
+          it 'exits with a return status of 70' do
+            expect { run }.to raise_error(SystemExit) do |e|
+              expect(e.status).to eq 70
+            end
+          end
+
+          it 'formats the error' do
+            trap_exit { run }
+            expect(stderr.string)
+              .to match /\AUh::WM::RuntimeError: some error\n/
+          end
+
+          it 'does not output a backtrace' do
+            trap_exit { run }
+            expect(stderr.string).not_to include __FILE__
+          end
+
+          context 'when debug mode is enabled' do
+            let(:arguments) { %w[-d] }
+
+            it 'outputs a backtrace' do
+              trap_exit { run }
+              expect(stderr.string).to include __FILE__
+            end
+          end
+        end
       end
 
       describe '#initialize' do

@@ -5,7 +5,8 @@ module Uh
 
       USAGE = "Usage: #{File.basename $0} [options]".freeze
 
-      EX_USAGE = 64
+      EX_USAGE    = 64
+      EX_SOFTWARE = 70
 
       class << self
         def run arguments, stdout: $stdout, stderr: $stderr
@@ -15,6 +16,10 @@ module Uh
         rescue ArgumentError => e
           stderr.puts e
           exit EX_USAGE
+        rescue RuntimeError => e
+          stderr.puts "#{e.class.name}: #{e.message}"
+          stderr.puts e.backtrace.map { |e| '  %s' % e } if cli.env.debug?
+          exit EX_SOFTWARE
         end
       end
 
