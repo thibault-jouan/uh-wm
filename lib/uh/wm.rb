@@ -11,8 +11,9 @@ require 'uh/wm/runner'
 
 module Uh
   module WM
-    Error         = Class.new(StandardError)
-    RuntimeError  = Class.new(RuntimeError)
-    ArgumentError = Class.new(Error)
+    Error               = Class.new(StandardError)
+    RuntimeError        = Class.new(RuntimeError)
+    ArgumentError       = Class.new(Error)
+    OtherWMRunningError = Class.new(RuntimeError)
   end
 end

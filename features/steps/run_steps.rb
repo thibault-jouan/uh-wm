@@ -9,6 +9,10 @@ def uhwm_run_wait_ready
   uhwm_wait_output 'Connected to'
 end
 
+Given /^another window manager is running$/ do
+  expect(@other_wm).to be_alive
+end
+
 Given /^uhwm is running$/ do
   uhwm_run_wait_ready
 end

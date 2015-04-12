@@ -11,14 +11,11 @@ module Uh
         end
       end
 
-      describe '#connect' do
+      describe '#connect', :xvfb do
         let(:block) { proc { } }
 
-        # Prevent Manager to open a real display.
-        before { allow(display).to receive :open }
-
         it 'opens the display' do
-          expect(manager.display).to receive :open
+          expect(manager.display).to receive(:open).and_call_original
           manager.connect
         end
 

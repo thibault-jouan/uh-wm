@@ -2,7 +2,7 @@ def uhwm_wait_output message, timeout: 1
   Timeout.timeout(timeout) do
     loop do
       break if case message
-        when Regexp then @process.read_stdout =~ message
+        when Regexp then @process.stdout + @process.stderr =~ message
         when String then assert_partial_output_interactive message
       end
       sleep 0.1
@@ -26,6 +26,10 @@ options:
     -r, --require PATH               require ruby feature
     -l, --layout LAYOUT              specify layout
   eoh
+end
+
+Then /^the output must match \/([^\/]+)\/([a-z]*)$/ do |pattern, options|
+  expect(@process.stdout).to match Regexp.new(pattern, options)
 end
 
 Then /^the current output must match \/([^\/]+)\/([a-z]*)$/ do |pattern, options|
