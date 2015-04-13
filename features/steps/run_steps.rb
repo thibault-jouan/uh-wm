@@ -1,16 +1,5 @@
-def uhwm_run options = '-v'
-  command = %w[uhwm]
-  command << options if options
-  @interactive = @process = run command.join ' '
-end
-
-def uhwm_run_wait_ready
-  uhwm_run
-  uhwm_wait_output 'Connected to'
-end
-
 Given /^another window manager is running$/ do
-  expect(@other_wm).to be_alive
+  expect(other_wm).to be_alive
 end
 
 Given /^uhwm is running$/ do

@@ -10,4 +10,4 @@ Feature: layout registration
       end
       """
     When I run uhwm with option -r./layout -l Layout
-    Then the current output must contain current display
+    Then the output must contain current display
