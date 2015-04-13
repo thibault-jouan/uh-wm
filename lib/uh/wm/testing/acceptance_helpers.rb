@@ -31,9 +31,12 @@ module Uh
             end
           end
         rescue Timeout::Error
+          output = (@process.stdout + @process.stderr).lines
+            .map { |e| "  #{e}" }
+            .join
           fail [
             "expected `#{message}' not seen after #{timeout} seconds in:",
-            "  ```\n  #{@process.stdout + @process.stderr}  ```"
+            "  ```\n#{output}  ```"
           ].join "\n"
         end
 
