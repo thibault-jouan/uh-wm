@@ -14,6 +14,11 @@ module Uh
     Error               = Class.new(StandardError)
     RuntimeError        = Class.new(RuntimeError)
     ArgumentError       = Class.new(Error)
-    OtherWMRunningError = Class.new(RuntimeError)
+
+    class OtherWMRunningError < RuntimeError
+      def message
+        'another window manager is already running'
+      end
+    end
   end
 end

@@ -13,9 +13,7 @@ module Uh
       def connect
         @events.emit :connecting, args: @display
         @display.open
-        Display.on_error do
-          fail OtherWMRunningError, 'another window manager is already running'
-        end
+        Display.on_error { fail OtherWMRunningError }
         @display.listen_events INPUT_MASK
         @display.sync false
         Display.on_error { |*args| handle_error *args }
