@@ -1,3 +1,5 @@
+require 'headless'
+
 require 'uh/wm'
 
 RSpec.configure do |config|
@@ -14,5 +16,11 @@ RSpec.configure do |config|
   config.before :all do
     # Ensure current X display is not available from rspec test suite.
     ENV.delete 'DISPLAY'
+  end
+
+  config.around :example, :xvfb do |example|
+    Headless.ly do
+      example.run
+    end
   end
 end
