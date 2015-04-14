@@ -15,6 +15,10 @@ World(Uh::WM::Testing::AcceptanceHelpers)
 
 Headless.new.start
 
+Before do
+  set_env 'HOME', File.expand_path(current_dir)
+end
+
 After do
   uhwm_ensure_stop
 end

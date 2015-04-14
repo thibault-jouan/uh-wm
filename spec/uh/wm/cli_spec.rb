@@ -148,6 +148,15 @@ module Uh
           end
         end
 
+        context 'with run control option' do
+          let(:arguments) { %w[-f uhwmrc.rb] }
+
+          it 'assigns run control file path in the env' do
+            cli.parse_arguments!
+            expect(cli.env.rc_path).to eq 'uhwmrc.rb'
+          end
+        end
+
         context 'with require option' do
           let(:arguments) { %w[-r abbrev] }
 

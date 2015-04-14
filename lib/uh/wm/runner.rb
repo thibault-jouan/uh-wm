@@ -4,6 +4,7 @@ module Uh
       class << self
         def run env, **options
           runner = new env, **options
+          runner.evaluate_run_control
           runner.register_event_hooks
           runner.connect_manager
           runner.run_until { runner.stopped? }
@@ -28,6 +29,11 @@ module Uh
 
       def stop!
         @stopped = true
+      end
+
+      def evaluate_run_control
+        rc_path = File.expand_path(@env.rc_path)
+        eval File.read(rc_path) if File.exist?(rc_path)
       end
 
       def register_event_hooks

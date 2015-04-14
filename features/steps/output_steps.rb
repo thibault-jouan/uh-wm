@@ -6,6 +6,7 @@ options:
     -h, --help                       print this message
     -v, --version                    enable verbose mode
     -d, --debug                      enable debug mode
+    -f, --run-control PATH           specify alternate run control file
     -r, --require PATH               require ruby feature
     -l, --layout LAYOUT              specify layout
   eoh
@@ -16,6 +17,10 @@ Then /^the output must match \/([^\/]+)\/([a-z]*)$/ do |pattern, options|
 end
 
 Then /^the output must contain:$/ do |content|
+  uhwm_wait_output content.to_s
+end
+
+Then /^the output must contain "([^"]+)"$/ do |content|
   uhwm_wait_output content.to_s
 end
 

@@ -1,3 +1,5 @@
+require 'support/filesystem_helpers'
+
 SomeLayout = Class.new do
   define_method(:register) { |*args| }
 end
@@ -5,10 +7,15 @@ end
 module Uh
   module WM
     RSpec.describe Runner do
-      let(:env) do
-        Env.new(StringIO.new).tap { |o| o.layout_class = SomeLayout }
+      include FileSystemHelpers
+
+      let(:env)         { Env.new(StringIO.new) }
+      subject(:runner)  { described_class.new env }
+
+      before do
+        env.layout_class  = SomeLayout
+        env.rc_path       = 'non_existent_run_control.rb'
       end
-      subject(:runner) { described_class.new env }
 
       describe '#initialize' do
         it 'assigns the env' do
@@ -49,6 +56,23 @@ module Uh
           expect { runner.stop! }
             .to change { runner.stopped? }
             .from(false).to(true)
+        end
+      end
+
+      describe '#evaluate_run_control' do
+        context 'when run control file exists' do
+          it 'evaluates the run control file' do
+            with_file 'throw :run_control' do |f|
+              env.rc_path = f.path
+              expect { runner.evaluate_run_control }.to throw_symbol :run_control
+            end
+          end
+        end
+
+        context 'when run control file does not exist' do
+          it 'does not raise any error' do
+            expect { runner.evaluate_run_control }.not_to raise_error
+          end
         end
       end
 

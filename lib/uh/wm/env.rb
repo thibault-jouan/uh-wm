@@ -1,6 +1,8 @@
 module Uh
   module WM
     class Env
+      RC_PATH = '~/.uhwmrc.rb'.freeze
+
       LOGGER_LEVEL          = Logger::WARN
       LOGGER_LEVEL_VERBOSE  = Logger::INFO
       LOGGER_LEVEL_DEBUG    = Logger::DEBUG
@@ -12,10 +14,11 @@ module Uh
       def_delegator :@output, :print
 
       attr_reader   :output
-      attr_accessor :verbose, :debug, :layout_class
+      attr_accessor :verbose, :debug, :rc_path, :layout_class
 
       def initialize output
-        @output = output
+        @output   = output
+        @rc_path  = RC_PATH
       end
 
       def verbose?

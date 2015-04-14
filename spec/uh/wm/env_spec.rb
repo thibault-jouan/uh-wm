@@ -13,6 +13,10 @@ module Uh
         expect(env).not_to be_debug
       end
 
+      it 'has the default rc path set' do
+        expect(env.rc_path).to eq '~/.uhwmrc.rb'
+      end
+
       it 'has no layout_class set' do
         expect(env.layout_class).not_to be
       end
