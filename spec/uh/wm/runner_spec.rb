@@ -1,5 +1,3 @@
-require 'support/filesystem_helpers'
-
 SomeLayout = Class.new do
   define_method(:register) { |*args| }
 end
@@ -7,8 +5,6 @@ end
 module Uh
   module WM
     RSpec.describe Runner do
-      include FileSystemHelpers
-
       let(:env)         { Env.new(StringIO.new) }
       subject(:runner)  { described_class.new env }
 
@@ -60,19 +56,9 @@ module Uh
       end
 
       describe '#evaluate_run_control' do
-        context 'when run control file is present' do
-          it 'evaluates the run control file' do
-            with_file 'throw :run_control' do |f|
-              env.rc_path = f.path
-              expect { runner.evaluate_run_control }.to throw_symbol :run_control
-            end
-          end
-        end
-
-        context 'when run control file is not present' do
-          it 'does not raise any error' do
-            expect { runner.evaluate_run_control }.not_to raise_error
-          end
+        it 'evaluates the run control file with RunControl and current env' do
+          expect(RunControl).to receive(:evaluate).with env
+          runner.evaluate_run_control
         end
       end
 
@@ -90,8 +76,9 @@ module Uh
         end
 
         it 'registers key bindings event hooks' do
+          env.keybinds[:f] = -> { }
           runner.register_event_hooks
-          expect(runner.events[:key, :q]).not_to be_empty
+          expect(runner.events[:key, :f]).not_to be_empty
         end
       end
 
@@ -104,8 +91,9 @@ module Uh
           runner.connect_manager
         end
 
-        it 'tells the manager to grab keys' do
-          expect(runner.manager).to receive(:grab_key).with :q
+        it 'tells the manager to grab keys for env key bindings' do
+          env.keybinds[:f] = -> { }
+          expect(runner.manager).to receive(:grab_key).with :f
           runner.connect_manager
         end
       end
