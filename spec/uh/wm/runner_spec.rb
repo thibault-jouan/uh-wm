@@ -10,35 +10,6 @@ module Uh
       end
       subject(:runner) { described_class.new env }
 
-      describe '.run' do
-        subject(:run) { described_class.run env, stopped: true }
-
-        before do
-          allow(Display)
-            .to receive(:new) { double('display', open: nil).as_null_object }
-        end
-
-        it 'builds a new Runner with given env' do
-          expect(described_class)
-            .to receive(:new).with(env, anything).and_call_original
-          run
-        end
-
-        it 'registers event hooks' do
-          runner.stop!
-          allow(described_class).to receive(:new) { runner }
-          expect(runner).to receive(:register_event_hooks)
-          run
-        end
-
-        it 'connects the manager' do
-          runner.stop!
-          allow(described_class).to receive(:new) { runner }
-          expect(runner).to receive(:connect_manager)
-          run
-        end
-      end
-
       describe '#initialize' do
         it 'assigns the env' do
           expect(runner.env).to be env
