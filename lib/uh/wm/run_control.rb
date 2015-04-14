@@ -1,6 +1,13 @@
 module Uh
   module WM
     class RunControl
+      KEYSYM_TRANSLATIONS = {
+        backspace:  :BackSpace,
+        enter:      :Return,
+        return:     :Return,
+        tab:        :Tab
+      }.freeze
+
       class << self
         def evaluate env
           rc_path = File.expand_path(env.rc_path)
@@ -18,7 +25,14 @@ module Uh
       end
 
       def key keysym, &block
-        @env.keybinds[keysym] = block
+        @env.keybinds[translate_keysym keysym] = block
+      end
+
+
+      private
+
+      def translate_keysym keysym
+        KEYSYM_TRANSLATIONS.key?(keysym) ? KEYSYM_TRANSLATIONS[keysym] : keysym
       end
     end
   end

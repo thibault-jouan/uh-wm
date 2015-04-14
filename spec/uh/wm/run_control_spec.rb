@@ -52,14 +52,19 @@ module Uh
       describe '#key' do
         let(:code) { -> { :keybind_code } }
 
-        before { rc.key :f, &code }
-
         it 'registers a key binding in the env' do
+          rc.key :f, &code
           expect(env.keybinds.keys).to include :f
         end
 
         it 'registers given block with the key binding' do
+          rc.key :f, &code
           expect(env.keybinds[:f].call).to eq :keybind_code
+        end
+
+        it 'translates common key names to equivalent X keysym' do
+          rc.key :enter, &code
+          expect(env.keybinds.keys).to include :Return
         end
       end
     end

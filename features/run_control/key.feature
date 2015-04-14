@@ -8,3 +8,12 @@ Feature: `key' run control keyword
     And uhwm is running
     When I press the alt+f keys
     Then the output must contain "trigger f key code"
+
+  Scenario: translates common key names to their X equivalent
+    Given a run control file with:
+      """
+      key(:enter) { puts 'trigger return key code' }
+      """
+    And uhwm is running
+    When I press the alt+Return keys
+    Then the output must contain "trigger return key code"
