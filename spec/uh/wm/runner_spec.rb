@@ -76,8 +76,9 @@ module Uh
         end
 
         it 'registers key bindings event hooks' do
+          env.keybinds[:f] = -> { }
           runner.register_event_hooks
-          expect(runner.events[:key, :q]).not_to be_empty
+          expect(runner.events[:key, :f]).not_to be_empty
         end
       end
 
@@ -90,8 +91,9 @@ module Uh
           runner.connect_manager
         end
 
-        it 'tells the manager to grab keys' do
-          expect(runner.manager).to receive(:grab_key).with :q
+        it 'tells the manager to grab keys for env key bindings' do
+          env.keybinds[:f] = -> { }
+          expect(runner.manager).to receive(:grab_key).with :f
           runner.connect_manager
         end
       end

@@ -48,6 +48,20 @@ module Uh
             .to raise_error env.object_id.to_s
         end
       end
+
+      describe '#key' do
+        let(:code) { -> { :keybind_code } }
+
+        before { rc.key :f, &code }
+
+        it 'registers a key binding in the env' do
+          expect(env.keybinds.keys).to include :f
+        end
+
+        it 'registers given block with the key binding' do
+          expect(env.keybinds[:f].call).to eq :keybind_code
+        end
+      end
     end
   end
 end

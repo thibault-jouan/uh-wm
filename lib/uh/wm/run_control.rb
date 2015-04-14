@@ -16,6 +16,10 @@ module Uh
       def evaluate code
         instance_eval code
       end
+
+      def key keysym, &block
+        @env.keybinds[keysym] = block
+      end
     end
   end
 end

@@ -44,6 +44,9 @@ module Uh
       def connect_manager
         @manager.connect
         @manager.grab_key :q
+        @env.keybinds.each do |keysym, _|
+          @manager.grab_key *keysym
+        end
       end
 
       def run_until &block
@@ -70,6 +73,9 @@ module Uh
 
       def register_key_bindings_hooks
         @events.on(:key, :q) { stop! }
+        @env.keybinds.each do |keysym, code|
+          @events.on :key, keysym, &code
+        end
       end
     end
   end
