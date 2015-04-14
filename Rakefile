@@ -5,4 +5,4 @@ task default: %i[features spec]
 
 Cucumber::Rake::Task.new(:features)
 
-RSpec::Core::RakeTask.new(:spec)
+RSpec::Core::RakeTask.new
