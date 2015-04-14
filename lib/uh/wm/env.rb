@@ -3,6 +3,8 @@ module Uh
     class Env
       RC_PATH = '~/.uhwmrc.rb'.freeze
 
+      MODIFIER = :mod1
+
       LOGGER_LEVEL          = Logger::WARN
       LOGGER_LEVEL_VERBOSE  = Logger::INFO
       LOGGER_LEVEL_DEBUG    = Logger::DEBUG
@@ -14,11 +16,12 @@ module Uh
       def_delegator :@output, :print
 
       attr_reader   :output, :keybinds
-      attr_accessor :verbose, :debug, :rc_path, :layout_class
+      attr_accessor :verbose, :debug, :rc_path, :layout_class, :modifier
 
       def initialize output
         @output   = output
         @rc_path  = RC_PATH
+        @modifier = MODIFIER
         @keybinds = {
           q: proc { quit }
         }

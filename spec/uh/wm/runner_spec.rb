@@ -21,10 +21,6 @@ module Uh
         expect(runner.events).to be_a Dispatcher
       end
 
-      it 'has a manager' do
-        expect(runner.manager).to be_a Manager
-      end
-
       it 'is not stopped' do
         expect(runner).not_to be_stopped
       end
@@ -50,6 +46,16 @@ module Uh
           expect { runner.stop! }
             .to change { runner.stopped? }
             .from(false).to(true)
+        end
+      end
+
+      describe '#manager' do
+        it 'returns the manager' do
+          expect(runner.manager).to be_a Manager
+        end
+
+        it 'sets the manager modifier as env modifier' do
+          expect(runner.manager.modifier).to eq env.modifier
         end
       end
 

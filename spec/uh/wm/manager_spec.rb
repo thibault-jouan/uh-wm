@@ -2,8 +2,9 @@ module Uh
   module WM
     RSpec.describe Manager do
       let(:events)      { Dispatcher.new }
+      let(:modifier)    { :mod1 }
       let(:display)     { Display.new }
-      subject(:manager) { described_class.new events, display }
+      subject(:manager) { described_class.new events, modifier, display }
 
       it 'has a new display' do
         expect(manager.display).to be_a Display
@@ -47,7 +48,7 @@ module Uh
       describe '#grab_key' do
         it 'grabs given key on the display' do
           expect(manager.display)
-            .to receive(:grab_key).with('f', KEY_MODIFIERS[:mod1])
+            .to receive(:grab_key).with('f', KEY_MODIFIERS[modifier])
           manager.grab_key :f
         end
 
@@ -55,7 +56,7 @@ module Uh
           it 'grabs the key with given modifier' do
             expect(manager.display)
               .to receive(:grab_key)
-              .with('f', KEY_MODIFIERS[:mod1] | KEY_MODIFIERS[:shift])
+              .with('f', KEY_MODIFIERS[modifier] | KEY_MODIFIERS[:shift])
             manager.grab_key :f, :shift
           end
         end
@@ -91,7 +92,7 @@ module Uh
 
       describe '#handle' do
         context 'when key_press event is given' do
-          let(:mod_mask) { KEY_MODIFIERS[:mod1] }
+          let(:mod_mask) { KEY_MODIFIERS[modifier] }
           let(:event) do
             double 'event',
               type:           :key_press,
@@ -105,7 +106,7 @@ module Uh
           end
 
           context 'whith shift key modifier' do
-            let(:mod_mask) { KEY_MODIFIERS[:mod1] | KEY_MODIFIERS[:shift] }
+            let(:mod_mask) { KEY_MODIFIERS[modifier] | KEY_MODIFIERS[:shift] }
 
             it 'emits :key event with the corresponding key and :shift' do
               events.on(:key, :f, :shift) { throw :key_press_code }

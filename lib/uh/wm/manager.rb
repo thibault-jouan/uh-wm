@@ -3,10 +3,11 @@ module Uh
     class Manager
       INPUT_MASK = Events::SUBSTRUCTURE_REDIRECT_MASK
 
-      attr_reader :display
+      attr_reader :modifier, :display
 
-      def initialize events, display = Display.new
+      def initialize events, modifier, display = Display.new
         @events   = events
+        @modifier = modifier
         @display  = display
       end
 
@@ -22,7 +23,7 @@ module Uh
       end
 
       def grab_key keysym, mod = nil
-        mod_mask = KEY_MODIFIERS[:mod1]
+        mod_mask = KEY_MODIFIERS[@modifier]
         mod_mask |= KEY_MODIFIERS[mod] if mod
         @display.grab_key keysym.to_s, mod_mask
       end

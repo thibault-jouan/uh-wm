@@ -14,12 +14,12 @@ module Uh
       extend Forwardable
       def_delegator :@env, :layout
 
-      attr_reader :env, :events, :manager, :actions
+      attr_reader :env, :events, :actions
 
       def initialize env, manager: nil, stopped: false
         @env      = env
         @events   = Dispatcher.new
-        @manager  = manager || Manager.new(@events)
+        @manager  = manager
         @actions  = ActionsHandler.new(@env, @events)
         @stopped  = stopped
       end
@@ -30,6 +30,10 @@ module Uh
 
       def stop!
         @stopped = true
+      end
+
+      def manager
+        @manager ||= Manager.new(@events, @env.modifier)
       end
 
       def evaluate_run_control
@@ -44,14 +48,14 @@ module Uh
       end
 
       def connect_manager
-        @manager.connect
+        manager.connect
         @env.keybinds.each do |keysym, _|
-          @manager.grab_key *keysym
+          manager.grab_key *keysym
         end
       end
 
       def run_until &block
-        @manager.handle_pending_events until block.call
+        manager.handle_pending_events until block.call
       end
 
 

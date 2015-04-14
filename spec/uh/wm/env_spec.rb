@@ -21,6 +21,10 @@ module Uh
         expect(env.layout_class).not_to be
       end
 
+      it 'has the default modifier set' do
+        expect(env.modifier).to eq :mod1
+      end
+
       it 'has defaults key bindings set' do
         expect(env.keybinds.keys).to eq %i[q]
       end

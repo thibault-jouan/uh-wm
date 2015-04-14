@@ -24,6 +24,10 @@ module Uh
         instance_eval code, path
       end
 
+      def modifier mod
+        @env.modifier = mod
+      end
+
       def key keysym, &block
         @env.keybinds[translate_keysym keysym] = block
       end

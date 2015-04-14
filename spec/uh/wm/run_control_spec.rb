@@ -50,6 +50,13 @@ module Uh
         end
       end
 
+      describe '#modifier' do
+        it 'updates env modifier' do
+          rc.modifier :ctrl
+          expect(env.modifier).to eq :ctrl
+        end
+      end
+
       describe '#key' do
         let(:code) { -> { :keybind_code } }
 
