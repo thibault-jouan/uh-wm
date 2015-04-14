@@ -1,7 +1,7 @@
 Feature: run control file evaluation
 
   Scenario: evaluates the default run control file when present
-    Given a file named .uhwmrc.rb with:
+    Given a run control file with:
       """
       puts 'run control evaluation'
       """
