@@ -15,10 +15,10 @@ World(Uh::WM::Testing::AcceptanceHelpers)
 
 Headless.new.start
 
-After do |scenario|
+After do
   uhwm_ensure_stop
 end
 
-Around '@other_wm_running' do |scenario, block|
+Around '@other_wm_running' do |_, block|
   with_other_wm { block.call }
 end
