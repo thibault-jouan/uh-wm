@@ -60,7 +60,7 @@ module Uh
       end
 
       describe '#evaluate_run_control' do
-        context 'when run control file exists' do
+        context 'when run control file is present' do
           it 'evaluates the run control file' do
             with_file 'throw :run_control' do |f|
               env.rc_path = f.path
@@ -69,7 +69,7 @@ module Uh
           end
         end
 
-        context 'when run control file does not exist' do
+        context 'when run control file is not present' do
           it 'does not raise any error' do
             expect { runner.evaluate_run_control }.not_to raise_error
           end

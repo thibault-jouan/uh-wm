@@ -1,5 +1,5 @@
-When /^I press the default quit key binding$/ do
-  x_key 'alt+q'
+When /^I press the ([^ ]+) keys?$/ do |keys|
+  x_key keys
 end
 
 Then /^it must connect to X display$/ do

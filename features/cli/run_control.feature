@@ -1,6 +1,6 @@
 Feature: run control file path CLI option
 
-  Scenario: changes the path to run control file
+  Scenario: specifies run control file path
     Given a file named uhwmrc.rb with:
       """
       puts 'run control evaluation'
