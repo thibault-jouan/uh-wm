@@ -64,6 +64,11 @@ module Uh
             @env.log_logger_level
           end
 
+          opts.on '-f', '--run-control PATH',
+            'specify alternate run control file' do |e|
+            @env.rc_path = e
+          end
+
           opts.on '-r', '--require PATH', 'require ruby feature' do |feature|
             require feature
             @env.log "Loaded `#{feature}' ruby feature"
