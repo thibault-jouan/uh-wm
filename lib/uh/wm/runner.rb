@@ -32,8 +32,7 @@ module Uh
       end
 
       def evaluate_run_control
-        rc_path = File.expand_path(@env.rc_path)
-        eval File.read(rc_path) if File.exist?(rc_path)
+        RunControl.evaluate(env)
       end
 
       def register_event_hooks
