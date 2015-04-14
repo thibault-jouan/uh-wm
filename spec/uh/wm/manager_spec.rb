@@ -83,7 +83,7 @@ module Uh
       end
 
       describe '#handle' do
-        context 'when key_release event is given' do
+        context 'when key_press event is given' do
           let(:event) { double 'event', type: :key_press, key: 'q' }
 
           it 'emits :key event with the corresponding key' do
