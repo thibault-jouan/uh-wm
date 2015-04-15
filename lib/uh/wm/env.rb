@@ -19,7 +19,9 @@ module Uh
       def initialize output
         @output   = output
         @rc_path  = RC_PATH
-        @keybinds = {}
+        @keybinds = {
+          q: proc { quit }
+        }
       end
 
       def verbose?

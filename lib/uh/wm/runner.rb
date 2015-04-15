@@ -14,12 +14,13 @@ module Uh
       extend Forwardable
       def_delegator :@env, :layout
 
-      attr_reader :env, :events, :manager
+      attr_reader :env, :events, :manager, :actions
 
       def initialize env, manager: nil, stopped: false
         @env      = env
         @events   = Dispatcher.new
         @manager  = manager || Manager.new(@events)
+        @actions  = ActionsHandler.new(@env, @events)
         @stopped  = stopped
       end
 
@@ -36,6 +37,7 @@ module Uh
       end
 
       def register_event_hooks
+        register_runner_hooks
         register_manager_hooks
         register_layout_event_hooks
         register_key_bindings_hooks
@@ -43,7 +45,6 @@ module Uh
 
       def connect_manager
         @manager.connect
-        @manager.grab_key :q
         @env.keybinds.each do |keysym, _|
           @manager.grab_key *keysym
         end
@@ -55,6 +56,10 @@ module Uh
 
 
       private
+
+      def register_runner_hooks
+        @events.on(:quit) { stop! }
+      end
 
       def register_manager_hooks
         @events.on(:connecting) do |display|
@@ -72,9 +77,10 @@ module Uh
       end
 
       def register_key_bindings_hooks
-        @events.on(:key, :q) { stop! }
         @env.keybinds.each do |keysym, code|
-          @events.on :key, *keysym, &code
+          @events.on :key, *keysym do
+            @actions.evaluate code
+          end
         end
       end
     end
