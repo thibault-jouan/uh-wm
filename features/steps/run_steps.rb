@@ -6,6 +6,10 @@ Given /^uhwm is running$/ do
   uhwm_run_wait_ready
 end
 
+Given /^uhwm is running with options? (-.+)$/ do |options|
+  uhwm_run_wait_ready options
+end
+
 Given /^uhwm is running with this run control file:$/ do |rc|
   write_file '.uhwmrc.rb', rc
   uhwm_run_wait_ready

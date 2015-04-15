@@ -66,6 +66,14 @@ module Uh
             `sockstat -u`.lines.grep /\s+ruby.+\s+#{pid}/
           end.any?
         end
+
+        def x_window_name
+          'Event Tester'
+        end
+
+        def x_window_map
+          spawn 'xev -event owner_grab_button'
+        end
       end
     end
   end
