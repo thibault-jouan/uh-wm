@@ -48,7 +48,8 @@ module Uh
       def logger
         @logger ||= Logger.new(@output).tap do |o|
           o.level = debug? ? LOGGER_LEVEL_DEBUG :
-            verbose? ? LOGGER_LEVEL_VERBOSE : LOGGER_LEVEL
+            verbose? ? LOGGER_LEVEL_VERBOSE :
+            LOGGER_LEVEL
         end
       end
 

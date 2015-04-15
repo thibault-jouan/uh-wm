@@ -66,25 +66,23 @@ module Uh
       end
 
       def register_manager_hooks
-        @events.on(:connecting) do |display|
+        @events.on :connecting do |display|
           @env.log_debug "Connecting to X server on `#{display}'"
         end
-        @events.on(:connected) do |display|
+        @events.on :connected do |display|
           @env.log "Connected to X server on `#{display}'"
         end
       end
 
-      def register_layout_event_hooks
-        @events.on(:connected) do |display|
+      def register_layout_hooks
+        @events.on :connected do |display|
           layout.register display
         end
       end
 
-      def register_key_bindings_hooks
+      def register_keybinds_hooks
         @env.keybinds.each do |keysym, code|
-          @events.on :key, *keysym do
-            @actions.evaluate code
-          end
+          @events.on(:key, *keysym) { @actions.evaluate code }
         end
       end
     end
