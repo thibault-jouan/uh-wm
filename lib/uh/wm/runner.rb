@@ -41,10 +41,9 @@ module Uh
       end
 
       def register_event_hooks
-        register_runner_hooks
-        register_manager_hooks
-        register_layout_event_hooks
-        register_key_bindings_hooks
+        %w[runner manager layout keybinds]
+          .map  { |e| "register_#{e}_hooks".to_sym }
+          .each { |e| send e }
       end
 
       def connect_manager
