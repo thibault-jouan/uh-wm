@@ -32,7 +32,11 @@ module Uh
       private
 
       def translate_keysym keysym
-        KEYSYM_TRANSLATIONS.key?(keysym) ? KEYSYM_TRANSLATIONS[keysym] : keysym
+        translate_key = keysym.to_s.downcase.to_sym
+        translated_keysym = KEYSYM_TRANSLATIONS.key?(translate_key) ?
+          KEYSYM_TRANSLATIONS[translate_key] :
+          translate_key
+        keysym =~ /[A-Z]/ ? [translated_keysym, :shift] : translated_keysym
       end
     end
   end

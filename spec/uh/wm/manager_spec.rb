@@ -49,8 +49,17 @@ module Uh
       describe '#grab_key' do
         it 'grabs given key on the display' do
           expect(manager.display)
-            .to receive(:grab_key).with('q', KEY_MODIFIERS[:mod1])
-          manager.grab_key :q
+            .to receive(:grab_key).with('f', KEY_MODIFIERS[:mod1])
+          manager.grab_key :f
+        end
+
+        context 'when a modifier is given' do
+          it 'grabs the key with given modifier' do
+            expect(manager.display)
+              .to receive(:grab_key)
+              .with('f', KEY_MODIFIERS[:mod1] | KEY_MODIFIERS[:shift])
+            manager.grab_key :f, :shift
+          end
         end
       end
 
@@ -84,11 +93,26 @@ module Uh
 
       describe '#handle' do
         context 'when key_press event is given' do
-          let(:event) { double 'event', type: :key_press, key: 'q' }
+          let(:mod_mask) { KEY_MODIFIERS[:mod1] }
+          let(:event) do
+            double 'event',
+              type:           :key_press,
+              key:            'f',
+              modifier_mask:  mod_mask
+          end
 
           it 'emits :key event with the corresponding key' do
-            events.on(:key, :q) { throw :key_press_code }
+            events.on(:key, :f) { throw :key_press_code }
             expect { manager.handle event }.to throw_symbol :key_press_code
+          end
+
+          context 'whith shift key modifier' do
+            let(:mod_mask) { KEY_MODIFIERS[:mod1] | KEY_MODIFIERS[:shift] }
+
+            it 'emits :key event with the corresponding key and :shift' do
+              events.on(:key, :f, :shift) { throw :key_press_code }
+              expect { manager.handle event }.to throw_symbol :key_press_code
+            end
           end
         end
       end

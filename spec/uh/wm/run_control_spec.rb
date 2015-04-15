@@ -66,6 +66,11 @@ module Uh
           rc.key :enter, &code
           expect(env.keybinds.keys).to include :Return
         end
+
+        it 'translates upcased key name to a combination with shift' do
+          rc.key :F, &code
+          expect(env.keybinds.keys).to include %i[f shift]
+        end
       end
     end
   end

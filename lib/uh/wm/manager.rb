@@ -21,8 +21,10 @@ module Uh
         @events.emit :connected, args: @display
       end
 
-      def grab_key keysym
-        @display.grab_key keysym.to_s, KEY_MODIFIERS[:mod1]
+      def grab_key keysym, mod = nil
+        mod_mask = KEY_MODIFIERS[:mod1]
+        mod_mask |= KEY_MODIFIERS[mod] if mod
+        @display.grab_key keysym.to_s, mod_mask
       end
 
       def handle_pending_events
@@ -31,7 +33,11 @@ module Uh
 
       def handle event
         case event.type
-        when :key_press then @events.emit :key, event.key.to_sym
+        when :key_press
+          key_selector = event.modifier_mask & KEY_MODIFIERS[:shift] == 1 ?
+            [event.key.to_sym, :shift] :
+            event.key.to_sym
+          @events.emit :key, *key_selector
         end
       end
 

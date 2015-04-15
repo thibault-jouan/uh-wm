@@ -80,6 +80,12 @@ module Uh
           runner.register_event_hooks
           expect(runner.events[:key, :f]).not_to be_empty
         end
+
+        it 'registers combined key bindings event hooks' do
+          env.keybinds[[:f, :shift]] = -> { }
+          runner.register_event_hooks
+          expect(runner.events[:key, :f, :shift]).not_to be_empty
+        end
       end
 
       describe '#connect_manager' do

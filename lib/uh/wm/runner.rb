@@ -74,7 +74,7 @@ module Uh
       def register_key_bindings_hooks
         @events.on(:key, :q) { stop! }
         @env.keybinds.each do |keysym, code|
-          @events.on :key, keysym, &code
+          @events.on :key, *keysym, &code
         end
       end
     end
