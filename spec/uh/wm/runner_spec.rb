@@ -129,6 +129,19 @@ module Uh
           runner.run_until &block
         end
       end
+
+      describe '#terminate' do
+        it 'tells the manager to disconnect' do
+          expect(runner.manager).to receive :disconnect
+          runner.terminate
+        end
+
+        it 'logs about program termination' do
+          allow(runner.manager).to receive :disconnect
+          expect(env).to receive(:log).with /terminat/i
+          runner.terminate
+        end
+      end
     end
   end
 end

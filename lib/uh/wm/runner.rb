@@ -8,6 +8,7 @@ module Uh
           runner.register_event_hooks
           runner.connect_manager
           runner.run_until { runner.stopped? }
+          runner.terminate
         end
       end
 
@@ -57,6 +58,11 @@ module Uh
         manager.handle_pending_events until block.call
       end
 
+      def terminate
+        @env.log "Terminating..."
+        manager.disconnect
+      end
+
 
       private
 
@@ -71,6 +77,7 @@ module Uh
         @events.on :connected do |display|
           @env.log "Connected to X server on `#{display}'"
         end
+        @events.on(:disconnected) { @env.log "Disconnected from X server" }
       end
 
       def register_layout_hooks

@@ -22,6 +22,11 @@ module Uh
         @events.emit :connected, args: @display
       end
 
+      def disconnect
+        @display.close
+        @events.emit :disconnected
+      end
+
       def grab_key keysym, mod = nil
         mod_mask = KEY_MODIFIERS[@modifier]
         mod_mask |= KEY_MODIFIERS[mod] if mod

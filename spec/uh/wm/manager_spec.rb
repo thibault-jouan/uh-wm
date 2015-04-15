@@ -1,6 +1,7 @@
 module Uh
   module WM
     RSpec.describe Manager do
+      let(:block)       { proc { } }
       let(:events)      { Dispatcher.new }
       let(:modifier)    { :mod1 }
       let(:display)     { Display.new }
@@ -11,8 +12,6 @@ module Uh
       end
 
       describe '#connect', :xvfb do
-        let(:block) { proc { } }
-
         it 'opens the display' do
           expect(manager.display).to receive(:open).and_call_original
           manager.connect
@@ -42,6 +41,20 @@ module Uh
             expect(block).not_to receive :call
             manager.connect rescue nil
           end
+        end
+      end
+
+      describe '#disconnect' do
+        it 'closes the display' do
+          expect(display).to receive :close
+          manager.disconnect
+        end
+
+        it 'emits :disconnected event' do
+          allow(display).to receive :close
+          events.on :disconnected, &block
+          expect(block).to receive :call
+          manager.disconnect
         end
       end
 
