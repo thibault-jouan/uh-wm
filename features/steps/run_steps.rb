@@ -6,6 +6,11 @@ Given /^uhwm is running$/ do
   uhwm_run_wait_ready
 end
 
+Given /^uhwm is running with this run control file:$/ do |rc|
+  write_file '.uhwmrc.rb', rc
+  uhwm_run_wait_ready
+end
+
 When /^I start uhwm$/ do
   uhwm_run
 end
