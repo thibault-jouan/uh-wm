@@ -21,6 +21,10 @@ module Uh
         expect(env.layout_class).not_to be
       end
 
+      it 'has defaults key bindings set' do
+        expect(env.keybinds.keys).to eq %i[q]
+      end
+
       describe '#verbose?' do
         context 'when verbose mode is disabled' do
           before { env.verbose = false }

@@ -1,6 +1,9 @@
-Feature: quit action
+Feature: `quit' action keyword
 
-  Scenario: quits on alt+q keys press
-    Given uhwm is running
-    When I press the alt+q keys
-    Then uhwm should terminate successfully
+  Scenario: requests quit when invoked
+    Given uhwm is running with this run control file:
+      """
+      key(:f) { quit }
+      """
+    When I press the alt+f keys
+    Then uhwm must terminate successfully

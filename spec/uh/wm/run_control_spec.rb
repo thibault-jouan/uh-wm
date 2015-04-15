@@ -23,7 +23,8 @@ module Uh
         end
 
         it 'tells the new instance to evaluate run control file content' do
-          expect(rc).to receive(:evaluate).with ':run_control_code'
+          expect(rc)
+            .to receive(:evaluate).with(':run_control_code', env.rc_path)
           allow(described_class).to receive(:new) { rc }
           described_class.evaluate env
         end
@@ -39,12 +40,12 @@ module Uh
 
       describe '#evaluate' do
         it 'evaluates given code' do
-          expect { rc.evaluate 'throw :run_control_code' }
+          expect { rc.evaluate 'throw :run_control_code', 'some_path' }
             .to throw_symbol :run_control_code
         end
 
         it 'provides access to assigned env' do
-          expect { rc.evaluate 'fail @env.object_id.to_s' }
+          expect { rc.evaluate 'fail @env.object_id.to_s', 'some_path' }
             .to raise_error env.object_id.to_s
         end
       end

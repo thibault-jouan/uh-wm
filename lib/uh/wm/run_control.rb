@@ -12,7 +12,7 @@ module Uh
         def evaluate env
           rc_path = File.expand_path(env.rc_path)
           rc = new env
-          rc.evaluate File.read(rc_path) if File.exist?(rc_path)
+          rc.evaluate File.read(rc_path), rc_path if File.exist?(rc_path)
         end
       end
 
@@ -20,8 +20,8 @@ module Uh
         @env = env
       end
 
-      def evaluate code
-        instance_eval code
+      def evaluate code, path
+        instance_eval code, path
       end
 
       def key keysym, &block

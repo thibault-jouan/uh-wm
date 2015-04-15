@@ -63,6 +63,12 @@ module Uh
       end
 
       describe '#register_event_hooks' do
+        it 'registers quit event hook' do
+          runner.register_event_hooks
+          expect(runner).to receive(:stop!)
+          runner.events.emit :quit
+        end
+
         it 'registers manager event hooks for logging' do
           runner.register_event_hooks
           expect(env).to receive(:log)
@@ -85,6 +91,13 @@ module Uh
           env.keybinds[[:f, :shift]] = -> { }
           runner.register_event_hooks
           expect(runner.events[:key, :f, :shift]).not_to be_empty
+        end
+
+        it 'registers key bindings code evaluation with the actions handler' do
+          env.keybinds[:f] = code = proc { }
+          runner.register_event_hooks
+          expect(runner.actions).to receive(:evaluate).with code
+          runner.events.emit :key, :f
         end
       end
 
