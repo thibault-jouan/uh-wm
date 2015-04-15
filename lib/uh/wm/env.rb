@@ -4,6 +4,9 @@ module Uh
       RC_PATH = '~/.uhwmrc.rb'.freeze
 
       MODIFIER = :mod1
+      KEYBINDS = {
+        q: proc { quit }
+      }.freeze
 
       LOGGER_LEVEL          = Logger::WARN
       LOGGER_LEVEL_VERBOSE  = Logger::INFO
@@ -22,9 +25,7 @@ module Uh
         @output   = output
         @rc_path  = RC_PATH
         @modifier = MODIFIER
-        @keybinds = {
-          q: proc { quit }
-        }
+        @keybinds = KEYBINDS.dup
       end
 
       def verbose?
