@@ -27,6 +27,6 @@ Then /^the exit status must be (\d+)$/ do |exit_status|
   assert_exit_status exit_status.to_i
 end
 
-Then /^uhwm should terminate successfully$/ do
+Then /^uhwm must terminate successfully$/ do
   assert_exit_status 0
 end
