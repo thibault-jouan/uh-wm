@@ -40,8 +40,8 @@ module Uh
           ].join "\n"
         end
 
-        def uhwm_run_wait_ready
-          uhwm_run
+        def uhwm_run_wait_ready options = nil
+          if options then uhwm_run options else uhwm_run end
           uhwm_wait_output 'Connected to'
         end
 
