@@ -11,6 +11,10 @@ module Uh
         expect(manager.display).to be_a Display
       end
 
+      it 'has no clients' do
+        expect(manager.clients).to be_empty
+      end
+
       describe '#connect', :xvfb do
         it 'opens the display' do
           expect(manager.display).to receive(:open).and_call_original
@@ -139,12 +143,22 @@ module Uh
         context 'when map_request event is given' do
           let(:event) { double 'event', type: :map_request, window: :window }
 
-          it 'emits :manage event' do
-            events.on(:manage) { throw :manage_code }
-            expect { manager.handle event }.to throw_symbol :manage_code
+          it 'registers a new client wrapping the event window' do
+            manager.handle event
+            expect(manager.clients[0])
+              .to be_a(Client)
+              .and have_attributes(window: :window)
           end
 
-          it 'emits :manage event with the client'
+          it 'emits :manage event with the registered client' do
+            events.on :manage, &block
+            expect(block).to receive :call do |client|
+              expect(client)
+                .to be_a(Client)
+                .and have_attributes(window: :window)
+            end
+            manager.handle event
+          end
         end
       end
     end
