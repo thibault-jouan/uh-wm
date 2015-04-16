@@ -1,13 +1,14 @@
 module Uh
   module WM
     class Client
-      attr_reader   :window
+      attr_reader   :window, :unmap_count
       attr_accessor :geo
 
       def initialize window, geo = nil
-        @window   = window
-        @geo      = geo
-        @visible  = false
+        @window       = window
+        @geo          = geo
+        @visible      = false
+        @unmap_count  = 0
       end
 
       def to_s
@@ -38,6 +39,13 @@ module Uh
       def show
         @window.map
         @visible = true
+        self
+      end
+
+      def hide
+        @window.unmap
+        @visible = false
+        @unmap_count += 1
         self
       end
     end

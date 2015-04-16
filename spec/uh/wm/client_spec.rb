@@ -16,6 +16,10 @@ module Uh
         expect(client).to be_hidden
       end
 
+      it 'has an unmap count of 0' do
+        expect(client.unmap_count).to eq 0
+      end
+
       describe '#to_s' do
         it 'includes window name' do
           expect(client.to_s).to include 'wname'
@@ -71,6 +75,30 @@ module Uh
 
         it 'returns self' do
           expect(client.show).to be client
+        end
+      end
+
+      describe '#hide' do
+        it 'unmaps the window' do
+          expect(window).to receive :unmap
+          client.hide
+        end
+
+        it 'toggles the client as hidden' do
+          client.show
+          expect { client.hide }
+            .to change { client.hidden? }
+            .from(false).to true
+        end
+
+        it 'increments the unmap count' do
+          expect { client.hide }
+            .to change { client.unmap_count }
+            .from(0).to 1
+        end
+
+        it 'returns self' do
+          expect(client.hide).to be client
         end
       end
     end
