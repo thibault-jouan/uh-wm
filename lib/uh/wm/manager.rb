@@ -1,7 +1,11 @@
 module Uh
   module WM
     class Manager
-      INPUT_MASK = Events::SUBSTRUCTURE_REDIRECT_MASK
+      INPUT_MASK  = Events::SUBSTRUCTURE_REDIRECT_MASK
+      ROOT_MASK   = Events::PROPERTY_CHANGE_MASK |
+                    Events::SUBSTRUCTURE_REDIRECT_MASK |
+                    Events::SUBSTRUCTURE_NOTIFY_MASK |
+                    Events::STRUCTURE_NOTIFY_MASK
 
       attr_reader :modifier, :display
 
@@ -20,6 +24,7 @@ module Uh
         Display.on_error { |*args| handle_error *args }
         @display.sync false
         @events.emit :connected, args: @display
+        @display.root.mask = ROOT_MASK
       end
 
       def disconnect

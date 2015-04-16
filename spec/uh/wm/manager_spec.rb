@@ -33,6 +33,14 @@ module Uh
           manager.connect
         end
 
+        it 'updates the root window mask in order to manage windows' do
+          manager.connect
+          expect(display.root.mask).to eq Events::PROPERTY_CHANGE_MASK |
+            Events::SUBSTRUCTURE_REDIRECT_MASK |
+            Events::SUBSTRUCTURE_NOTIFY_MASK |
+            Events::STRUCTURE_NOTIFY_MASK
+        end
+
         context 'when connection fails' do
           before { allow(display).to receive(:open) { fail } }
 
