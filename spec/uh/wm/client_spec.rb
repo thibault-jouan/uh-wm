@@ -56,6 +56,23 @@ module Uh
           expect(client.moveresize).to be client
         end
       end
+
+      describe '#show' do
+        it 'maps the window' do
+          expect(window).to receive :map
+          client.show
+        end
+
+        it 'toggles the client as visible' do
+          expect { client.show }
+            .to change { client.visible? }
+            .from(false).to true
+        end
+
+        it 'returns self' do
+          expect(client.show).to be client
+        end
+      end
     end
   end
 end

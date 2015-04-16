@@ -34,6 +34,12 @@ module Uh
         @window.moveresize @geo
         self
       end
+
+      def show
+        @window.map
+        @visible = true
+        self
+      end
     end
   end
 end
