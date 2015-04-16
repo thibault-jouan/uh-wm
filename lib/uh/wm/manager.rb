@@ -49,6 +49,8 @@ module Uh
             [event.key.to_sym, :shift] :
             event.key.to_sym
           @events.emit :key, *key_selector
+        when :map_request
+          @events.emit :manage, args: event.window
         end
       end
 

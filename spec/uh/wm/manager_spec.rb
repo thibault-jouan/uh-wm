@@ -135,6 +135,17 @@ module Uh
             end
           end
         end
+
+        context 'when map_request event is given' do
+          let(:event) { double 'event', type: :map_request, window: :window }
+
+          it 'emits :manage event' do
+            events.on(:manage) { throw :manage_code }
+            expect { manager.handle event }.to throw_symbol :manage_code
+          end
+
+          it 'emits :manage event with the client'
+        end
       end
     end
   end
