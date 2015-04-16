@@ -1,7 +1,8 @@
 module Uh
   module WM
     class Client
-      attr_reader :window
+      attr_reader   :window
+      attr_accessor :geo
 
       def initialize window, geo = nil
         @window = window
