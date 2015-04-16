@@ -42,16 +42,8 @@ module Uh
       end
 
       def handle event
-        case event.type
-        when :key_press
-          key_selector = event.modifier_mask & KEY_MODIFIERS[:shift] == 1 ?
-            [event.key.to_sym, :shift] :
-            event.key.to_sym
-          @events.emit :key, *key_selector
-        when :map_request
-          @clients << client = Client.new(event.window)
-          @events.emit :manage, args: client
-        end
+        return unless respond_to? handler = "handle_#{event.type}".to_sym, true
+        send handler, event
       end
 
 
@@ -59,6 +51,18 @@ module Uh
 
       def handle_error *args
         @dispatcher.emit :error, args: args
+      end
+
+      def handle_key_press event
+        key_selector = event.modifier_mask & KEY_MODIFIERS[:shift] == 1 ?
+          [event.key.to_sym, :shift] :
+          event.key.to_sym
+        @events.emit :key, *key_selector
+      end
+
+      def handle_map_request event
+        @clients << client = Client.new(event.window)
+        @events.emit :manage, args: client
       end
 
       def check_other_wm!
