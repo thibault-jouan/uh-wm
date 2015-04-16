@@ -5,12 +5,21 @@ module Uh
       attr_accessor :geo
 
       def initialize window, geo = nil
-        @window = window
-        @geo    = geo
+        @window   = window
+        @geo      = geo
+        @visible  = false
       end
 
       def to_s
         "<#{name}> (#{wclass}) #{@geo} win: #{@window}"
+      end
+
+      def visible?
+        @visible
+      end
+
+      def hidden?
+        not visible?
       end
 
       def name

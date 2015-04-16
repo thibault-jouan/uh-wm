@@ -8,6 +8,14 @@ module Uh
       end
       subject(:client)  { described_class.new window, geo }
 
+      it 'is not visible' do
+        expect(client).not_to be_visible
+      end
+
+      it 'is hidden' do
+        expect(client).to be_hidden
+      end
+
       describe '#to_s' do
         it 'includes window name' do
           expect(client.to_s).to include 'wname'
