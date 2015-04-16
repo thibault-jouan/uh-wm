@@ -27,3 +27,7 @@ end
 Around '@other_wm_running' do |_, block|
   with_other_wm { block.call }
 end
+
+if ENV.key? 'TRAVIS'
+  ENV['UHWMTEST_TIMEOUT'] = 8.to_s
+end
