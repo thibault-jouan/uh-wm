@@ -14,7 +14,7 @@ Gem::Specification.new do |s|
   s.test_files  = s.files.grep /\A(spec|features)\//
   s.executables = s.files.grep(/\Abin\//) { |f| File.basename(f) }
 
-  s.add_dependency 'uh',        '2.0.0.pre'
+  s.add_dependency 'uh',        '2.0.0.pre1'
   s.add_dependency 'uh-layout', '0.2.0.pre'
 
   s.add_development_dependency 'aruba',     '~> 0.6'
