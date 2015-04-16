@@ -20,6 +20,11 @@ module Uh
       def wclass
         @wclass ||= @window.wclass
       end
+
+      def moveresize
+        @window.moveresize @geo
+        self
+      end
     end
   end
 end
