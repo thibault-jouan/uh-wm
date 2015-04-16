@@ -29,5 +29,5 @@ Around '@other_wm_running' do |_, block|
 end
 
 if ENV.key? 'TRAVIS'
-  ENV['UHWMTEST_OUTPUT_TIMEOUT'] = 8.to_s
+  ENV['UHWMTEST_TIMEOUT'] = 8.to_s
 end

@@ -23,25 +23,17 @@ module Uh
         end
 
         def uhwm_wait_output message
-          timeout = ENV.key?('UHWMTEST_OUTPUT_TIMEOUT') ?
-            ENV['UHWMTEST_OUTPUT_TIMEOUT'].to_i :
-            1
-          Timeout.timeout(timeout) do
-            loop do
-              break if case message
-                when Regexp then @process.stdout + @process.stderr =~ message
-                when String then assert_partial_output_interactive message
-              end
-              sleep 0.1
+          output = -> { @process.stdout + @process.stderr }
+          timeout_until do
+            case message
+              when Regexp then output.call =~ message
+              when String then assert_partial_output_interactive message
             end
           end
-        rescue Timeout::Error
-          output = (@process.stdout + @process.stderr).lines
-            .map { |e| "  #{e}" }
-            .join
+        rescue TimeoutError => e
           fail [
-            "expected `#{message}' not seen after #{timeout} seconds in:",
-            "  ```\n#{output}  ```"
+            "expected `#{message}' not seen after #{e.timeout} seconds in:",
+            "  ```\n#{output.call.lines.map { |e| "  #{e}" }.join}  ```"
           ].join "\n"
         end
 
@@ -92,6 +84,30 @@ module Uh
 
 
         private
+
+        def timeout_until
+          timeout = ENV.key?('UHWMTEST_TIMEOUT') ?
+            ENV['UHWMTEST_TIMEOUT'].to_i :
+            1
+          Timeout.timeout(timeout) do
+            loop do
+              break if yield
+              sleep 0.1
+            end
+          end
+        rescue Timeout::Error
+          fail TimeoutError.new('execution expired', timeout)
+        end
+
+
+        class TimeoutError < ::StandardError
+          attr_reader :timeout
+
+          def initialize message, timeout
+            super message
+            @timeout = timeout
+          end
+        end
 
         class XClient
           attr_reader :name
