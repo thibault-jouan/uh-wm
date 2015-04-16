@@ -11,6 +11,10 @@ module Uh
         expect(manager.display).to be_a Display
       end
 
+      it 'has no clients' do
+        expect(manager.clients).to be_empty
+      end
+
       describe '#connect', :xvfb do
         it 'opens the display' do
           expect(manager.display).to receive(:open).and_call_original
@@ -31,6 +35,14 @@ module Uh
             expect(args).to eq [display]
           end
           manager.connect
+        end
+
+        it 'updates the root window mask in order to manage windows' do
+          manager.connect
+          expect(display.root.mask).to eq Events::PROPERTY_CHANGE_MASK |
+            Events::SUBSTRUCTURE_REDIRECT_MASK |
+            Events::SUBSTRUCTURE_NOTIFY_MASK |
+            Events::STRUCTURE_NOTIFY_MASK
         end
 
         context 'when connection fails' do
@@ -125,6 +137,27 @@ module Uh
               events.on(:key, :f, :shift) { throw :key_press_code }
               expect { manager.handle event }.to throw_symbol :key_press_code
             end
+          end
+        end
+
+        context 'when map_request event is given' do
+          let(:event) { double 'event', type: :map_request, window: :window }
+
+          it 'registers a new client wrapping the event window' do
+            manager.handle event
+            expect(manager.clients[0])
+              .to be_a(Client)
+              .and have_attributes(window: :window)
+          end
+
+          it 'emits :manage event with the registered client' do
+            events.on :manage, &block
+            expect(block).to receive :call do |client|
+              expect(client)
+                .to be_a(Client)
+                .and have_attributes(window: :window)
+            end
+            manager.handle event
           end
         end
       end

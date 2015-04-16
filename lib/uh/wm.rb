@@ -5,6 +5,7 @@ require 'uh'
 
 require 'uh/wm/actions_handler'
 require 'uh/wm/cli'
+require 'uh/wm/client'
 require 'uh/wm/dispatcher'
 require 'uh/wm/env'
 require 'uh/wm/manager'

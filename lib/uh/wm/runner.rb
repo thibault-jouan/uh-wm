@@ -84,6 +84,9 @@ module Uh
         @events.on :connected do |display|
           layout.register display
         end
+        @events.on :manage do |client|
+          layout << client
+        end
       end
 
       def register_keybinds_hooks

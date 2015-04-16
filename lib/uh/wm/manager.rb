@@ -1,14 +1,19 @@
 module Uh
   module WM
     class Manager
-      INPUT_MASK = Events::SUBSTRUCTURE_REDIRECT_MASK
+      INPUT_MASK  = Events::SUBSTRUCTURE_REDIRECT_MASK
+      ROOT_MASK   = Events::PROPERTY_CHANGE_MASK |
+                    Events::SUBSTRUCTURE_REDIRECT_MASK |
+                    Events::SUBSTRUCTURE_NOTIFY_MASK |
+                    Events::STRUCTURE_NOTIFY_MASK
 
-      attr_reader :modifier, :display
+      attr_reader :modifier, :display, :clients
 
       def initialize events, modifier, display = Display.new
         @events   = events
         @modifier = modifier
         @display  = display
+        @clients  = []
       end
 
       def connect
@@ -20,6 +25,7 @@ module Uh
         Display.on_error { |*args| handle_error *args }
         @display.sync false
         @events.emit :connected, args: @display
+        @display.root.mask = ROOT_MASK
       end
 
       def disconnect
@@ -44,6 +50,9 @@ module Uh
             [event.key.to_sym, :shift] :
             event.key.to_sym
           @events.emit :key, *key_selector
+        when :map_request
+          @clients << client = Client.new(event.window)
+          @events.emit :manage, args: client
         end
       end
 

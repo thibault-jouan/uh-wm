@@ -27,3 +27,7 @@ end
 Then /^the output must contain current display$/ do
   uhwm_wait_output ENV['DISPLAY']
 end
+
+Then /^the output must contain the window name$/ do
+  uhwm_wait_output x_window_name
+end
