@@ -78,6 +78,7 @@ module Uh
           @env.log "Connected to X server on `#{display}'"
         end
         @events.on(:disconnected) { @env.log "Disconnected from X server" }
+        @events.on(:xevent) { |event| XEventLogger.new(env).log_event event }
       end
 
       def register_layout_hooks
@@ -92,6 +93,29 @@ module Uh
       def register_keybinds_hooks
         @env.keybinds.each do |keysym, code|
           @events.on(:key, *keysym) { @actions.evaluate code }
+        end
+      end
+
+
+      class XEventLogger
+        def initialize env
+          @env = env
+        end
+
+        def log_event xev
+          complement = case xev.type
+          when :key_press
+            "window: #{xev.window} key: #{xev.key} mask: #{xev.modifier_mask}"
+          when :map_request
+            "window: #{xev.window}"
+          end
+
+          @env.log_debug [
+            'XEvent',
+            xev.type,
+            xev.send_event ? 'SENT' : nil,
+            complement
+          ].compact.join ' '
         end
       end
     end

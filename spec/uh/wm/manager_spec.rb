@@ -116,6 +116,13 @@ module Uh
       end
 
       describe '#handle' do
+        let(:event) { double 'event', type: :any }
+
+        it 'emits :xevent event with the X event' do
+          events.on :xevent, &block
+          manager.handle event
+        end
+
         context 'when key_press event is given' do
           let(:mod_mask) { KEY_MODIFIERS[modifier] }
           let(:event) do

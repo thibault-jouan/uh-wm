@@ -42,6 +42,7 @@ module Uh
       end
 
       def handle event
+        @events.emit :xevent, args: event
         return unless respond_to? handler = "handle_#{event.type}".to_sym, true
         send handler, event
       end
