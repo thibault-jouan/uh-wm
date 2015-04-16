@@ -22,7 +22,10 @@ module Uh
           @process.stdout
         end
 
-        def uhwm_wait_output message, timeout: 1
+        def uhwm_wait_output message
+          timeout = ENV.key?('UHWMTEST_OUTPUT_TIMEOUT') ?
+            ENV['UHWMTEST_OUTPUT_TIMEOUT'].to_i :
+            1
           Timeout.timeout(timeout) do
             loop do
               break if case message
