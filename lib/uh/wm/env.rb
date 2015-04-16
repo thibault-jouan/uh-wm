@@ -51,6 +51,7 @@ module Uh
           o.level = debug? ? LOGGER_LEVEL_DEBUG :
             verbose? ? LOGGER_LEVEL_VERBOSE :
             LOGGER_LEVEL
+          o.formatter = LoggerFormatter.new
         end
       end
 
