@@ -48,6 +48,12 @@ module Uh
         @unmap_count += 1
         self
       end
+
+      def focus
+        @window.raise
+        @window.focus
+        self
+      end
     end
   end
 end

@@ -101,6 +101,22 @@ module Uh
           expect(client.hide).to be client
         end
       end
+
+      describe '#focus' do
+        it 'raises the window' do
+          expect(window).to receive :raise
+          client.focus
+        end
+
+        it 'focuses the window' do
+          expect(window).to receive :focus
+          client.focus
+        end
+
+        it 'returns self' do
+          expect(client.focus).to be client
+        end
+      end
     end
   end
 end
