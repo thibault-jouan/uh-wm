@@ -19,9 +19,7 @@ module Uh
       def connect
         @events.emit :connecting, args: @display
         @display.open
-        Display.on_error { fail OtherWMRunningError }
-        @display.listen_events INPUT_MASK
-        @display.sync false
+        check_other_wm!
         Display.on_error { |*args| handle_error *args }
         @display.sync false
         @events.emit :connected, args: @display
@@ -61,6 +59,12 @@ module Uh
 
       def handle_error *args
         @dispatcher.emit :error, args: args
+      end
+
+      def check_other_wm!
+        Display.on_error { fail OtherWMRunningError }
+        @display.listen_events INPUT_MASK
+        @display.sync false
       end
     end
   end
