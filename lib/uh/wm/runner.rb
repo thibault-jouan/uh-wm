@@ -83,9 +83,11 @@ module Uh
 
       def register_layout_hooks
         @events.on :connected do |display|
+          @env.log "Registering layout `#{layout.class}'"
           layout.register display
         end
         @events.on :manage do |client|
+          @env.log "Manage client #{client}"
           layout << client
         end
       end
