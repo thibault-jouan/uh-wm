@@ -7,9 +7,7 @@ Feature: layout client management
         def register *_; end
 
         def << client
-          # FIXME: need the Manager to manage state with clients, not windows
-          #puts client.wname
-          puts client.name
+          puts client
         end
       end
       """
