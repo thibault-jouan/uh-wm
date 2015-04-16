@@ -14,8 +14,9 @@ module Uh
       LOGGER_LEVEL_STRINGS  = %w[DEBUG INFO WARN ERROR FATAL UNKNOWN].freeze
 
       extend Forwardable
-      def_delegator :logger, :info, :log
-      def_delegator :logger, :debug, :log_debug
+      def_delegator :logger, :info,   :log
+      def_delegator :logger, :error,  :log_error
+      def_delegator :logger, :debug,  :log_debug
       def_delegator :@output, :print
 
       attr_reader   :output, :keybinds
