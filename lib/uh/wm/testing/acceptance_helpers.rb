@@ -72,7 +72,12 @@ module Uh
         end
 
         def x_window_map
-          spawn 'xev -event owner_grab_button'
+          @x_window = ChildProcess.build(*%w[xev -event owner_grab_button])
+          @x_window.start
+        end
+
+        def x_windows_ensure_stop
+          @x_window and @x_window.stop
         end
       end
     end
