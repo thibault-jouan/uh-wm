@@ -74,12 +74,6 @@ module Uh
           runner.events.emit :quit
         end
 
-        it 'registers manager event hooks for logging' do
-          runner.register_event_hooks
-          expect(env).to receive(:log)
-          runner.events.emit :connected
-        end
-
         it 'registers layout hook for :connected event' do
           runner.register_event_hooks
           expect(env.layout).to receive(:register).with :display
@@ -140,12 +134,6 @@ module Uh
       describe '#terminate' do
         it 'tells the manager to disconnect' do
           expect(runner.manager).to receive :disconnect
-          runner.terminate
-        end
-
-        it 'logs about program termination' do
-          allow(runner.manager).to receive :disconnect
-          expect(env).to receive(:log).with /terminat/i
           runner.terminate
         end
       end

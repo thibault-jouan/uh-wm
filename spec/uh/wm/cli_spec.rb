@@ -165,11 +165,6 @@ module Uh
               .to change { $LOADED_FEATURES.grep(/abbrev/).any? }
               .from(false).to(true)
           end
-
-          it 'logs a message about the feature being loaded' do
-            expect(cli.env).to receive(:log).with /load.+abbrev.+ruby feature/i
-            cli.parse_arguments!
-          end
         end
 
         context 'with layout option' do
