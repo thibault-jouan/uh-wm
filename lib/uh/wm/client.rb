@@ -10,10 +10,10 @@ module Uh
       end
 
       def to_s
-        "<#{wname}> (#{wclass}) #{@geo} win: #{@window}"
+        "<#{name}> (#{wclass}) #{@geo} win: #{@window}"
       end
 
-      def wname
+      def name
         @wname ||= @window.name
       end
 

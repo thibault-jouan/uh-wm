@@ -26,9 +26,9 @@ module Uh
         end
       end
 
-      describe '#wname' do
+      describe '#name' do
         it 'returns the window name' do
-          expect(client.wname).to eq window.name
+          expect(client.name).to eq window.name
         end
       end
 
