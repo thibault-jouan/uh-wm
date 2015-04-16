@@ -46,7 +46,9 @@ module Uh
         end
 
         def with_other_wm
-          @other_wm = ChildProcess.build('twm').tap { |o| o.start }
+          @other_wm = ChildProcess.build('twm')
+          @other_wm.start
+          yield
           @other_wm.stop
         end
 
