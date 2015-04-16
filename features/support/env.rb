@@ -21,7 +21,7 @@ end
 
 After do
   uhwm_ensure_stop
-  x_windows_ensure_stop
+  x_clients_ensure_stop
 end
 
 Around '@other_wm_running' do |_, block|

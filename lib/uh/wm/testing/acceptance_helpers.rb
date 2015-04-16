@@ -1,3 +1,5 @@
+require 'uh'
+
 module Uh
   module WM
     module Testing
@@ -56,6 +58,10 @@ module Uh
           @other_wm
         end
 
+        def x_client
+          @x_client ||= XClient.new
+        end
+
         def x_key key
           fail "cannot simulate X key `#{key}'" unless system "xdotool key #{key}"
         end
@@ -70,16 +76,51 @@ module Uh
         end
 
         def x_window_name
-          'Event Tester'
+          @x_client.window_name
         end
 
         def x_window_map
-          @x_window = ChildProcess.build(*%w[xev -event owner_grab_button])
-          @x_window.start
+          x_client.map.sync
         end
 
-        def x_windows_ensure_stop
-          @x_window and @x_window.stop
+        def x_clients_ensure_stop
+          @x_client and @x_client.terminate
+        end
+
+
+        private
+
+        class XClient
+          attr_reader :name
+
+          def initialize
+            @name     = "#{self.class.name.split('::').last}/#{object_id}"
+            @geo      = Geo.new(0, 0, 640, 480)
+            @display  = Display.new.tap { |o| o.open }
+          end
+
+          def terminate
+            @display.close
+          end
+
+          def sync
+            @display.sync false
+          end
+
+          def window
+            @window ||= @display.create_window(@geo).tap do |o|
+              o.name = @name
+            end
+          end
+
+          def window_name
+            @name
+          end
+
+          def map
+            window.map
+            self
+          end
         end
       end
     end
