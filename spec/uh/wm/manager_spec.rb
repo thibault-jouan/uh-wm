@@ -15,6 +15,18 @@ module Uh
         expect(manager.clients).to be_empty
       end
 
+      describe '#to_io', :xvfb do
+        context 'when connected' do
+          before { manager.connect }
+
+          it 'returns an IO object wrapping the display file descriptor' do
+            expect(manager.to_io)
+              .to be_an(IO)
+              .and have_attributes(fileno: display.fileno)
+          end
+        end
+      end
+
       describe '#connect', :xvfb do
         it 'opens the display' do
           expect(manager.display).to receive(:open).and_call_original

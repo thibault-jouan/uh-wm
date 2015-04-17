@@ -16,6 +16,10 @@ module Uh
         @clients  = []
       end
 
+      def to_io
+        IO.new(@display.fileno)
+      end
+
       def connect
         @events.emit :connecting, args: @display
         @display.open
