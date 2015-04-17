@@ -106,6 +106,15 @@ module Uh
         end
       end
 
+      describe '#handle_next_event' do
+        it 'handles the next available event on display' do
+          event = double 'event'
+          allow(display).to receive(:next_event) { event }
+          expect(manager).to receive(:handle).with(event).once
+          manager.handle_next_event
+        end
+      end
+
       describe '#handle_pending_events' do
         let(:event) { double 'event' }
 

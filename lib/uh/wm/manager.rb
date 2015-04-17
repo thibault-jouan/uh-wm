@@ -45,6 +45,10 @@ module Uh
         @display.grab_key keysym.to_s, mod_mask
       end
 
+      def handle_next_event
+        handle @display.next_event
+      end
+
       def handle_pending_events
         handle @display.next_event while @display.pending?
       end
