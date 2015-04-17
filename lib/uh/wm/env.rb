@@ -3,10 +3,11 @@ module Uh
     class Env
       RC_PATH = '~/.uhwmrc.rb'.freeze
 
-      MODIFIER = :mod1
-      KEYBINDS = {
+      MODIFIER  = :mod1
+      KEYBINDS  = {
         q: proc { quit }
       }.freeze
+      WORKER    = :block
 
       LOGGER_LEVEL          = Logger::WARN
       LOGGER_LEVEL_VERBOSE  = Logger::INFO
@@ -28,6 +29,7 @@ module Uh
         @rc_path  = RC_PATH
         @modifier = MODIFIER
         @keybinds = KEYBINDS.dup
+        @worker   = :block
       end
 
       def verbose?
