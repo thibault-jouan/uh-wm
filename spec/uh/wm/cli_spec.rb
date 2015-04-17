@@ -176,6 +176,15 @@ module Uh
           end
         end
 
+        context 'with worker option' do
+          let(:arguments) { %w[-w mux] }
+
+          it 'assigns the worker type in the env' do
+            cli.parse_arguments!
+            expect(cli.env.worker).to eq :mux
+          end
+        end
+
         context 'with invalid option' do
           let(:arguments) { %w[--unknown-option] }
 

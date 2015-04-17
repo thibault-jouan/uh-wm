@@ -144,10 +144,15 @@ module Uh
       end
 
       describe '#run_until' do
-        it 'tells the manager to handle events until given block is true' do
+        it 'tells the worker to watch the manager' do
+          expect(runner.worker).to receive(:watch).with runner.manager
+          runner.run_until { true }
+        end
+
+        it 'tells the worker to work events until given block is true' do
           block = proc { }
           allow(block).to receive(:call).and_return(false, false, false, true)
-          expect(runner.manager).to receive(:handle_pending_events).exactly(3).times
+          expect(runner.worker).to receive(:work_events).exactly(3).times
           runner.run_until &block
         end
       end

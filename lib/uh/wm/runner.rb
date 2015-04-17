@@ -73,7 +73,9 @@ module Uh
       end
 
       def run_until &block
-        manager.handle_pending_events until block.call
+        worker.watch @manager
+        @env.log "Working events with `#{worker.class}'"
+        worker.work_events until block.call
       end
 
       def terminate
