@@ -20,7 +20,8 @@ module Uh
       def_delegator :@output, :print
 
       attr_reader   :output, :keybinds
-      attr_accessor :verbose, :debug, :rc_path, :layout_class, :modifier
+      attr_accessor :verbose, :debug, :rc_path, :layout_class, :modifier,
+                    :worker
 
       def initialize output
         @output   = output
