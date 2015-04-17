@@ -82,6 +82,13 @@ module Uh
         end
       end
 
+      describe '#flush' do
+        it 'flushes the display' do
+          expect(display).to receive :flush
+          manager.flush
+        end
+      end
+
       describe '#grab_key' do
         it 'grabs given key on the display' do
           expect(manager.display)
