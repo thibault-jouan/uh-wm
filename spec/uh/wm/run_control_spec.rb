@@ -80,6 +80,18 @@ module Uh
           expect(env.keybinds.keys).to include %i[f shift]
         end
       end
+
+      describe '#worker' do
+        it 'sets the worker type in the env' do
+          rc.worker :some_worker
+          expect(env.worker[0]).to eq :some_worker
+        end
+
+        it 'sets the worker options in the env' do
+          rc.worker :some_worker, some: :option
+          expect(env.worker[1]).to eq({ some: :option })
+        end
+      end
     end
   end
 end
