@@ -1,4 +1,4 @@
-Feature: ruby feature require CLI option
+Feature: require CLI option
 
   Scenario: requires a ruby feature
     When I run uhwm with option -v -r abbrev
