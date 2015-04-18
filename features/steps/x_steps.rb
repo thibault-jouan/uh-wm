@@ -10,3 +10,11 @@ Then /^it must connect to X display$/ do
   uhwm_wait_output 'Connected to'
   expect(x_socket_check uhwm_pid).to be true
 end
+
+Then /^the window must be mapped$/ do
+  expect(x_window_map_state).to eq 'IsViewable'
+end
+
+Then /^the window must be focused$/ do
+  expect(x_focused_window_id).to eq x_window_id
+end

@@ -1,16 +1,12 @@
 Feature: layout client management
 
-  Scenario: sends the #<< message when telling the layout to manage a client
-    Given a file named layout.rb with:
-      """
-      class Layout
-        def register *_; end
+  Background:
+    Given uhwm is running
 
-        def << client
-          puts client
-        end
-      end
-      """
-    And uhwm is running with options -v -r./layout -l Layout
+  Scenario: maps new client window
     When a window requests to be mapped
-    Then the output must contain the window name
+    Then the window must be mapped
+
+  Scenario: focuses new client window
+    When a window requests to be mapped
+    Then the window must be focused

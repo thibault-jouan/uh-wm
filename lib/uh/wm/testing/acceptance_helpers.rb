@@ -60,6 +60,10 @@ module Uh
           @x_client ||= XClient.new
         end
 
+        def x_focused_window_id
+          Integer(`xdpyinfo`[/^focus:\s+window\s+(0x\h+)/, 1])
+        end
+
         def x_key key
           fail "cannot simulate X key `#{key}'" unless system "xdotool key #{key}"
         end
@@ -73,12 +77,20 @@ module Uh
           end.any?
         end
 
+        def x_window_id
+          @x_client.window_id
+        end
+
         def x_window_name
           @x_client.window_name
         end
 
         def x_window_map
           x_client.map.sync
+        end
+
+        def x_window_map_state
+          `xwininfo -id #{x_window_id}`[/Map State: (\w+)/, 1]
         end
 
         def x_clients_ensure_stop
@@ -133,6 +145,10 @@ module Uh
             @window ||= @display.create_window(@geo).tap do |o|
               o.name = @name
             end
+          end
+
+          def window_id
+            @window.id
           end
 
           def window_name
