@@ -16,7 +16,6 @@ options:
 end
 
 Then /^the output must contain exactly the version$/ do
-  #require File.expand_path('../lib/uh/wm/version', __FILE__)
   assert_exact_output "%s\n" % Uh::WM::VERSION, all_output
 end
 
