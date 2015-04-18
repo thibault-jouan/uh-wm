@@ -77,6 +77,11 @@ module Uh
           opts.on '-l', '--layout LAYOUT', 'specify layout' do |layout|
             @env.layout_class = self.class.const_get layout.to_sym
           end
+
+          opts.on '-w', Workers.types, '--worker WORKER',
+            'specify worker' do |worker|
+            @env.worker = worker.to_sym
+          end
         end
       end
     end

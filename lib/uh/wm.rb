@@ -12,6 +12,10 @@ require 'uh/wm/logger_formatter'
 require 'uh/wm/manager'
 require 'uh/wm/run_control'
 require 'uh/wm/runner'
+require 'uh/wm/workers'
+require 'uh/wm/workers/base'
+require 'uh/wm/workers/blocking'
+require 'uh/wm/workers/mux'
 
 module Uh
   module WM

@@ -30,6 +30,7 @@ options:
     -f, --run-control PATH           specify alternate run control file
     -r, --require PATH               require ruby feature
     -l, --layout LAYOUT              specify layout
+    -w, --worker WORKER              specify worker
 ```
 
 

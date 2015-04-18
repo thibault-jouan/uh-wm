@@ -32,6 +32,10 @@ module Uh
         @env.keybinds[translate_keysym keysym] = block
       end
 
+      def worker type, **options
+        @env.worker = [type, options]
+      end
+
 
       private
 

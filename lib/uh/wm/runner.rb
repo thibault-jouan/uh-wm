@@ -54,8 +54,28 @@ module Uh
         end
       end
 
+      def worker
+        @worker ||= Workers.build(*(@env.worker)).tap do |w|
+          w.on_read do
+            @env.log_debug 'Processing pending events'
+            @manager.handle_pending_events
+          end
+          w.on_read_next do
+            @env.log_debug 'Processing next event'
+            @manager.handle_next_event
+          end
+          w.on_timeout do |*args|
+            @env.log_debug "Worker timeout: #{args.inspect}"
+            @env.log_debug 'Flushing X output buffer'
+            @manager.flush
+          end
+        end
+      end
+
       def run_until &block
-        manager.handle_pending_events until block.call
+        worker.watch @manager
+        @env.log "Working events with `#{worker.class}'"
+        worker.work_events until block.call
       end
 
       def terminate

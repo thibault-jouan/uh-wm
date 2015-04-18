@@ -16,6 +16,10 @@ module Uh
         @clients  = []
       end
 
+      def to_io
+        IO.new(@display.fileno)
+      end
+
       def connect
         @events.emit :connecting, args: @display
         @display.open
@@ -31,10 +35,18 @@ module Uh
         @events.emit :disconnected
       end
 
+      def flush
+        @display.flush
+      end
+
       def grab_key keysym, mod = nil
         mod_mask = KEY_MODIFIERS[@modifier]
         mod_mask |= KEY_MODIFIERS[mod] if mod
         @display.grab_key keysym.to_s, mod_mask
+      end
+
+      def handle_next_event
+        handle @display.next_event
       end
 
       def handle_pending_events

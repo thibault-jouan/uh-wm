@@ -15,6 +15,18 @@ module Uh
         expect(manager.clients).to be_empty
       end
 
+      describe '#to_io', :xvfb do
+        context 'when connected' do
+          before { manager.connect }
+
+          it 'returns an IO object wrapping the display file descriptor' do
+            expect(manager.to_io)
+              .to be_an(IO)
+              .and have_attributes(fileno: display.fileno)
+          end
+        end
+      end
+
       describe '#connect', :xvfb do
         it 'opens the display' do
           expect(manager.display).to receive(:open).and_call_original
@@ -70,6 +82,13 @@ module Uh
         end
       end
 
+      describe '#flush' do
+        it 'flushes the display' do
+          expect(display).to receive :flush
+          manager.flush
+        end
+      end
+
       describe '#grab_key' do
         it 'grabs given key on the display' do
           expect(manager.display)
@@ -84,6 +103,15 @@ module Uh
               .with('f', KEY_MODIFIERS[modifier] | KEY_MODIFIERS[:shift])
             manager.grab_key :f, :shift
           end
+        end
+      end
+
+      describe '#handle_next_event' do
+        it 'handles the next available event on display' do
+          event = double 'event'
+          allow(display).to receive(:next_event) { event }
+          expect(manager).to receive(:handle).with(event).once
+          manager.handle_next_event
         end
       end
 

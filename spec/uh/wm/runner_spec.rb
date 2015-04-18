@@ -122,11 +122,37 @@ module Uh
         end
       end
 
+      describe '#worker' do
+        it 'returns a worker' do
+          expect(runner.worker).to respond_to :work_events
+        end
+
+        it 'setups the read callback to tell manager to handle pending events' do
+          expect(runner.manager).to receive :handle_pending_events
+          runner.worker.on_read.call
+        end
+
+        it 'setups the read_next callback to tell manager to handle next event' do
+          expect(runner.manager).to receive :handle_next_event
+          runner.worker.on_read_next.call
+        end
+
+        it 'setups the timeout callback to tell manager to flush the output' do
+          expect(runner.manager).to receive :flush
+          runner.worker.on_timeout.call
+        end
+      end
+
       describe '#run_until' do
-        it 'tells the manager to handle events until given block is true' do
+        it 'tells the worker to watch the manager' do
+          expect(runner.worker).to receive(:watch).with runner.manager
+          runner.run_until { true }
+        end
+
+        it 'tells the worker to work events until given block is true' do
           block = proc { }
           allow(block).to receive(:call).and_return(false, false, false, true)
-          expect(runner.manager).to receive(:handle_pending_events).exactly(3).times
+          expect(runner.worker).to receive(:work_events).exactly(3).times
           runner.run_until &block
         end
       end

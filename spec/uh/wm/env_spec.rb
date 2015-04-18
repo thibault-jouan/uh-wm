@@ -29,6 +29,10 @@ module Uh
         expect(env.keybinds.keys).to eq %i[q]
       end
 
+      it 'has the blocking worker by default' do
+        expect(env.worker).to eq :block
+      end
+
       describe '#verbose?' do
         context 'when verbose mode is disabled' do
           before { env.verbose = false }
