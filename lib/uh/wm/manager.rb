@@ -50,7 +50,7 @@ module Uh
       end
 
       def handle_pending_events
-        handle @display.next_event while @display.pending?
+        handle_next_event while @display.pending?
       end
 
       def handle event
