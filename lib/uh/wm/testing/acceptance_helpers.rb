@@ -30,7 +30,7 @@ module Uh
           timeout_until do
             case message
               when Regexp then output.call =~ message
-              when String then assert_partial_output_interactive message
+              when String then output.call.include? message
             end
           end
         rescue TimeoutError => e
