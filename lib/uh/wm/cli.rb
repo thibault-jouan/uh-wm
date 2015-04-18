@@ -65,7 +65,7 @@ module Uh
           end
 
           opts.on '-f', '--run-control PATH',
-            'specify alternate run control file' do |e|
+              'specify alternate run control file' do |e|
             @env.rc_path = e
           end
 
@@ -79,7 +79,7 @@ module Uh
           end
 
           opts.on '-w', Workers.types, '--worker WORKER',
-            'specify worker' do |worker|
+              'specify worker' do |worker|
             @env.worker = worker.to_sym
           end
         end
