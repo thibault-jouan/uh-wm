@@ -9,3 +9,7 @@ Feature: layout CLI option
       """
     When I run uhwm with option -v -r./layout -l MyLayout
     Then the output must match /layout.+mylayout/i
+
+  Scenario: resolves layout class from the root namespace
+    When I run uhwm with option -v -l Layout
+    Then the output must contain "uninitialized constant Layout"
