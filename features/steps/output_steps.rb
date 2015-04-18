@@ -10,7 +10,13 @@ options:
     -r, --require PATH               require ruby feature
     -l, --layout LAYOUT              specify layout
     -w, --worker WORKER              specify worker
+    -V, --version                    print version
   eoh
+end
+
+Then /^the output must contain exactly the version$/ do
+  #require File.expand_path('../lib/uh/wm/version', __FILE__)
+  assert_exact_output "%s\n" % Uh::WM::VERSION, all_output
 end
 
 Then /^the output must match \/([^\/]+)\/([a-z]*)$/ do |pattern, options|

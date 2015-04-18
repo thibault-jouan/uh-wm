@@ -185,6 +185,21 @@ module Uh
           end
         end
 
+        context 'with version option' do
+          let(:arguments) { %w[-V] }
+
+          it 'prints the version on standard output' do
+            trap_exit { cli.parse_arguments! }
+            expect(stdout.string).to eq "#{::Uh::WM::VERSION}\n"
+          end
+
+          it 'exits with a return status of 0' do
+            expect { cli.parse_arguments! }.to raise_error(SystemExit) do |e|
+              expect(e.status).to eq 0
+            end
+          end
+        end
+
         context 'with invalid option' do
           let(:arguments) { %w[--unknown-option] }
 

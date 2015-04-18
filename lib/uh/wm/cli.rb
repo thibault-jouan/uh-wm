@@ -82,6 +82,11 @@ module Uh
               'specify worker' do |worker|
             @env.worker = worker.to_sym
           end
+
+          opts.on_tail '-V', '--version', 'print version' do
+            @env.puts VERSION
+            exit
+          end
         end
       end
     end
