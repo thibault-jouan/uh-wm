@@ -1,6 +1,8 @@
 module Uh
   module WM
     class ActionsHandler
+      include EnvLogging
+
       def initialize env, events
         @env, @events = env, events
       end
@@ -14,14 +16,14 @@ module Uh
       end
 
       def execute command
-        @env.log "Execute: #{command}"
+        log "Execute: #{command}"
         pid = fork do
           fork do
             Process.setsid
             begin
               exec command
             rescue Errno::ENOENT => e
-              @env.log_error "ExecuteError: #{e}"
+              log_error "ExecuteError: #{e}"
             end
           end
         end

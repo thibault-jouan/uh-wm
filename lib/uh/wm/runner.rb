@@ -1,6 +1,8 @@
 module Uh
   module WM
     class Runner
+      include EnvLogging
+
       class << self
         def run env, **options
           runner = new env, **options
@@ -57,16 +59,16 @@ module Uh
       def worker
         @worker ||= Workers.build(*(@env.worker)).tap do |w|
           w.on_read do
-            @env.log_debug 'Processing pending events'
+            log_debug 'Processing pending events'
             @manager.handle_pending_events
           end
           w.on_read_next do
-            @env.log_debug 'Processing next event'
+            log_debug 'Processing next event'
             @manager.handle_next_event
           end
           w.on_timeout do |*args|
-            @env.log_debug "Worker timeout: #{args.inspect}"
-            @env.log_debug 'Flushing X output buffer'
+            log_debug "Worker timeout: #{args.inspect}"
+            log_debug 'Flushing X output buffer'
             @manager.flush
           end
         end
@@ -74,12 +76,12 @@ module Uh
 
       def run_until &block
         worker.watch @manager
-        @env.log "Working events with `#{worker.class}'"
+        log "Working events with `#{worker.class}'"
         worker.work_events until block.call
       end
 
       def terminate
-        @env.log "Terminating..."
+        log "Terminating..."
         manager.disconnect
       end
 
@@ -92,22 +94,22 @@ module Uh
 
       def register_manager_hooks
         @events.on :connecting do |display|
-          @env.log_debug "Connecting to X server on `#{display}'"
+          log_debug "Connecting to X server on `#{display}'"
         end
         @events.on :connected do |display|
-          @env.log "Connected to X server on `#{display}'"
+          log "Connected to X server on `#{display}'"
         end
-        @events.on(:disconnected) { @env.log "Disconnected from X server" }
+        @events.on(:disconnected) { log "Disconnected from X server" }
         @events.on(:xevent) { |event| XEventLogger.new(env).log_event event }
       end
 
       def register_layout_hooks
         @events.on :connected do |display|
-          @env.log "Registering layout `#{layout.class}'"
+          log "Registering layout `#{layout.class}'"
           layout.register display
         end
         @events.on :manage do |client|
-          @env.log "Manage client #{client}"
+          log "Manage client #{client}"
           layout << client
         end
       end
@@ -120,6 +122,8 @@ module Uh
 
 
       class XEventLogger
+        include EnvLogging
+
         def initialize env
           @env = env
         end
@@ -132,7 +136,7 @@ module Uh
             "window: #{xev.window}"
           end
 
-          @env.log_debug [
+          log_debug [
             'XEvent',
             xev.type,
             xev.send_event ? 'SENT' : nil,

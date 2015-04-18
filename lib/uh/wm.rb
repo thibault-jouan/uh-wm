@@ -3,6 +3,8 @@ require 'logger'
 require 'optparse'
 require 'uh'
 
+require 'uh/wm/env_logging'
+
 require 'uh/wm/actions_handler'
 require 'uh/wm/cli'
 require 'uh/wm/client'

@@ -3,6 +3,8 @@ module Uh
     class CLI
       ArgumentError = Class.new(ArgumentError)
 
+      include EnvLogging
+
       USAGE = "Usage: #{File.basename $0} [options]".freeze
 
       EX_USAGE    = 64
@@ -63,7 +65,7 @@ module Uh
           end
           opts.on '-r', '--require PATH', 'require ruby feature' do |feature|
             require feature
-            @env.log "Loaded `#{feature}' ruby feature"
+            log "Loaded `#{feature}' ruby feature"
           end
           opts.on '-l', '--layout LAYOUT', 'specify layout' do |layout|
             @env.layout_class = self.class.const_get layout.to_sym
