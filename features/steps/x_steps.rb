@@ -18,3 +18,7 @@ end
 Then /^the window must be focused$/ do
   expect(x_focused_window_id).to eq x_window_id
 end
+
+Then /^the input event mask must include (.+)$/ do |mask|
+  expect(x_input_event_masks).to include mask
+end

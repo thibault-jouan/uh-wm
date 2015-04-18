@@ -64,6 +64,10 @@ module Uh
           Integer(`xdpyinfo`[/^focus:\s+window\s+(0x\h+)/, 1])
         end
 
+        def x_input_event_masks
+          `xdpyinfo`[/current input event mask:\s+0x\h+([\w\s]+):/, 1].split(/\s+/).grep /Mask\z/
+        end
+
         def x_key key
           fail "cannot simulate X key `#{key}'" unless system "xdotool key #{key}"
         end
