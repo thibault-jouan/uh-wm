@@ -49,40 +49,35 @@ module Uh
           opts.separator ''
           opts.separator 'options:'
 
-          opts.on '-h', '--help', 'print this message' do
-            @env.print opts
-            exit
-          end
-
           opts.on '-v', '--verbose', 'enable verbose mode' do
             @env.verbose = true
             @env.log_logger_level
           end
-
           opts.on '-d', '--debug', 'enable debug mode' do
             @env.debug = true
             @env.log_logger_level
           end
-
           opts.on '-f', '--run-control PATH',
               'specify alternate run control file' do |e|
             @env.rc_path = e
           end
-
           opts.on '-r', '--require PATH', 'require ruby feature' do |feature|
             require feature
             @env.log "Loaded `#{feature}' ruby feature"
           end
-
           opts.on '-l', '--layout LAYOUT', 'specify layout' do |layout|
             @env.layout_class = self.class.const_get layout.to_sym
           end
-
           opts.on '-w', Workers.types, '--worker WORKER',
               'specify worker' do |worker|
             @env.worker = worker.to_sym
           end
 
+          opts.separator ''
+          opts.on_tail '-h', '--help', 'print this message' do
+            @env.print opts
+            exit
+          end
           opts.on_tail '-V', '--version', 'print version' do
             @env.puts VERSION
             exit

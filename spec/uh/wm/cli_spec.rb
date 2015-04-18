@@ -106,20 +106,6 @@ module Uh
       end
 
       describe '#parse_arguments!' do
-        context 'with help option' do
-          let(:arguments) { %w[-h] }
-
-          it 'prints the usage banner on standard output' do
-            trap_exit { cli.parse_arguments! }
-            expect(stdout.string).to match /\AUsage: .+/
-          end
-
-          it 'prints options usage on standard output' do
-            trap_exit { cli.parse_arguments! }
-            expect(stdout.string).to match /\n^options:\n\s+-/
-          end
-        end
-
         context 'with verbose option' do
           let(:arguments) { %w[-v] }
 
@@ -182,6 +168,20 @@ module Uh
           it 'assigns the worker type in the env' do
             cli.parse_arguments!
             expect(cli.env.worker).to eq :mux
+          end
+        end
+
+        context 'with help option' do
+          let(:arguments) { %w[-h] }
+
+          it 'prints the usage banner on standard output' do
+            trap_exit { cli.parse_arguments! }
+            expect(stdout.string).to match /\AUsage: .+/
+          end
+
+          it 'prints options usage on standard output' do
+            trap_exit { cli.parse_arguments! }
+            expect(stdout.string).to match /\n^options:\n\s+-/
           end
         end
 

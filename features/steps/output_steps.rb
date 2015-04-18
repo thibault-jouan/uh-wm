@@ -3,13 +3,14 @@ Then /^the output must contain exactly the usage$/ do
 Usage: uhwm [options]
 
 options:
-    -h, --help                       print this message
     -v, --verbose                    enable verbose mode
     -d, --debug                      enable debug mode
     -f, --run-control PATH           specify alternate run control file
     -r, --require PATH               require ruby feature
     -l, --layout LAYOUT              specify layout
     -w, --worker WORKER              specify worker
+
+    -h, --help                       print this message
     -V, --version                    print version
   eoh
 end
