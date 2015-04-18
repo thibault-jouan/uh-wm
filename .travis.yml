@@ -10,3 +10,6 @@ before_install:
 matrix:
   allow_failures:
     - rvm: ruby-head
+notifications:
+  email:
+    - tj+travis_uh_wm@a13.fr
