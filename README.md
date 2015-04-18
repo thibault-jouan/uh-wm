@@ -25,7 +25,7 @@ Usage: uhwm [options]
 
 options:
     -h, --help                       print this message
-    -v, --version                    enable verbose mode
+    -v, --verbose                    enable verbose mode
     -d, --debug                      enable debug mode
     -f, --run-control PATH           specify alternate run control file
     -r, --require PATH               require ruby feature

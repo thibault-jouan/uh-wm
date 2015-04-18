@@ -54,7 +54,7 @@ module Uh
             exit
           end
 
-          opts.on '-v', '--version', 'enable verbose mode' do
+          opts.on '-v', '--verbose', 'enable verbose mode' do
             @env.verbose = true
             @env.log_logger_level
           end
