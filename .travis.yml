@@ -5,8 +5,8 @@ rvm:
   - ruby-head
   - 2.1
 before_install:
-  - sudo apt-get update -qq
-  - sudo apt-get install -qq twm x11-utils xdotool
+  - travis_retry sudo apt-get update -qq
+  - travis_retry sudo apt-get install -qq twm x11-utils xdotool
 matrix:
   allow_failures:
     - rvm: ruby-head
