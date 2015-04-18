@@ -7,5 +7,5 @@ Feature: CLI usage
 
   Scenario: prints the help when -h option is given
     When I run uhwm with option -h
-    Then the exit status must be 0
+    Then uhwm must terminate successfully
     And the output must contain exactly the usage
