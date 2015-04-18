@@ -11,7 +11,10 @@ module Uh
         end
 
         def uhwm_ensure_stop
-          @process and @process.terminate
+          if @process
+            x_key 'alt+q'
+            @process.terminate
+          end
         end
 
         def uhwm_pid
