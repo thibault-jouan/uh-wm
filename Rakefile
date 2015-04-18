@@ -16,6 +16,7 @@ RSpec::Core::RakeTask.new
 
 desc 'Run uhwm in a Xephyr X server'
 task :run do
+  uhwm_args = ARGV.slice_after('--').to_a.last || %w[-d]
   Tempfile.create('uhwm_xinitrc') do |xinitrc|
     xinitrc.write <<-eoh
 [ -f $HOME/.Xdefaults ] && xrdb $HOME/.Xdefaults
@@ -23,7 +24,7 @@ task :run do
 xmodmap -display #{ENV['DISPLAY']} -pke | xmodmap -
 xsetroot -solid SpringGreen
 echo "######## UHWM START ########"
-./bin/uhwm -d
+./bin/uhwm #{uhwm_args.join ' '}
 echo "######## UHWM END ##########"
     eoh
     xinitrc.flush
