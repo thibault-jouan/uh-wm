@@ -13,11 +13,13 @@ module Uh
         end
 
         CALLBACKS.each do |m|
-          class_eval <<-eoh
-            def #{m} &block
-              if block_given? then @#{m} = block else @#{m} end
+          define_method m do |*_, &block|
+            if block
+              instance_variable_set "@#{m}".to_sym, block
+            else
+              instance_variable_get "@#{m}".to_sym
             end
-          eoh
+          end
         end
       end
     end
