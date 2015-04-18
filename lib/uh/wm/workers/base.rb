@@ -10,20 +10,12 @@ module Uh
           @ios << io
         end
 
-        def before_wait &block
-          if block_given? then @before_wait = block else @before_wait end
-        end
-
-        def on_timeout &block
-          if block_given? then @on_timeout = block else @on_timeout end
-        end
-
-        def on_read &block
-          if block_given? then @on_read = block else @on_read end
-        end
-
-        def on_read_next &block
-          if block_given? then @on_read_next = block else @on_read_next end
+        %w[before_wait on_timeout on_read on_read_next].each do |m|
+          class_eval <<-eoh
+            def #{m} &block
+              if block_given? then @#{m} = block else @#{m} end
+            end
+          eoh
         end
       end
     end
