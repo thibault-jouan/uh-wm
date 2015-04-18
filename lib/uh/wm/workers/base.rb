@@ -2,6 +2,8 @@ module Uh
   module WM
     module Workers
       class Base
+        CALLBACKS = %w[before_wait on_timeout on_read on_read_next].freeze
+
         def initialize **options
           @ios = []
         end
@@ -10,7 +12,7 @@ module Uh
           @ios << io
         end
 
-        %w[before_wait on_timeout on_read on_read_next].each do |m|
+        CALLBACKS.each do |m|
           class_eval <<-eoh
             def #{m} &block
               if block_given? then @#{m} = block else @#{m} end
