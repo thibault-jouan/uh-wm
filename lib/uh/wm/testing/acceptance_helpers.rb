@@ -12,7 +12,7 @@ module Uh
 
         def uhwm_ensure_stop
           if @process
-            x_key 'alt+q'
+            x_key 'alt+shift+q'
             @process.terminate
           end
         end

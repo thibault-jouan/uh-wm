@@ -24,7 +24,7 @@ When /^I run uhwm with options? (-.+)$/ do |options|
 end
 
 When /^I tell uhwm to quit$/ do
-  x_key 'alt+q'
+  x_key 'alt+shift+q'
 end
 
 Then /^the exit status must be (\d+)$/ do |exit_status|

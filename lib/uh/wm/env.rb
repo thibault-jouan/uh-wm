@@ -5,7 +5,7 @@ module Uh
 
       MODIFIER  = :mod1
       KEYBINDS  = {
-        q: proc { quit }
+        [:q, :shift] => proc { quit }
       }.freeze
       WORKER    = :block
 

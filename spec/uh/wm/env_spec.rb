@@ -25,8 +25,8 @@ module Uh
         expect(env.modifier).to eq :mod1
       end
 
-      it 'has defaults key bindings set' do
-        expect(env.keybinds.keys).to eq %i[q]
+      it 'has default key binding for quit set' do
+        expect(env.keybinds.keys).to include [:q, :shift]
       end
 
       it 'has the blocking worker by default' do

@@ -6,5 +6,5 @@ Feature: `modifier' run control keyword
       modifier :ctrl
       """
     And uhwm is running
-    When I press the ctrl+q keys
+    When I press the ctrl+shift+q keys
     Then uhwm must terminate successfully
