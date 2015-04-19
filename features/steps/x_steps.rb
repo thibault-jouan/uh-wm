@@ -6,6 +6,10 @@ When /^a window requests to be mapped$/ do
   x_window_map
 end
 
+When /^a window requests to be mapped (\d+) times$/ do |times|
+  x_window_map times: times.to_i
+end
+
 Then /^it must connect to X display$/ do
   uhwm_wait_output 'Connected to'
   expect(x_socket_check uhwm_pid).to be true

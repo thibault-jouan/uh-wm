@@ -23,6 +23,10 @@ Then /^the output must match \/([^\/]+)\/([a-z]*)$/ do |pattern, options|
   uhwm_wait_output Regexp.new(pattern, options)
 end
 
+Then /^the output must not match \/([^\/]+)\/([a-z]*)$/ do |pattern, options|
+  expect(all_output).not_to match Regexp.new(pattern, options)
+end
+
 Then /^the output must contain:$/ do |content|
   uhwm_wait_output content.to_s
 end

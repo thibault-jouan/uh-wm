@@ -46,7 +46,7 @@ module Uh
       end
 
       def manage window
-        return if window.override_redirect?
+        return if window.override_redirect? || client_for(window)
         @clients << client = Client.new(window)
         @events.emit :manage, args: client
       end
@@ -81,6 +81,10 @@ module Uh
 
       def handle_map_request event
         manage event.window
+      end
+
+      def client_for window
+        @clients.find { |e| e.window == window }
       end
 
       def check_other_wm!

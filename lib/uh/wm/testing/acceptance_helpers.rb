@@ -89,8 +89,9 @@ module Uh
           @x_client.window_name
         end
 
-        def x_window_map
-          x_client.map.sync
+        def x_window_map times: 1
+          times.times { x_client.map }
+          x_client.sync
         end
 
         def x_window_map_state

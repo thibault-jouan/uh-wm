@@ -116,6 +116,11 @@ module Uh
             .and have_attributes(window: window)
         end
 
+        it 'registers new client only once for a given window' do
+          manager.manage window
+          expect { manager.manage window }.not_to change { manager.clients }
+        end
+
         it 'ignores event when window has override redirect' do
           allow(window).to receive(:override_redirect?) { true }
           expect { manager.manage window }.not_to change { manager.clients }
