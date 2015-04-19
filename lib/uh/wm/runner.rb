@@ -101,6 +101,7 @@ module Uh
         end
         @events.on(:disconnected) { log "Disconnected from X server" }
         @events.on(:xevent) { |event| XEventLogger.new(env).log_event event }
+        @events.on(:xerror) { |*error| XEventLogger.new(env).log_xerror *error }
       end
 
       def register_layout_hooks
@@ -142,6 +143,10 @@ module Uh
             xev.send_event ? 'SENT' : nil,
             complement
           ].compact.join ' '
+        end
+
+        def log_xerror req, resource_id, msg
+          log_error "XERROR: #{resource_id} #{req} #{msg}"
         end
       end
     end

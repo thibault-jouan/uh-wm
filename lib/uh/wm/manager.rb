@@ -69,7 +69,7 @@ module Uh
       private
 
       def handle_error *args
-        @dispatcher.emit :error, args: args
+        @events.emit :xerror, args: args
       end
 
       def handle_key_press event
