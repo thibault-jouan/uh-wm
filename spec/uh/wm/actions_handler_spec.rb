@@ -18,6 +18,13 @@ module Uh
           actions.quit
         end
       end
+
+      describe '#layout_*' do
+        it 'delegates messages to the layout with handle_ prefix' do
+          expect(env.layout).to receive :handle_screen_sel
+          actions.layout_screen_sel :succ
+        end
+      end
     end
   end
 end

@@ -3,6 +3,9 @@ module Uh
     class ActionsHandler
       include EnvLogging
 
+      extend Forwardable
+      def_delegator :@env, :layout
+
       def initialize env, events
         @env, @events = env, events
       end
@@ -29,6 +32,31 @@ module Uh
           end
         end
         Process.waitpid pid
+      end
+
+      def method_missing(m, *args, &block)
+        if respond_to? m
+          meth = layout_method m
+          log "#{layout.class.name}##{meth} #{args.inspect}"
+          begin
+            layout.send(meth, *args)
+          rescue NoMethodError
+            log_error "Layout does not implement `#{meth}'"
+          end
+        else
+          super
+        end
+      end
+
+      def respond_to_missing?(m, *)
+        m.to_s =~ /\Alayout_/ || super
+      end
+
+
+      private
+
+      def layout_method(m)
+        m.to_s.gsub(/\Alayout_/, 'handle_').to_sym
       end
     end
   end
