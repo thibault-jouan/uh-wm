@@ -28,8 +28,8 @@ module Uh
         @env.modifier = mod
       end
 
-      def key keysym, &block
-        @env.keybinds[translate_keysym keysym] = block
+      def key *keysyms, &block
+        @env.keybinds[translate_keysym *keysyms] = block
       end
 
       def worker type, **options
@@ -39,7 +39,8 @@ module Uh
 
       private
 
-      def translate_keysym keysym
+      def translate_keysym keysym, modifier = nil
+        return [translate_keysym(keysym)[0].to_sym, modifier] if modifier
         translate_key = keysym.to_s.downcase.to_sym
         translated_keysym = KEYSYM_TRANSLATIONS.key?(translate_key) ?
           KEYSYM_TRANSLATIONS[translate_key] :

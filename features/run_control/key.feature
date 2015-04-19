@@ -8,6 +8,14 @@ Feature: `key' run control keyword
     When I press the alt+f keys
     Then the output must contain "trigger f key code"
 
+  Scenario: defines code to run when given keys are pressed
+    Given uhwm is running with this run control file:
+      """
+      key(:f, :shift) { puts 'trigger f key code' }
+      """
+    When I press the alt+shift+f keys
+    Then the output must contain "trigger f key code"
+
   Scenario: translates common key names to their X equivalent
     Given uhwm is running with this run control file:
       """

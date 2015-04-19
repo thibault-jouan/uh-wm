@@ -65,6 +65,11 @@ module Uh
           expect(env.keybinds.keys).to include :f
         end
 
+        it 'registers a combined keys binding in the env' do
+          rc.key :f, :shift, &code
+          expect(env.keybinds.keys).to include %i[f shift]
+        end
+
         it 'registers given block with the key binding' do
           rc.key :f, &code
           expect(env.keybinds[:f].call).to eq :keybind_code
