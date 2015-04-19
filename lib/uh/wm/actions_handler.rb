@@ -12,6 +12,7 @@ module Uh
       end
 
       def quit
+        log 'Quit requested'
         @events.emit :quit
       end
 
