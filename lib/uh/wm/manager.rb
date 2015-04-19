@@ -45,6 +45,12 @@ module Uh
         @display.grab_key keysym.to_s, mod_mask
       end
 
+      def manage window
+        return if window.override_redirect?
+        @clients << client = Client.new(window)
+        @events.emit :manage, args: client
+      end
+
       def handle_next_event
         handle @display.next_event
       end
@@ -74,8 +80,7 @@ module Uh
       end
 
       def handle_map_request event
-        @clients << client = Client.new(event.window)
-        @events.emit :manage, args: client
+        manage event.window
       end
 
       def check_other_wm!

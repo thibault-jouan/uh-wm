@@ -106,6 +106,32 @@ module Uh
         end
       end
 
+      describe '#manage' do
+        let(:window) { instance_spy Window, override_redirect?: false }
+
+        it 'registers a new client wrapping the given window' do
+          manager.manage window
+          expect(manager.clients[0])
+            .to be_a(Client)
+            .and have_attributes(window: window)
+        end
+
+        it 'ignores event when window has override redirect' do
+          allow(window).to receive(:override_redirect?) { true }
+          expect { manager.manage window }.not_to change { manager.clients }
+        end
+
+        it 'emits :manage event with the registered client' do
+          events.on :manage, &block
+          expect(block).to receive :call do |client|
+            expect(client)
+              .to be_a(Client)
+              .and have_attributes(window: window)
+          end
+          manager.manage window
+        end
+      end
+
       describe '#handle_next_event' do
         it 'handles the next available event on display' do
           event = double 'event'
@@ -178,20 +204,8 @@ module Uh
         context 'when map_request event is given' do
           let(:event) { double 'event', type: :map_request, window: :window }
 
-          it 'registers a new client wrapping the event window' do
-            manager.handle event
-            expect(manager.clients[0])
-              .to be_a(Client)
-              .and have_attributes(window: :window)
-          end
-
-          it 'emits :manage event with the registered client' do
-            events.on :manage, &block
-            expect(block).to receive :call do |client|
-              expect(client)
-                .to be_a(Client)
-                .and have_attributes(window: :window)
-            end
+          it 'manages the event window' do
+            expect(manager).to receive(:manage).with :window
             manager.handle event
           end
         end
