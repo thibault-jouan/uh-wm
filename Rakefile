@@ -16,7 +16,9 @@ RSpec::Core::RakeTask.new
 
 desc 'Run uhwm in a Xephyr X server'
 task :run do
-  uhwm_args = ARGV.slice_after('--').to_a.last || %w[-d]
+  uhwm_args = ARGV.include?('--') ?
+    ARGV.slice_after('--').to_a.last :
+    %w[-d]
   Tempfile.create('uhwm_xinitrc') do |xinitrc|
     xinitrc.write <<-eoh
 [ -f $HOME/.Xdefaults ] && xrdb $HOME/.Xdefaults
