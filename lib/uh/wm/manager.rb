@@ -89,6 +89,10 @@ module Uh
         @events.emit :key, *key_selector
       end
 
+      def handle_configure_request event
+        configure event.window
+      end
+
       def handle_map_request event
         manage event.window
       end
