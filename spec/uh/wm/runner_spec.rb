@@ -75,41 +75,45 @@ module Uh
           runner.events.emit :quit
         end
 
-        it 'registers layout hook for :connected event' do
-          runner.register_event_hooks
-          expect(env.layout).to receive(:register).with :display
-          runner.events.emit :connected, args: :display
+        context 'layout hooks' do
+          it 'registers for :connected event' do
+            runner.register_event_hooks
+            expect(env.layout).to receive(:register).with :display
+            runner.events.emit :connected, args: :display
+          end
+
+          it 'registers for :configure event' do
+            runner.register_event_hooks
+            expect(runner.events.emit :configure, args: :window)
+              .to eq Geo.new(0, 0, 42, 42)
+          end
+
+          it 'registers for :manage event' do
+            runner.register_event_hooks
+            expect(env.layout).to receive(:<<).with :window
+            runner.events.emit :manage, args: :window
+          end
         end
 
-        it 'registers layout hook for :configure event' do
-          runner.register_event_hooks
-          expect(runner.events.emit :configure, args: :window)
-            .to eq Geo.new(0, 0, 42, 42)
-        end
+        context 'keys hooks' do
+          it 'registers for :key' do
+            env.keybinds[:f] = -> { }
+            runner.register_event_hooks
+            expect(runner.events[:key, :f]).not_to be_empty
+          end
 
-        it 'registers layout hook for :manage event' do
-          runner.register_event_hooks
-          expect(env.layout).to receive(:<<).with :window
-          runner.events.emit :manage, args: :window
-        end
+          it 'registers for :key with combined key bindings' do
+            env.keybinds[[:f, :shift]] = -> { }
+            runner.register_event_hooks
+            expect(runner.events[:key, :f, :shift]).not_to be_empty
+          end
 
-        it 'registers key bindings event hooks' do
-          env.keybinds[:f] = -> { }
-          runner.register_event_hooks
-          expect(runner.events[:key, :f]).not_to be_empty
-        end
-
-        it 'registers combined key bindings event hooks' do
-          env.keybinds[[:f, :shift]] = -> { }
-          runner.register_event_hooks
-          expect(runner.events[:key, :f, :shift]).not_to be_empty
-        end
-
-        it 'registers key bindings code evaluation with the actions handler' do
-          env.keybinds[:f] = code = proc { }
-          runner.register_event_hooks
-          expect(runner.actions).to receive(:evaluate).with code
-          runner.events.emit :key, :f
+          it 'registers code evaluation with the actions handler' do
+            env.keybinds[:f] = code = proc { }
+            runner.register_event_hooks
+            expect(runner.actions).to receive(:evaluate).with code
+            runner.events.emit :key, :f
+          end
         end
       end
 
