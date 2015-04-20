@@ -59,11 +59,9 @@ module Uh
       def worker
         @worker ||= Workers.build(*(@env.worker)).tap do |w|
           w.on_read do
-            log_debug 'Processing pending events'
             @manager.handle_pending_events
           end
           w.on_read_next do
-            log_debug 'Processing next event'
             @manager.handle_next_event
           end
           w.on_timeout do |*args|
