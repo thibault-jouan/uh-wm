@@ -6,6 +6,7 @@ module Uh
                     Events::SUBSTRUCTURE_REDIRECT_MASK |
                     Events::SUBSTRUCTURE_NOTIFY_MASK |
                     Events::STRUCTURE_NOTIFY_MASK
+      DEFAULT_GEO = Geo.new(0, 0, 320, 240).freeze
 
       attr_reader :modifier, :display, :clients
 
@@ -43,6 +44,15 @@ module Uh
         mod_mask = KEY_MODIFIERS[@modifier]
         mod_mask |= KEY_MODIFIERS[mod] if mod
         @display.grab_key keysym.to_s, mod_mask
+      end
+
+      def configure window
+        if client = client_for(window)
+          client.configure
+        else
+          geo = @events.emit :configure, args: window
+          window.configure_event geo ? geo : DEFAULT_GEO
+        end
       end
 
       def manage window
