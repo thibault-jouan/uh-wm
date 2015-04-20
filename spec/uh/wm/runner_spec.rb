@@ -90,8 +90,8 @@ module Uh
 
           it 'registers for :manage event' do
             runner.register_event_hooks
-            expect(env.layout).to receive(:<<).with :window
-            runner.events.emit :manage, args: :window
+            expect(env.layout).to receive(:<<).with :client
+            runner.events.emit :manage, args: :client
           end
         end
 
