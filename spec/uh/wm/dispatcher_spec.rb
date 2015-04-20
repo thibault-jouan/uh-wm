@@ -45,6 +45,11 @@ module Uh
           expect { dispatcher.emit :hook_key }.to throw_symbol :hook_code
         end
 
+        it 'returns the value returned by a registered hook' do
+          dispatcher.on(:hook_key) { :hook_code }
+          expect(dispatcher.emit :hook_key).to eq :hook_code
+        end
+
         context 'when no hooks are registered for given key' do
           it 'does not call another hook' do
             dispatcher.on(:hook_key) { throw :hook_code }
