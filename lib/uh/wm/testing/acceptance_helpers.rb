@@ -99,6 +99,11 @@ module Uh
           `xwininfo -id #{x_window_id options}`[/Map State: (\w+)/, 1]
         end
 
+        def x_window_unmap options
+          x_client(options).unmap
+          x_client(options).sync
+        end
+
         def x_clients_ensure_stop
           @x_clients and @x_clients.any? and @x_clients.values.each &:terminate
         end
@@ -163,6 +168,11 @@ module Uh
 
           def map
             window.map
+            self
+          end
+
+          def unmap
+            window.unmap
             self
           end
         end
