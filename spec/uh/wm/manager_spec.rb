@@ -233,15 +233,6 @@ module Uh
           end
         end
 
-        context 'when map_request event is given' do
-          let(:event) { double 'event', type: :map_request, window: :window }
-
-          it 'maps the event window' do
-            expect(manager).to receive(:map).with :window
-            manager.handle event
-          end
-        end
-
         context 'when configure request event is given' do
           let(:event) do
             double 'event', type: :configure_request, window: :window
@@ -249,6 +240,15 @@ module Uh
 
           it 'configures the event window' do
             expect(manager).to receive(:configure).with :window
+            manager.handle event
+          end
+        end
+
+        context 'when map_request event is given' do
+          let(:event) { double 'event', type: :map_request, window: :window }
+
+          it 'maps the event window' do
+            expect(manager).to receive(:map).with :window
             manager.handle event
           end
         end
