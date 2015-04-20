@@ -110,7 +110,7 @@ module Uh
           layout.register display
         end
         @events.on :manage do |client|
-          log "Manage client #{client}"
+          log "Managing client #{client}"
           layout << client
         end
       end
