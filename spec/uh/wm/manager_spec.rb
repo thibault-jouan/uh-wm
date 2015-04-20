@@ -247,7 +247,7 @@ module Uh
             double 'event', type: :configure_request, window: :window
           end
 
-          it 'configure the event window' do
+          it 'configures the event window' do
             expect(manager).to receive(:configure).with :window
             manager.handle event
           end
