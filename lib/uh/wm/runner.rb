@@ -115,6 +115,10 @@ module Uh
           log "Managing client #{client}"
           layout << client
         end
+        @events.on :unmanage do |client|
+          log "Unmanaging client #{client}"
+          layout.remove client
+        end
       end
 
       def register_keybinds_hooks
