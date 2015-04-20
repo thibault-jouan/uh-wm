@@ -302,6 +302,15 @@ module Uh
             manager.handle event
           end
         end
+
+        context 'when unmap_notify event is given' do
+          let(:event) { double 'event', type: :unmap_notify, window: :window }
+
+          it 'unmap the event window' do
+            expect(manager).to receive(:unmap).with :window
+            manager.handle event
+          end
+        end
       end
     end
   end

@@ -107,6 +107,10 @@ module Uh
         map event.window
       end
 
+      def handle_unmap_notify event
+        unmap event.window
+      end
+
       def client_for window
         @clients.find { |e| e.window == window }
       end
