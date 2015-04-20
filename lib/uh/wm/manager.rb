@@ -6,6 +6,7 @@ module Uh
                     Events::SUBSTRUCTURE_REDIRECT_MASK |
                     Events::SUBSTRUCTURE_NOTIFY_MASK |
                     Events::STRUCTURE_NOTIFY_MASK
+      DEFAULT_GEO = Geo.new(0, 0, 320, 240).freeze
 
       attr_reader :modifier, :display, :clients
 
@@ -45,6 +46,15 @@ module Uh
         @display.grab_key keysym.to_s, mod_mask
       end
 
+      def configure window
+        if client = client_for(window)
+          client.configure
+        else
+          geo = @events.emit :configure, args: window
+          window.configure_event geo ? geo : DEFAULT_GEO
+        end
+      end
+
       def manage window
         return if window.override_redirect? || client_for(window)
         @clients << client = Client.new(window)
@@ -77,6 +87,10 @@ module Uh
           [event.key.to_sym, :shift] :
           event.key.to_sym
         @events.emit :key, *key_selector
+      end
+
+      def handle_configure_request event
+        configure event.window
       end
 
       def handle_map_request event

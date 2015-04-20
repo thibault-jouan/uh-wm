@@ -31,6 +31,11 @@ module Uh
         @wclass ||= @window.wclass
       end
 
+      def configure
+        @window.configure @geo
+        self
+      end
+
       def moveresize
         @window.moveresize @geo
         self

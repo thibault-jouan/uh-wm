@@ -107,6 +107,10 @@ module Uh
           log "Registering layout `#{layout.class}'"
           layout.register display
         end
+        @events.on :configure do |window|
+          log "Configuring window: #{window}"
+          layout.suggest_geo
+        end
         @events.on :manage do |client|
           log "Managing client #{client}"
           layout << client

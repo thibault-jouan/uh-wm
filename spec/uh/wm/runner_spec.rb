@@ -1,6 +1,7 @@
 SomeLayout = Class.new do
-  define_method(:register)  { |*args| }
-  define_method(:<<)        { |*args| }
+  define_method(:register)    { |*args| }
+  define_method(:suggest_geo) { Uh::Geo.new(0, 0, 42, 42) }
+  define_method(:<<)          { |*args| }
 end
 
 module Uh
@@ -78,6 +79,12 @@ module Uh
           runner.register_event_hooks
           expect(env.layout).to receive(:register).with :display
           runner.events.emit :connected, args: :display
+        end
+
+        it 'registers layout hook for :configure event' do
+          runner.register_event_hooks
+          expect(runner.events.emit :configure, args: :window)
+            .to eq Geo.new(0, 0, 42, 42)
         end
 
         it 'registers layout hook for :manage event' do

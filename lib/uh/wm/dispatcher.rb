@@ -16,7 +16,9 @@ module Uh
       end
 
       def emit *key, args: []
-        @hooks[translate_key key].each { |e| e.call *args }
+        value = nil
+        @hooks[translate_key key].each { |e| value = e.call *args }
+        value
       end
 
 

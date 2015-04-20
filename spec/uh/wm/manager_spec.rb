@@ -2,6 +2,7 @@ module Uh
   module WM
     RSpec.describe Manager do
       let(:block)       { proc { } }
+      let(:window)      { instance_spy Window, override_redirect?: false }
       let(:events)      { Dispatcher.new }
       let(:modifier)    { :mod1 }
       let(:display)     { Display.new }
@@ -106,9 +107,35 @@ module Uh
         end
       end
 
-      describe '#manage' do
-        let(:window) { instance_spy Window, override_redirect?: false }
+      describe '#configure' do
+        context 'with new window' do
+          it 'sends a configure event to the window with a default geo' do
+            expect(window)
+              .to receive(:configure_event).with(Geo.new(0, 0, 320, 240))
+            manager.configure window
+          end
 
+          context 'when :configure event returns a geo' do
+            it 'sends a configure event with geo returned by event' do
+              geo = Geo.new(0, 0, 42, 42)
+              events.on(:configure) { geo }
+              expect(window).to receive(:configure_event).with geo
+              manager.configure window
+            end
+          end
+        end
+
+        context 'with known window' do
+          before { manager.manage window }
+
+          it 'tells the client to configure' do
+            expect(manager.clients[0]).to receive :configure
+            manager.configure window
+          end
+        end
+      end
+
+      describe '#manage' do
         it 'registers a new client wrapping the given window' do
           manager.manage window
           expect(manager.clients[0])
@@ -211,6 +238,17 @@ module Uh
 
           it 'manages the event window' do
             expect(manager).to receive(:manage).with :window
+            manager.handle event
+          end
+        end
+
+        context 'when configure request event is given' do
+          let(:event) do
+            double 'event', type: :configure_request, window: :window
+          end
+
+          it 'configure the event window' do
+            expect(manager).to receive(:configure).with :window
             manager.handle event
           end
         end

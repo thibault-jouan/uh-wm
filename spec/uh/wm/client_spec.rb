@@ -50,6 +50,17 @@ module Uh
         end
       end
 
+      describe '#configure' do
+        it 'configures the window with client geo' do
+          expect(window).to receive(:configure).with geo
+          client.configure
+        end
+
+        it 'returns self' do
+          expect(client.configure).to be client
+        end
+      end
+
       describe '#moveresize' do
         it 'moveresizes the window with client geo' do
           expect(window).to receive(:moveresize).with geo
