@@ -55,7 +55,7 @@ module Uh
         end
       end
 
-      def manage window
+      def map window
         return if window.override_redirect? || client_for(window)
         @clients << client = Client.new(window)
         @events.emit :manage, args: client
@@ -94,7 +94,7 @@ module Uh
       end
 
       def handle_map_request event
-        manage event.window
+        map event.window
       end
 
       def client_for window

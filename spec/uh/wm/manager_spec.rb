@@ -126,7 +126,7 @@ module Uh
         end
 
         context 'with known window' do
-          before { manager.manage window }
+          before { manager.map window }
 
           it 'tells the client to configure' do
             expect(manager.clients[0]).to receive :configure
@@ -135,22 +135,22 @@ module Uh
         end
       end
 
-      describe '#manage' do
+      describe '#map' do
         it 'registers a new client wrapping the given window' do
-          manager.manage window
+          manager.map window
           expect(manager.clients[0])
             .to be_a(Client)
             .and have_attributes(window: window)
         end
 
         it 'registers new client only once for a given window' do
-          manager.manage window
-          expect { manager.manage window }.not_to change { manager.clients }
+          manager.map window
+          expect { manager.map window }.not_to change { manager.clients }
         end
 
         it 'ignores event when window has override redirect' do
           allow(window).to receive(:override_redirect?) { true }
-          expect { manager.manage window }.not_to change { manager.clients }
+          expect { manager.map window }.not_to change { manager.clients }
         end
 
         it 'emits :manage event with the registered client' do
@@ -160,7 +160,7 @@ module Uh
               .to be_a(Client)
               .and have_attributes(window: window)
           end
-          manager.manage window
+          manager.map window
         end
       end
 
@@ -236,8 +236,8 @@ module Uh
         context 'when map_request event is given' do
           let(:event) { double 'event', type: :map_request, window: :window }
 
-          it 'manages the event window' do
-            expect(manager).to receive(:manage).with :window
+          it 'maps the event window' do
+            expect(manager).to receive(:map).with :window
             manager.handle event
           end
         end
