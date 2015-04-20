@@ -164,6 +164,56 @@ module Uh
         end
       end
 
+      describe '#unmap' do
+        before { manager.map window }
+
+        context 'when client unmap count is 0 or less' do
+          it 'preserves the client unmap count' do
+            client = manager.clients[0]
+            expect { manager.unmap window }
+              .not_to change { client.unmap_count }
+          end
+
+          it 'unregisters the client' do
+            expect { manager.unmap window }
+              .to change { manager.clients.size }.from(1).to 0
+          end
+
+          it 'emits :unmanage event with the client' do
+            events.on :unmanage, &block
+            expect(block).to receive(:call).with manager.clients[0]
+            manager.unmap window
+          end
+        end
+
+        context 'when client unmap count is strictly positive' do
+          before { manager.clients[0].unmap_count += 1 }
+
+          it 'does not unregister the client' do
+            expect { manager.unmap window }.not_to change { manager.clients }
+          end
+
+          it 'decrements the unmap count' do
+            manager.unmap window
+            expect(manager.clients[0].unmap_count).to eq 0
+          end
+        end
+
+        context 'with unknown window' do
+          let(:unknown_window) { window.dup }
+
+          it 'does not change registered clients' do
+            expect { manager.unmap unknown_window }
+              .not_to change { manager.clients }
+          end
+
+          it 'does not emit any event' do
+            expect(events).not_to receive :emit
+            manager.unmap unknown_window
+          end
+        end
+      end
+
       describe '#handle_next_event' do
         it 'handles the next available event on display' do
           event = double 'event'
@@ -249,6 +299,15 @@ module Uh
 
           it 'maps the event window' do
             expect(manager).to receive(:map).with :window
+            manager.handle event
+          end
+        end
+
+        context 'when unmap_notify event is given' do
+          let(:event) { double 'event', type: :unmap_notify, window: :window }
+
+          it 'unmap the event window' do
+            expect(manager).to receive(:unmap).with :window
             manager.handle event
           end
         end

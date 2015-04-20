@@ -56,8 +56,9 @@ module Uh
           @other_wm
         end
 
-        def x_client
-          @x_client ||= XClient.new
+        def x_client ident: :default
+          @x_clients ||= {}
+          @x_clients[ident] ||= XClient.new(ident)
         end
 
         def x_focused_window_id
@@ -81,25 +82,30 @@ module Uh
           end.any?
         end
 
-        def x_window_id
-          @x_client.window_id
+        def x_window_id **options
+          x_client(options).window_id
         end
 
         def x_window_name
-          @x_client.window_name
+          x_client.window_name
         end
 
-        def x_window_map times: 1
-          times.times { x_client.map }
-          x_client.sync
+        def x_window_map times: 1, **options
+          times.times { x_client(options).map }
+          x_client(options).sync
         end
 
-        def x_window_map_state
-          `xwininfo -id #{x_window_id}`[/Map State: (\w+)/, 1]
+        def x_window_map_state **options
+          `xwininfo -id #{x_window_id options}`[/Map State: (\w+)/, 1]
+        end
+
+        def x_window_unmap options
+          x_client(options).unmap
+          x_client(options).sync
         end
 
         def x_clients_ensure_stop
-          @x_client and @x_client.terminate
+          @x_clients and @x_clients.any? and @x_clients.values.each &:terminate
         end
 
 
@@ -132,8 +138,8 @@ module Uh
         class XClient
           attr_reader :name
 
-          def initialize
-            @name     = "#{self.class.name.split('::').last}/#{object_id}"
+          def initialize name = object_id
+            @name     = "#{self.class.name.split('::').last}/#{name}"
             @geo      = Geo.new(0, 0, 640, 480)
             @display  = Display.new.tap { |o| o.open }
           end
@@ -162,6 +168,11 @@ module Uh
 
           def map
             window.map
+            self
+          end
+
+          def unmap
+            window.unmap
             self
           end
         end

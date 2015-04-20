@@ -61,6 +61,16 @@ module Uh
         @events.emit :manage, args: client
       end
 
+      def unmap window
+        return unless client = client_for(window)
+        if client.unmap_count > 0
+          client.unmap_count -= 1
+        else
+          @clients.delete client
+          @events.emit :unmanage, args: client
+        end
+      end
+
       def handle_next_event
         handle @display.next_event
       end
@@ -95,6 +105,10 @@ module Uh
 
       def handle_map_request event
         map event.window
+      end
+
+      def handle_unmap_notify event
+        unmap event.window
       end
 
       def client_for window

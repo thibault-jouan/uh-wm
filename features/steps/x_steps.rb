@@ -1,9 +1,17 @@
+Given /^a (\w+) window is mapped$/ do |ident|
+  x_window_map ident: ident
+end
+
 When /^I press the ([^ ]+) keys?$/ do |keys|
   x_key keys
 end
 
 When /^a window requests to be mapped$/ do
   x_window_map
+end
+
+When /^the (\w+) window requests to be unmapped$/ do |ident|
+  x_window_unmap ident: ident
 end
 
 When /^a window requests to be mapped (\d+) times$/ do |times|
@@ -17,6 +25,10 @@ end
 
 Then /^the window must be mapped$/ do
   expect(x_window_map_state).to eq 'IsViewable'
+end
+
+Then /^the (\w+) window must be mapped$/ do |ident|
+  expect(x_window_map_state ident: ident).to eq 'IsViewable'
 end
 
 Then /^the window must be focused$/ do

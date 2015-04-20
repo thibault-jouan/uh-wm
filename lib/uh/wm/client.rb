@@ -1,8 +1,8 @@
 module Uh
   module WM
     class Client
-      attr_reader   :window, :unmap_count
-      attr_accessor :geo
+      attr_reader   :window
+      attr_accessor :geo, :unmap_count
 
       def initialize window, geo = nil
         @window       = window
