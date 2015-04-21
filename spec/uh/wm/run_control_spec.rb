@@ -5,7 +5,6 @@ module Uh
     RSpec.describe RunControl do
       include FileSystemHelpers
 
-      let(:code)    { :run_control_code }
       let(:env)     { Env.new(StringIO.new) }
       subject(:rc)  { described_class.new env }
 
