@@ -9,7 +9,7 @@ Feature: layout protocol
         end
 
         def << client
-          puts client
+          puts "testing_#{client.name}"
         end
       end
       """
@@ -21,4 +21,4 @@ Feature: layout protocol
   Scenario: tells the layout to manage a client with #<< message
     Given uhwm is running with options -v -r./layout -l Layout
     When a window requests to be mapped
-    Then the output must contain the window name
+    Then the output must contain "testing_XClient/default"

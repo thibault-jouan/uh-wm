@@ -44,9 +44,13 @@ module Uh
           ].join "\n"
         end
 
+        def uhwm_wait_ready
+          uhwm_wait_output LOG_CONNECTED
+        end
+
         def uhwm_run_wait_ready options = nil
           if options then uhwm_run options else uhwm_run end
-          uhwm_wait_output LOG_CONNECTED
+          uhwm_wait_ready
         end
 
         def with_other_wm
@@ -60,9 +64,13 @@ module Uh
           @other_wm
         end
 
-        def x_client ident: :default
+        def x_client ident = :default
           @x_clients        ||= {}
           @x_clients[ident] ||= XClient.new(ident)
+        end
+
+        def x_clients_ensure_stop
+          @x_clients and @x_clients.any? and @x_clients.values.each &:terminate
         end
 
         def x_focused_window_id
@@ -88,35 +96,8 @@ module Uh
           end.any?
         end
 
-        def x_window_id **options
-          x_client(options).window_id
-        end
-
-        def x_window_name
-          x_client.window_name
-        end
-
-        def x_window_map times: 1, **options
-          times.times { x_client(options).map }
-          x_client(options).sync
-        end
-
-        def x_window_map_state **options
-          `xwininfo -id #{x_window_id options}`[/Map State: (\w+)/, 1]
-        end
-
-        def x_window_unmap **options
-          x_client(options).unmap
-          x_client(options).sync
-        end
-
-        def x_window_destroy **options
-          x_client(options).destroy
-          x_client(options).sync
-        end
-
-        def x_clients_ensure_stop
-          @x_clients and @x_clients.any? and @x_clients.values.each &:terminate
+        def x_window_map_state window_id
+          `xwininfo -id #{window_id}`[/Map State: (\w+)/, 1]
         end
 
 
@@ -177,7 +158,8 @@ module Uh
             @name
           end
 
-          def map
+          def map times: 1
+            times.times { window.map }
             window.map
             self
           end
