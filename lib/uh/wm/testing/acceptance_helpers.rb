@@ -13,6 +13,10 @@ module Uh
           @interactive = @process = run command.join ' '
         end
 
+        def uhwm
+          @process
+        end
+
         def uhwm_request_quit
           x_key QUIT_KEYBINDING
         end
@@ -22,14 +26,6 @@ module Uh
             x_key 'alt+shift+q'
             @process.terminate
           end
-        end
-
-        def uhwm_pid
-          @process.pid
-        end
-
-        def uhwm_output
-          @process.stdout
         end
 
         def uhwm_wait_output message
