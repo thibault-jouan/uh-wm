@@ -1,10 +1,7 @@
-Given /^a (\w+) window is mapped$/ do |ident|
+Given /^a(?:\s(\w+))? window is managed$/ do |ident|
+  ident ||= :default
   x_client(ident).map.sync
-end
-
-Given /^a window is managed$/ do
-  x_client.map.sync
-  uhwm_wait_output /manag.+#{x_client.name}/i
+  uhwm_wait_output /manag.+#{x_client(ident).name}/i
 end
 
 When /^I press the ([^ ]+) keys?$/ do |keys|
