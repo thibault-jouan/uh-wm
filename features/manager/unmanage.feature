@@ -2,10 +2,10 @@ Feature: manager client unmanagement
 
   Background:
     Given uhwm is running
-    And a window is managed
+    And a window is mapped
 
   Scenario: logs when a new client is unmanaged
-    When the window requests to be unmapped
+    When the window is unmapped
     Then the output must match /unmanag.+xclient/i
 
   Scenario: unmanages client on destroy notify X events

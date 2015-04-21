@@ -64,7 +64,8 @@ module Uh
           @other_wm
         end
 
-        def x_client ident = :default
+        def x_client ident = nil
+          ident             ||= :default
           @x_clients        ||= {}
           @x_clients[ident] ||= XClient.new(ident)
         end
@@ -103,7 +104,7 @@ module Uh
 
         private
 
-        def timeout_until
+        def timeout_until message = 'condition not met after %d seconds'
           timeout = ENV.key?('UHWMTEST_TIMEOUT') ?
             ENV['UHWMTEST_TIMEOUT'].to_i :
             TIMEOUT_DEFAULT
@@ -114,7 +115,7 @@ module Uh
             end
           end
         rescue Timeout::Error
-          fail TimeoutError.new('execution expired', timeout)
+          fail TimeoutError.new(message % timeout, timeout)
         end
 
 

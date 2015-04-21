@@ -30,6 +30,6 @@ Feature: layout protocol
 
   Scenario: tells the layout to unmanage a client with #remove message
     Given uhwm is running with options -v -r./layout -l Layout
-    And a window is managed
+    And a window is mapped
     When the window is unmapped
     Then the output must contain "testing_#remove_XClient/default"

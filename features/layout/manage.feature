@@ -8,5 +8,5 @@ Feature: layout client management
     Then the window must be mapped
 
   Scenario: focuses new client window
-    When a window requests to be mapped
+    When a window is mapped
     Then the window must be focused

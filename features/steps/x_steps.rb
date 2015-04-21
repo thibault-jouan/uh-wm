@@ -1,7 +1,8 @@
-Given /^a(?:\s(\w+))? window is managed$/ do |ident|
-  ident ||= :default
+Given /^a(?:\s(\w+))? window is mapped$/ do |ident|
   x_client(ident).map.sync
-  uhwm_wait_output /manag.+#{x_client(ident).name}/i
+  timeout_until 'window not mapped after %d seconds' do
+    x_window_map_state(x_client(ident).window_id) == 'IsViewable'
+  end
 end
 
 When /^I press the ([^ ]+) keys?$/ do |keys|
@@ -16,14 +17,11 @@ When /^a window requests to be mapped (\d+) times$/ do |times|
   x_client.map times: times.to_i
 end
 
-When /^the window requests to be unmapped$/ do
-  x_client.unmap.sync
-end
-
 When /^the(?:\s(\w+))? window is unmapped$/ do |ident|
-  ident ||= :default
   x_client(ident).unmap.sync
-  uhwm_wait_output /unmanag.+#{x_client(ident).name}/i
+  timeout_until 'window not unmapped after %d seconds' do
+    x_window_map_state(x_client(ident).window_id) == 'IsUnMapped'
+  end
 end
 
 When /^the window is destroyed$/ do
@@ -36,12 +34,15 @@ Then /^it must connect to X display$/ do
 end
 
 Then /^the(?:\s(\w+))? window must be mapped$/ do |ident|
-  ident ||= :default
-  expect(x_window_map_state x_client(ident).window_id).to eq 'IsViewable'
+  timeout_until 'window not mapped after %d seconds' do
+    x_window_map_state(x_client(ident).window_id) == 'IsViewable'
+  end
 end
 
 Then /^the window must be focused$/ do
-  expect(x_focused_window_id).to eq x_client.window_id
+  timeout_until 'window not focused after %d seconds' do
+    x_focused_window_id == x_client.window_id
+  end
 end
 
 Then /^the input event mask must include (.+)$/ do |mask|
