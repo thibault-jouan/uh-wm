@@ -109,6 +109,10 @@ module Uh
         configure event.window
       end
 
+      def handle_destroy_notify event
+        destroy event.window
+      end
+
       def handle_map_request event
         map event.window
       end

@@ -323,6 +323,15 @@ module Uh
           end
         end
 
+        context 'when destroy_notify event is given' do
+          let(:event) { double 'event', type: :destroy_notify, window: :window }
+
+          it 'destroy the event window' do
+            expect(manager).to receive(:destroy).with :window
+            manager.handle event
+          end
+        end
+
         context 'when map_request event is given' do
           let(:event) { double 'event', type: :map_request, window: :window }
 
