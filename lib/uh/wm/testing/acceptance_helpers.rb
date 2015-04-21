@@ -5,11 +5,16 @@ module Uh
     module Testing
       module AcceptanceHelpers
         TIMEOUT_DEFAULT = 2
+        QUIT_KEYBINDING = 'alt+shift+q'.freeze
 
         def uhwm_run options = '-v'
           command = %w[uhwm]
           command << options if options
           @interactive = @process = run command.join ' '
+        end
+
+        def uhwm_request_quit
+          x_key QUIT_KEYBINDING
         end
 
         def uhwm_ensure_stop

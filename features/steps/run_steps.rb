@@ -24,11 +24,11 @@ When /^I run uhwm with options? (-.+)$/ do |options|
 end
 
 When /^I tell uhwm to quit$/ do
-  x_key 'alt+shift+q'
+  uhwm_request_quit
 end
 
 When /^I quit uhwm$/ do
-  x_key 'alt+shift+q'
+  uhwm_request_quit
   assert_exit_status 0
 end
 
