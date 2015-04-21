@@ -4,6 +4,8 @@ module Uh
   module WM
     module Testing
       module AcceptanceHelpers
+        TIMEOUT_DEFAULT = 2
+
         def uhwm_run options = '-v'
           command = %w[uhwm]
           command << options if options
@@ -114,7 +116,7 @@ module Uh
         def timeout_until
           timeout = ENV.key?('UHWMTEST_TIMEOUT') ?
             ENV['UHWMTEST_TIMEOUT'].to_i :
-            1
+            TIMEOUT_DEFAULT
           Timeout.timeout(timeout) do
             loop do
               break if yield
