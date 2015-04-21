@@ -129,7 +129,8 @@ module Uh
 
       describe '#log_logger_level' do
         it 'logs the logger level' do
-          expect(env.logger).to receive(:info).with /log.+(warn|info|debug).+level/i
+          expect(env.logger)
+            .to receive(:info).with /log.+(warn|info|debug).+level/i
           env.log_logger_level
         end
       end
