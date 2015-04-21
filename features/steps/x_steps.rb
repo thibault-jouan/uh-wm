@@ -23,6 +23,11 @@ When /^the window requests to be unmapped$/ do
   x_client.unmap.sync
 end
 
+When /^the window is unmapped$/ do
+  x_client.unmap.sync
+  uhwm_wait_output /unmanag.+#{x_client.name}/i
+end
+
 When /^the (\w+) window is unmapped$/ do |ident|
   x_client(ident).unmap.sync
   uhwm_wait_output /unmanag.+#{x_client(ident).name}/i
