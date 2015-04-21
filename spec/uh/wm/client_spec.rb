@@ -1,11 +1,8 @@
 module Uh
   module WM
     RSpec.describe Client do
-      let(:geo)         { Geo.new(0, 0, 640, 480) }
-      let(:window) do
-        instance_spy Window, 'window', to_s: 'wid',
-          name: 'wname', wclass: 'wclass'
-      end
+      let(:window)      { mock_window }
+      let(:geo)         { build_geo }
       subject(:client)  { described_class.new window, geo }
 
       it 'is not visible' do

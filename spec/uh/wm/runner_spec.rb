@@ -1,6 +1,8 @@
 SomeLayout = Class.new do
+  include Factories
+
   define_method(:register)    { |*args| }
-  define_method(:suggest_geo) { Uh::Geo.new(0, 0, 42, 42) }
+  define_method(:suggest_geo) { build_geo 0, 0, 42, 42 }
   define_method(:<<)          { |*args| }
   define_method(:remove)      { |*args| }
 end
@@ -82,7 +84,7 @@ module Uh
           it 'registers for :configure event' do
             runner.register_event_hooks
             expect(runner.events.emit :configure, args: :window)
-              .to eq Geo.new(0, 0, 42, 42)
+              .to eq build_geo 0, 0, 42, 42
           end
 
           it 'registers for :manage event' do

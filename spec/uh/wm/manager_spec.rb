@@ -2,7 +2,7 @@ module Uh
   module WM
     RSpec.describe Manager do
       let(:block)       { proc { } }
-      let(:window)      { instance_spy Window, override_redirect?: false }
+      let(:window)      { mock_window }
       let(:events)      { Dispatcher.new }
       let(:modifier)    { :mod1 }
       let(:display)     { Display.new }
@@ -107,13 +107,13 @@ module Uh
         context 'with new window' do
           it 'sends a configure event to the window with a default geo' do
             expect(window)
-              .to receive(:configure_event).with(Geo.new(0, 0, 320, 240))
+              .to receive(:configure_event).with(build_geo 0, 0, 320, 240)
             manager.configure window
           end
 
           context 'when :configure event returns a geo' do
             it 'sends a configure event with geo returned by event' do
-              geo = Geo.new(0, 0, 42, 42)
+              geo = build_geo 0, 0, 42, 42
               events.on(:configure) { geo }
               expect(window).to receive(:configure_event).with geo
               manager.configure window
@@ -249,7 +249,7 @@ module Uh
       end
 
       describe '#handle_pending_events' do
-        let(:event) { double 'event' }
+        let(:event) { mock_event }
 
         context 'when an event is pending on display' do
           before do
@@ -277,7 +277,7 @@ module Uh
       end
 
       describe '#handle' do
-        let(:event) { double 'event', type: :any }
+        let(:event) { mock_event }
 
         it 'emits :xevent event with the X event' do
           events.on :xevent, &block
@@ -285,13 +285,8 @@ module Uh
         end
 
         context 'when key_press event is given' do
-          let(:mod_mask) { KEY_MODIFIERS[modifier] }
-          let(:event) do
-            double 'event',
-              type:           :key_press,
-              key:            'f',
-              modifier_mask:  mod_mask
-          end
+          let(:mod_mask)  { KEY_MODIFIERS[modifier] }
+          let(:event)     { mock_event_key_press 'f', mod_mask }
 
           it 'emits :key event with the corresponding key' do
             events.on(:key, :f) { throw :key_press_code }
@@ -309,9 +304,7 @@ module Uh
         end
 
         context 'when configure request event is given' do
-          let(:event) do
-            double 'event', type: :configure_request, window: :window
-          end
+          let(:event) { mock_event :configure_request, window: :window }
 
           it 'configures the event window' do
             expect(manager).to receive(:configure).with :window
@@ -320,7 +313,7 @@ module Uh
         end
 
         context 'when destroy_notify event is given' do
-          let(:event) { double 'event', type: :destroy_notify, window: :window }
+          let(:event) { mock_event :destroy_notify, window: :window }
 
           it 'destroy the event window' do
             expect(manager).to receive(:destroy).with :window
@@ -329,7 +322,7 @@ module Uh
         end
 
         context 'when map_request event is given' do
-          let(:event) { double 'event', type: :map_request, window: :window }
+          let(:event) { mock_event :map_request, window: :window }
 
           it 'maps the event window' do
             expect(manager).to receive(:map).with :window
@@ -338,7 +331,7 @@ module Uh
         end
 
         context 'when unmap_notify event is given' do
-          let(:event) { double 'event', type: :unmap_notify, window: :window }
+          let(:event) { mock_event :unmap_notify, window: :window }
 
           it 'unmap the event window' do
             expect(manager).to receive(:unmap).with :window

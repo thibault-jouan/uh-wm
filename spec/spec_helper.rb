@@ -2,7 +2,11 @@ require 'headless'
 
 require 'uh/wm'
 
+Dir['spec/support/**/*.rb'].map { |e| require e.gsub 'spec/', '' }
+
 RSpec.configure do |config|
+  config.include Factories
+
   config.expect_with :rspec do |expectations|
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true
   end
