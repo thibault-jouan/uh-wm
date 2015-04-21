@@ -6,5 +6,5 @@ Feature: layout client unmanagement
     And a second window is mapped
 
   Scenario: maps another window
-    When the second window requests to be unmapped
+    When the second window is unmapped
     Then the first window must be mapped

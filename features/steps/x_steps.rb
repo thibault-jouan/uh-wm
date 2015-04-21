@@ -19,8 +19,9 @@ When /^the window requests to be unmapped$/ do
   x_window_unmap
 end
 
-When /^the (\w+) window requests to be unmapped$/ do |ident|
+When /^the (\w+) window is unmapped$/ do |ident|
   x_window_unmap ident: ident
+  uhwm_wait_output /unmanag.+#{x_client(ident: ident).name}/i
 end
 
 When /^a window requests to be mapped (\d+) times$/ do |times|
