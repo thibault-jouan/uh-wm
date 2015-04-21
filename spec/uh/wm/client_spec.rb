@@ -33,7 +33,7 @@ module Uh
           expect(client.to_s).to include geo.to_s
         end
 
-        it 'includes window id' do
+        it 'includes window string representation' do
           expect(client.to_s).to include 'wid'
         end
       end
