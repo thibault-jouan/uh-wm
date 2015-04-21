@@ -1,7 +1,30 @@
 uh-wm
 =====
 
-  Xlib Window Manager prototype.
+  uh-wm is a minimalistic tiling and stacking window manager for X. It
+shares some similarities with dwm and wmii, but is written in ruby so
+you can configure and extend features with ruby code.
+
+  The layout strategy is interchangeable, the default one being the
+`uh-layout` ruby gem. A layout is a simple object obeying a defined
+protocol.
+
+  Features:
+
+  * Xinerama support;
+  * Multiple event handling strategy: blocking or multiplexing
+    (`select()`);
+  * Configuration with a run control file;
+  * Key bindings with user defined code as callback;
+  * Configurable modifier key;
+  * Support user-defined layout strategy;
+  * Program execution via key binding.
+
+  * No re-parenting (so no window decoration either);
+  * No grabbing of the modifier key;
+  * No mouse handling;
+  * Very limited ICCCM support.
+
 
 [![Version      ][badge-version-img]][badge-version-uri]
 [![Build status ][badge-build-img]][badge-build-uri]
@@ -11,7 +34,7 @@ uh-wm
 Getting started
 ---------------
 
-### Installation (requires ruby ~> 2.1 and rubygems)
+### Installation (requires ruby ~> 2.1 with rubygems)
 
 ```
 $ gem install uh-wm
