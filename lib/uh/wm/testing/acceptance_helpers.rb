@@ -6,7 +6,7 @@ module Uh
       module AcceptanceHelpers
         TIMEOUT_DEFAULT = 2
         QUIT_KEYBINDING = 'alt+shift+q'.freeze
-        LOG_CONNECTED   = 'Connected to'.freeze
+        LOG_READY       = 'Working events'.freeze
 
         def uhwm_run options = '-v'
           command = %w[uhwm]
@@ -45,7 +45,7 @@ module Uh
         end
 
         def uhwm_wait_ready
-          uhwm_wait_output LOG_CONNECTED
+          uhwm_wait_output LOG_READY
         end
 
         def uhwm_run_wait_ready options = nil
