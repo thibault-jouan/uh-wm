@@ -1,9 +1,10 @@
-Given /^a window is mapped$/ do
-  x_window_map
-end
-
 Given /^a (\w+) window is mapped$/ do |ident|
   x_window_map ident: ident
+end
+
+Given /^a window is managed$/ do
+  x_window_map
+  uhwm_wait_output /manag.+#{x_window_name}/i
 end
 
 When /^I press the ([^ ]+) keys?$/ do |keys|

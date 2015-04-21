@@ -2,7 +2,7 @@ Feature: manager client unmanagement
 
   Background:
     Given uhwm is running
-    And a window is mapped
+    And a window is managed
 
   Scenario: logs when a new client is unmanaged
     When the window requests to be unmapped
