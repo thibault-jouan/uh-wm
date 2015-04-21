@@ -10,8 +10,12 @@ module Uh
         @env, @events = env, events
       end
 
-      def evaluate code
-        instance_eval &code
+      def evaluate code = nil, &block
+        if code
+          instance_exec &code
+        else
+          instance_exec &block
+        end
       end
 
       def quit

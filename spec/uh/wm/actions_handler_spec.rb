@@ -6,8 +6,13 @@ module Uh
       subject(:actions) { described_class.new env, events }
 
       describe '#evaluate' do
-        it 'evaluates given code' do
+        it 'evaluates code given as Proc argument' do
           expect { actions.evaluate proc { throw :action_code } }
+            .to throw_symbol :action_code
+        end
+
+        it 'evaluates code given as block' do
+          expect { actions.evaluate { throw :action_code } }
             .to throw_symbol :action_code
         end
       end
