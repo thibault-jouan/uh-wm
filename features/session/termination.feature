@@ -9,5 +9,4 @@ Feature: program termination
 
   Scenario: logs about termination
     When I tell uhwm to quit
-    Then uhwm must terminate successfully
-    And the output must match /terminat/i
+    Then the output must match /terminat/i
