@@ -8,10 +8,6 @@ module Uh
       let(:display)     { Display.new }
       subject(:manager) { described_class.new events, modifier, display }
 
-      it 'has a new display' do
-        expect(manager.display).to be_a Display
-      end
-
       it 'has no clients' do
         expect(manager.clients).to be_empty
       end
