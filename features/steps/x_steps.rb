@@ -23,12 +23,8 @@ When /^the window requests to be unmapped$/ do
   x_client.unmap.sync
 end
 
-When /^the window is unmapped$/ do
-  x_client.unmap.sync
-  uhwm_wait_output /unmanag.+#{x_client.name}/i
-end
-
-When /^the (\w+) window is unmapped$/ do |ident|
+When /^the(?:\s(\w+))? window is unmapped$/ do |ident|
+  ident ||= :default
   x_client(ident).unmap.sync
   uhwm_wait_output /unmanag.+#{x_client(ident).name}/i
 end
@@ -42,11 +38,8 @@ Then /^it must connect to X display$/ do
   expect(x_socket_check uhwm.pid).to be true
 end
 
-Then /^the window must be mapped$/ do
-  expect(x_window_map_state x_client.window_id).to eq 'IsViewable'
-end
-
-Then /^the (\w+) window must be mapped$/ do |ident|
+Then /^the(?:\s(\w+))? window must be mapped$/ do |ident|
+  ident ||= :default
   expect(x_window_map_state x_client(ident).window_id).to eq 'IsViewable'
 end
 
