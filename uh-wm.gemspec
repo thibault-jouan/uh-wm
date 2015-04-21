@@ -5,6 +5,7 @@ Gem::Specification.new do |s|
   s.version = Uh::WM::VERSION.dup
   s.summary = 'minimalistic tiling and stacking window manager for X'
   s.description = s.name
+  s.license = 'BSD-3-Clause'
   s.homepage = 'https://rubygems.org/gems/uh-wm'
 
   s.authors = 'Thibault Jouan'
