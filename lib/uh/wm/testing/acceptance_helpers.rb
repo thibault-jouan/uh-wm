@@ -6,6 +6,7 @@ module Uh
       module AcceptanceHelpers
         TIMEOUT_DEFAULT = 2
         QUIT_KEYBINDING = 'alt+shift+q'.freeze
+        LOG_CONNECTED   = 'Connected to'.freeze
 
         def uhwm_run options = '-v'
           command = %w[uhwm]
@@ -45,7 +46,7 @@ module Uh
 
         def uhwm_run_wait_ready options = nil
           if options then uhwm_run options else uhwm_run end
-          uhwm_wait_output 'Connected to'
+          uhwm_wait_output LOG_CONNECTED
         end
 
         def with_other_wm
@@ -60,7 +61,7 @@ module Uh
         end
 
         def x_client ident: :default
-          @x_clients ||= {}
+          @x_clients        ||= {}
           @x_clients[ident] ||= XClient.new(ident)
         end
 
@@ -69,11 +70,13 @@ module Uh
         end
 
         def x_input_event_masks
-          `xdpyinfo`[/current input event mask:\s+0x\h+([\w\s]+):/, 1].split(/\s+/).grep /Mask\z/
+          `xdpyinfo`[/current input event mask:\s+0x\h+([\w\s]+):/, 1]
+            .split(/\s+/)
+            .grep /Mask\z/
         end
 
-        def x_key key
-          fail "cannot simulate X key `#{key}'" unless system "xdotool key #{key}"
+        def x_key k
+          fail "cannot simulate X key `#{k}'" unless system "xdotool key #{k}"
         end
 
         def x_socket_check pid
