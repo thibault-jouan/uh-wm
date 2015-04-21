@@ -1,7 +1,7 @@
 module Uh
   module WM
     RSpec.describe Dispatcher do
-      subject(:dispatcher)  { described_class.new }
+      subject(:dispatcher) { described_class.new }
 
       describe '#[]' do
         context 'when given key for existing hook' do

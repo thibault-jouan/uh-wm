@@ -68,7 +68,7 @@ module Uh
       describe '#register_event_hooks' do
         it 'registers quit event hook' do
           runner.register_event_hooks
-          expect(runner).to receive(:stop!)
+          expect(runner).to receive :stop!
           runner.events.emit :quit
         end
 
