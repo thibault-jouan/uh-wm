@@ -71,6 +71,12 @@ module Uh
         end
       end
 
+      def destroy window
+        return unless client = client_for(window)
+        @clients.delete client
+        @events.emit :unmanage, args: client
+      end
+
       def handle_next_event
         handle @display.next_event
       end
@@ -101,6 +107,10 @@ module Uh
 
       def handle_configure_request event
         configure event.window
+      end
+
+      def handle_destroy_notify event
+        destroy event.window
       end
 
       def handle_map_request event

@@ -214,6 +214,35 @@ module Uh
         end
       end
 
+      describe '#destroy' do
+        before { manager.map window }
+
+        it 'unregisters the client' do
+          expect { manager.destroy window }
+            .to change { manager.clients.size }.from(1).to 0
+        end
+
+        it 'emits :unmanage event with the client' do
+          events.on :unmanage, &block
+          expect(block).to receive(:call).with manager.clients[0]
+          manager.destroy window
+        end
+
+        context 'with unknown window' do
+          let(:unknown_window) { window.dup }
+
+          it 'does not change registered clients' do
+            expect { manager.destroy unknown_window }
+              .not_to change { manager.clients }
+          end
+
+          it 'does not emit any event' do
+            expect(events).not_to receive :emit
+            manager.destroy unknown_window
+          end
+        end
+      end
+
       describe '#handle_next_event' do
         it 'handles the next available event on display' do
           event = double 'event'
@@ -290,6 +319,15 @@ module Uh
 
           it 'configures the event window' do
             expect(manager).to receive(:configure).with :window
+            manager.handle event
+          end
+        end
+
+        context 'when destroy_notify event is given' do
+          let(:event) { double 'event', type: :destroy_notify, window: :window }
+
+          it 'destroy the event window' do
+            expect(manager).to receive(:destroy).with :window
             manager.handle event
           end
         end

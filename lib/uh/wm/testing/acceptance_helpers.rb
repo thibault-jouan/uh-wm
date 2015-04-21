@@ -106,6 +106,11 @@ module Uh
           x_client(options).sync
         end
 
+        def x_window_destroy **options
+          x_client(options).destroy
+          x_client(options).sync
+        end
+
         def x_clients_ensure_stop
           @x_clients and @x_clients.any? and @x_clients.values.each &:terminate
         end
@@ -175,6 +180,11 @@ module Uh
 
           def unmap
             window.unmap
+            self
+          end
+
+          def destroy
+            window.destroy
             self
           end
         end
