@@ -1,3 +1,7 @@
+Given /^a window is mapped$/ do
+  x_window_map
+end
+
 Given /^a (\w+) window is mapped$/ do |ident|
   x_window_map ident: ident
 end
@@ -8,6 +12,10 @@ end
 
 When /^a window requests to be mapped$/ do
   x_window_map
+end
+
+When /^the window requests to be unmapped$/ do
+  x_window_unmap
 end
 
 When /^the (\w+) window requests to be unmapped$/ do |ident|

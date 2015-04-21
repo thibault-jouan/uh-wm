@@ -99,7 +99,7 @@ module Uh
           `xwininfo -id #{x_window_id options}`[/Map State: (\w+)/, 1]
         end
 
-        def x_window_unmap options
+        def x_window_unmap **options
           x_client(options).unmap
           x_client(options).sync
         end
