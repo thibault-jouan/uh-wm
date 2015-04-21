@@ -16,10 +16,6 @@ module Uh
         env.rc_path       = 'non_existent_run_control.rb'
       end
 
-      it 'has the env' do
-        expect(runner.env).to be env
-      end
-
       it 'has a dispatcher' do
         expect(runner.events).to be_a Dispatcher
       end
