@@ -6,6 +6,9 @@ Feature: layout protocol
       class Layout
         def register display
           puts display
+          display.create_subwindow(Uh::Geo.new(0, 0, 640, 16)).tap do |o|
+            o.show
+          end
         end
 
         def << client
@@ -19,6 +22,10 @@ Feature: layout protocol
 
         def update client
           puts "testing_#update_#{client.name}"
+        end
+
+        def expose window
+          puts "testing_#expose_#{window.id}"
         end
       end
       """
@@ -43,3 +50,7 @@ Feature: layout protocol
     And a window is mapped
     When the window name changes to "testing_new_name"
     Then the output must contain "testing_#update_testing_new_name"
+
+  Scenario: tells the layout about an exposed window with #expose message
+    Given I run uhwm with options -r./layout -l Layout
+    Then the output must match /testing_#expose_\d+/
