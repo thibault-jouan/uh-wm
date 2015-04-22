@@ -1,10 +1,10 @@
 SomeLayout = Class.new do
   include Factories
 
-  define_method(:register)    { |*args| }
+  define_method(:register)    { |*_| }
   define_method(:suggest_geo) { build_geo 0, 0, 42, 42 }
-  define_method(:<<)          { |*args| }
-  define_method(:remove)      { |*args| }
+  define_method(:<<)          { |*_| }
+  define_method(:remove)      { |*_| }
 end
 
 module Uh
