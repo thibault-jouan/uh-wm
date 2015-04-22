@@ -3,6 +3,10 @@ module Factories
     Uh::Geo.new(x, y, width, height)
   end
 
+  def build_client window = mock_window
+    Uh::WM::Client.new(window)
+  end
+
   def mock_event type = :xany, **options
     double 'event', type: type, **options
   end

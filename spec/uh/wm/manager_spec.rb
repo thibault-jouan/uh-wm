@@ -3,6 +3,7 @@ module Uh
     RSpec.describe Manager do
       let(:block)       { proc { } }
       let(:window)      { mock_window }
+      let(:client)      { build_client window }
       let(:events)      { Dispatcher.new }
       let(:modifier)    { :mod1 }
       let(:display)     { Display.new }
@@ -122,10 +123,10 @@ module Uh
         end
 
         context 'with known window' do
-          before { manager.map window }
+          before { manager.clients << client }
 
           it 'tells the client to configure' do
-            expect(manager.clients[0]).to receive :configure
+            expect(client).to receive :configure
             manager.configure window
           end
         end
@@ -161,37 +162,36 @@ module Uh
       end
 
       describe '#unmap' do
-        before { manager.map window }
+        before { manager.clients << client }
 
         context 'when client unmap count is 0 or less' do
           it 'preserves the client unmap count' do
-            client = manager.clients[0]
-            expect { manager.unmap window }
-              .not_to change { client.unmap_count }
+            expect { manager.unmap window }.not_to change { client.unmap_count }
           end
 
           it 'unregisters the client' do
-            expect { manager.unmap window }
-              .to change { manager.clients.size }.from(1).to 0
+            manager.unmap window
+            expect(manager.clients).not_to include client
           end
 
           it 'emits :unmanage event with the client' do
             events.on :unmanage, &block
-            expect(block).to receive(:call).with manager.clients[0]
+            expect(block).to receive(:call).with client
             manager.unmap window
           end
         end
 
         context 'when client unmap count is strictly positive' do
-          before { manager.clients[0].unmap_count += 1 }
+          before { client.unmap_count += 1 }
 
           it 'does not unregister the client' do
-            expect { manager.unmap window }.not_to change { manager.clients }
+            manager.unmap window
+            expect(manager.clients).to include client
           end
 
           it 'decrements the unmap count' do
             manager.unmap window
-            expect(manager.clients[0].unmap_count).to eq 0
+            expect(client.unmap_count).to eq 0
           end
         end
 
@@ -211,16 +211,16 @@ module Uh
       end
 
       describe '#destroy' do
-        before { manager.map window }
+        before { manager.clients << client }
 
         it 'unregisters the client' do
-          expect { manager.destroy window }
-            .to change { manager.clients.size }.from(1).to 0
+          manager.destroy window
+          expect(manager.clients).not_to include client
         end
 
         it 'emits :unmanage event with the client' do
           events.on :unmanage, &block
-          expect(block).to receive(:call).with manager.clients[0]
+          expect(block).to receive(:call).with client
           manager.destroy window
         end
 
