@@ -333,7 +333,7 @@ module Uh
         context 'when unmap_notify event is given' do
           let(:event) { mock_event :unmap_notify, window: :window }
 
-          it 'unmap the event window' do
+          it 'unmaps the event window' do
             expect(manager).to receive(:unmap).with :window
             manager.handle event
           end
