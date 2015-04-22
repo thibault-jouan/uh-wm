@@ -28,6 +28,10 @@ When /^the window is destroyed$/ do
   x_client.destroy.sync
 end
 
+When /^the window name changes to "([^"]+)"$/ do |name|
+  x_client.window_name = name
+end
+
 Then /^it must connect to X display$/ do
   uhwm_wait_ready
   expect(x_socket_check uhwm.pid).to be true

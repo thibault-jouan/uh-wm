@@ -159,6 +159,11 @@ module Uh
             @name
           end
 
+          def window_name= name
+            @name = @window.name = name
+            window.name
+          end
+
           def map times: 1
             times.times { window.map }
             window.map
