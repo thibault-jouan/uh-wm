@@ -47,6 +47,24 @@ module Uh
         end
       end
 
+      describe '#update_window_properties' do
+        it 'updates the cached window name' do
+          client.name
+          allow(window).to receive(:name) { 'new name' }
+          expect { client.update_window_properties }
+            .to change { client.name }
+            .from('wname').to 'new name'
+        end
+
+        it 'updates the cached window class' do
+          client.wclass
+          allow(window).to receive(:wclass) { 'new class' }
+          expect { client.update_window_properties }
+            .to change { client.wclass }
+            .from('wclass').to 'new class'
+        end
+      end
+
       describe '#configure' do
         it 'configures the window with client geo' do
           expect(window).to receive(:configure).with geo

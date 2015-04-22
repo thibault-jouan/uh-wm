@@ -133,6 +133,8 @@ module Uh
       end
 
       describe '#map' do
+        let(:display) { instance_spy Display }
+
         it 'registers a new client wrapping the given window' do
           manager.map window
           expect(manager.clients[0])
@@ -157,6 +159,13 @@ module Uh
               .to be_a(Client)
               .and have_attributes(window: window)
           end
+          manager.map window
+        end
+
+        it 'listens for property notify events on given window' do
+          expect(display)
+            .to receive(:listen_events)
+            .with window, Events::PROPERTY_CHANGE_MASK
           manager.map window
         end
       end
@@ -235,6 +244,30 @@ module Uh
           it 'does not emit any event' do
             expect(events).not_to receive :emit
             manager.destroy unknown_window
+          end
+        end
+      end
+
+      describe '#update_properties' do
+        context 'with known window' do
+          before { manager.clients << client }
+
+          it 'tells the client to update its window properties' do
+            expect(client).to receive :update_window_properties
+            manager.update_properties window
+          end
+
+          it 'emits :change event with the client' do
+            events.on :change, &block
+            expect(block).to receive(:call).with client
+            manager.update_properties window
+          end
+        end
+
+        context 'with unknown window' do
+          it 'does not emit any event' do
+            expect(events).not_to receive :emit
+            manager.update_properties window
           end
         end
       end
@@ -335,6 +368,15 @@ module Uh
 
           it 'unmaps the event window' do
             expect(manager).to receive(:unmap).with :window
+            manager.handle event
+          end
+        end
+
+        context 'when property_notify event is given' do
+          let(:event) { mock_event :property_notify, window: :window }
+
+          it 'updates event window properties' do
+            expect(manager).to receive(:update_properties).with :window
             manager.handle event
           end
         end

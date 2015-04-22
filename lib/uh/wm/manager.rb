@@ -59,6 +59,7 @@ module Uh
         return if window.override_redirect? || client_for(window)
         @clients << client = Client.new(window)
         @events.emit :manage, args: client
+        @display.listen_events window, Events::PROPERTY_CHANGE_MASK
       end
 
       def unmap window
@@ -75,6 +76,12 @@ module Uh
         return unless client = client_for(window)
         @clients.delete client
         @events.emit :unmanage, args: client
+      end
+
+      def update_properties window
+        return unless client = client_for(window)
+        client.update_window_properties
+        @events.emit :change, args: client
       end
 
       def handle_next_event
@@ -115,6 +122,10 @@ module Uh
 
       def handle_map_request event
         map event.window
+      end
+
+      def handle_property_notify event
+        update_properties event.window
       end
 
       def handle_unmap_notify event

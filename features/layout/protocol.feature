@@ -16,6 +16,10 @@ Feature: layout protocol
         def remove client
           puts "testing_#remove_#{client.name}"
         end
+
+        def update client
+          puts "testing_#update_#{client.name}"
+        end
       end
       """
 
@@ -33,3 +37,9 @@ Feature: layout protocol
     And a window is mapped
     When the window is unmapped
     Then the output must contain "testing_#remove_XClient/default"
+
+  Scenario: tells the layout to update a changed client with #update message
+    Given uhwm is running with options -v -r./layout -l Layout
+    And a window is mapped
+    When the window name changes to "testing_new_name"
+    Then the output must contain "testing_#update_testing_new_name"
