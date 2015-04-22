@@ -67,15 +67,13 @@ module Uh
         if client.unmap_count > 0
           client.unmap_count -= 1
         else
-          @clients.delete client
-          @events.emit :unmanage, args: client
+          unmanage client
         end
       end
 
       def destroy window
         return unless client = client_for(window)
-        @clients.delete client
-        @events.emit :unmanage, args: client
+        unmanage client
       end
 
       def update_properties window
@@ -138,6 +136,11 @@ module Uh
 
       def client_for window
         @clients.find { |e| e.window == window }
+      end
+
+      def unmanage client
+        @clients.delete client
+        @events.emit :unmanage, args: client
       end
 
       def check_other_wm!
