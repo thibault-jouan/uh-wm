@@ -371,6 +371,15 @@ module Uh
             manager.handle event
           end
         end
+
+        context 'when property_notify event is given' do
+          let(:event) { mock_event :property_notify, window: :window }
+
+          it 'updates event window properties' do
+            expect(manager).to receive(:update_properties).with :window
+            manager.handle event
+          end
+        end
       end
     end
   end

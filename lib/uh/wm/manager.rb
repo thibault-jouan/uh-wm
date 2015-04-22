@@ -124,6 +124,10 @@ module Uh
         map event.window
       end
 
+      def handle_property_notify event
+        update_properties event.window
+      end
+
       def handle_unmap_notify event
         unmap event.window
       end
