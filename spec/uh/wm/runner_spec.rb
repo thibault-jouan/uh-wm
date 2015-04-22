@@ -5,6 +5,7 @@ SomeLayout = Class.new do
   define_method(:suggest_geo) { build_geo 0, 0, 42, 42 }
   define_method(:<<)          { |*_| }
   define_method(:remove)      { |*_| }
+  define_method(:update)      { |*_| }
 end
 
 module Uh
@@ -97,6 +98,12 @@ module Uh
             runner.register_event_hooks
             expect(env.layout).to receive(:remove).with :client
             runner.events.emit :unmanage, args: :client
+          end
+
+          it 'registers for :change event' do
+            runner.register_event_hooks
+            expect(env.layout).to receive(:update).with :client
+            runner.events.emit :change, args: :client
           end
         end
 
