@@ -31,6 +31,11 @@ module Uh
         @wclass ||= @window.wclass
       end
 
+      def update_window_properties
+        @wname  = @window.name
+        @wclass = @window.wclass
+      end
+
       def configure
         @window.configure @geo
         self
