@@ -133,6 +133,8 @@ module Uh
       end
 
       describe '#map' do
+        let(:display) { instance_spy Display }
+
         it 'registers a new client wrapping the given window' do
           manager.map window
           expect(manager.clients[0])
@@ -157,6 +159,13 @@ module Uh
               .to be_a(Client)
               .and have_attributes(window: window)
           end
+          manager.map window
+        end
+
+        it 'listens for property notify events on given window' do
+          expect(display)
+            .to receive(:listen_events)
+            .with window, Events::PROPERTY_CHANGE_MASK
           manager.map window
         end
       end
