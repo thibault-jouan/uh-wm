@@ -123,6 +123,10 @@ module Uh
           log "Updating client #{client}"
           layout.update client
         end
+        @events.on :expose do |window|
+          log "Exposing window: #{window}"
+          layout.expose window
+        end
       end
 
       def register_keybinds_hooks

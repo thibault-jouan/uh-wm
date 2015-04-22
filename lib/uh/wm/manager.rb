@@ -120,6 +120,10 @@ module Uh
         destroy event.window
       end
 
+      def handle_expose event
+        @events.emit :expose, args: event.window
+      end
+
       def handle_map_request event
         map event.window
       end
