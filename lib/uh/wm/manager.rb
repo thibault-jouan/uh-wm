@@ -78,6 +78,12 @@ module Uh
         @events.emit :unmanage, args: client
       end
 
+      def update_properties window
+        return unless client = client_for(window)
+        client.update_window_properties
+        @events.emit :change, args: client
+      end
+
       def handle_next_event
         handle @display.next_event
       end

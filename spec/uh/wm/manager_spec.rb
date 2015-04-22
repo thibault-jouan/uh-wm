@@ -248,6 +248,30 @@ module Uh
         end
       end
 
+      describe '#update_properties' do
+        context 'with known window' do
+          before { manager.clients << client }
+
+          it 'tells the client to update its window properties' do
+            expect(client).to receive :update_window_properties
+            manager.update_properties window
+          end
+
+          it 'emits :change event with the client' do
+            events.on :change, &block
+            expect(block).to receive(:call).with client
+            manager.update_properties window
+          end
+        end
+
+        context 'with unknown window' do
+          it 'does not emit any event' do
+            expect(events).not_to receive :emit
+            manager.update_properties window
+          end
+        end
+      end
+
       describe '#handle_next_event' do
         it 'handles the next available event on display' do
           event = double 'event'
