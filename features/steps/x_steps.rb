@@ -9,6 +9,10 @@ When /^I press the ([^ ]+) keys?$/ do |keys|
   x_key keys
 end
 
+When /^I press the ([^ ]+) keys? (\d+) times$/ do |keys, times|
+  times.to_i.times { x_key keys }
+end
+
 When /^a window requests to be mapped$/ do
   x_client.map.sync
 end

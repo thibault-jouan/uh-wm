@@ -29,19 +29,21 @@ module Uh
           end
         end
 
-        def uhwm_wait_output message
+        def uhwm_wait_output message, times = 1, value = nil
           output = -> { @process.stdout + @process.stderr }
           timeout_until do
             case message
-              when Regexp then output.call =~ message
-              when String then output.call.include? message
+            #when Regexp then output.call.scan(message).size >= times
+            when Regexp then (value = output.call.scan(message)).size >= times
+            when String then output.call.include? message
             end
           end
+          value
         rescue TimeoutError => e
-          fail [
-            "expected `#{message}' not seen after #{e.timeout} seconds in:",
-            "  ```\n#{output.call.lines.map { |e| "  #{e}" }.join}  ```"
-          ].join "\n"
+          fail <<-eoh
+expected `#{message}' (#{times}) not seen after #{e.timeout} seconds in:
+  ```\n#{output.call.lines.map { |e| "  #{e}" }.join}  ```
+          eoh
         end
 
         def uhwm_wait_ready

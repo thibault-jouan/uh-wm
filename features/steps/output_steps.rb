@@ -27,6 +27,17 @@ Then /^the output must not match \/([^\/]+)\/([a-z]*)$/ do |pattern, options|
   expect(all_output).not_to match Regexp.new(pattern, options)
 end
 
+Then /^the output must match \/([^\/]+)\/([a-z]*) at least (\d+) times$/ do
+    |pattern, options, times|
+  uhwm_wait_output Regexp.new(pattern, options), times.to_i
+end
+
+Then /^the output must match \/([^\/]+)\/([a-z]*) exactly (\d+) times$/ do
+    |pattern, options, times|
+  scans = uhwm_wait_output Regexp.new(pattern, options)
+  expect(scans.size).to eq times.to_i
+end
+
 Then /^the output must contain:$/ do |content|
   uhwm_wait_output content.to_s
 end
