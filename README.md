@@ -18,7 +18,7 @@ specific methods.
 
   * Xinerama support;
   * Multiple event handling strategy: blocking or multiplexing
-    (`select()`);
+    with `select()`;
   * Configuration with a run control file (ruby DSL);
   * Key bindings with user defined code as callback;
   * Configurable modifier key;
