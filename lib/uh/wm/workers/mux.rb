@@ -8,7 +8,7 @@ module Uh
         end
 
         def work_events
-          @before_wait.call if @before_wait
+          @before_watch.call if @before_watch
           if res = select(@ios, [], [], @timeout) then @on_read.call res
           else @on_timeout.call if @on_timeout end
         end

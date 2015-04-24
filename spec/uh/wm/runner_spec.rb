@@ -150,6 +150,11 @@ module Uh
           expect(runner.worker).to respond_to :work_events
         end
 
+        it 'setups the before_watch callback' do
+          expect(runner.manager).to receive :handle_pending_events
+          runner.worker.before_watch.call
+        end
+
         it 'setups the read callback' do
           expect(runner.manager).to receive :handle_pending_events
           runner.worker.on_read.call

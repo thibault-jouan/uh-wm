@@ -58,6 +58,9 @@ module Uh
 
       def worker
         @worker ||= Workers.build(*(@env.worker)).tap do |w|
+          w.before_watch do
+            @manager.handle_pending_events
+          end
           w.on_read do
             @manager.handle_pending_events
           end

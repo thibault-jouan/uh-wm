@@ -2,7 +2,7 @@ module Uh
   module WM
     module Workers
       class Base
-        CALLBACKS = %w[before_wait on_timeout on_read on_read_next].freeze
+        CALLBACKS = %w[before_watch on_timeout on_read on_read_next].freeze
 
         def initialize **options
           @ios = []
