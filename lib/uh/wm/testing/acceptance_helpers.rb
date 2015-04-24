@@ -33,7 +33,6 @@ module Uh
           output = -> { @process.stdout + @process.stderr }
           timeout_until do
             case message
-            #when Regexp then output.call.scan(message).size >= times
             when Regexp then (value = output.call.scan(message)).size >= times
             when String then output.call.include? message
             end
