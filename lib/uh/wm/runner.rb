@@ -51,22 +51,14 @@ module Uh
 
       def connect_manager
         manager.connect
-        @env.keybinds.each do |keysym, _|
-          manager.grab_key *keysym
-        end
+        @env.keybinds.each { |keysym, _| manager.grab_key *keysym }
       end
 
       def worker
         @worker ||= Workers.build(*(@env.worker)).tap do |w|
-          w.before_watch do
-            @manager.handle_pending_events
-          end
-          w.on_read do
-            @manager.handle_pending_events
-          end
-          w.on_read_next do
-            @manager.handle_next_event
-          end
+          w.before_watch  { @manager.handle_pending_events }
+          w.on_read       { @manager.handle_pending_events }
+          w.on_read_next  { @manager.handle_next_event }
           w.on_timeout do |*args|
             log_debug "Worker timeout: #{args.inspect}"
             log_debug 'Flushing X output buffer'

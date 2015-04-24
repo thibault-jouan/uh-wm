@@ -147,9 +147,7 @@ expected `#{message}' (#{times}) not seen after #{e.timeout} seconds in:
           end
 
           def window
-            @window ||= @display.create_window(@geo).tap do |o|
-              o.name = @name
-            end
+            @window ||= @display.create_window(@geo).tap { |o| o.name = @name }
           end
 
           def window_id
