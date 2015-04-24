@@ -150,17 +150,17 @@ module Uh
           expect(runner.worker).to respond_to :work_events
         end
 
-        it 'setups the read callback to tell manager to handle pending events' do
+        it 'setups the read callback' do
           expect(runner.manager).to receive :handle_pending_events
           runner.worker.on_read.call
         end
 
-        it 'setups the read_next callback to tell manager to handle next event' do
+        it 'setups the read_next callback' do
           expect(runner.manager).to receive :handle_next_event
           runner.worker.on_read_next.call
         end
 
-        it 'setups the timeout callback to tell manager to flush the output' do
+        it 'setups the timeout callback' do
           expect(runner.manager).to receive :flush
           runner.worker.on_timeout.call
         end
