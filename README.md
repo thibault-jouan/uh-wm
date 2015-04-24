@@ -1,34 +1,34 @@
 uh-wm
 =====
 
+[![Version      ][badge-version-img]][badge-version-uri]
+[![Build status ][badge-build-img]][badge-build-uri]
+[![Code Climate ][badge-cclimate-img]][badge-cclimate-uri]
+
+
   uh-wm is a minimalistic tiling and stacking window manager for X. It
 shares some similarities with dwm and wmii, but is written in ruby so
 you can configure and extend features with ruby code.
 
   The layout strategy is interchangeable, the default one being the
-`uh-layout` ruby gem. A layout is a simple object obeying a defined
-protocol.
+`uh-layout` ruby gem. A layout is a simple ruby object responding to
+specific methods.
 
-  Features:
+  Main features:
 
   * Xinerama support;
   * Multiple event handling strategy: blocking or multiplexing
     (`select()`);
-  * Configuration with a run control file;
+  * Configuration with a run control file (ruby DSL);
   * Key bindings with user defined code as callback;
   * Configurable modifier key;
-  * Support user-defined layout strategy;
-  * Program execution via key binding.
+  * Support user-defined layout strategies;
+  * Program execution;
 
-  * No re-parenting (so no window decoration either);
-  * No grabbing of the modifier key;
+  * No re-parenting (therefore, no window decoration either);
+  * No grabbing of the modifier key alone;
   * No mouse handling;
   * Very limited ICCCM support.
-
-
-[![Version      ][badge-version-img]][badge-version-uri]
-[![Build status ][badge-build-img]][badge-build-uri]
-[![Code Climate ][badge-cclimate-img]][badge-cclimate-uri]
 
 
 Getting started
