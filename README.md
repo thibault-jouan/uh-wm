@@ -24,7 +24,6 @@ specific methods.
   * Configurable modifier key;
   * Support user-defined layout strategies;
   * Program execution;
-
   * No re-parenting (therefore, no window decoration either);
   * No grabbing of the modifier key alone;
   * No mouse handling;
