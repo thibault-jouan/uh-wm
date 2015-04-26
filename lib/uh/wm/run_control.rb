@@ -32,6 +32,18 @@ module Uh
         @env.keybinds[translate_keysym *keysyms] = block
       end
 
+      def layout arg, **options
+        if arg.is_a? Class
+          if options.any?
+            @env.layout = arg.new options
+          else
+            @env.layout_class = arg
+          end
+        else
+          @env.layout = arg
+        end
+      end
+
       def worker type, **options
         @env.worker = [type, options]
       end

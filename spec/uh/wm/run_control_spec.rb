@@ -85,6 +85,31 @@ module Uh
         end
       end
 
+      describe '#layout' do
+        context 'when given a class' do
+          let(:layout_class) { Class.new }
+
+          it 'sets a layout class in the env' do
+            rc.layout layout_class
+            expect(env.layout_class).to be layout_class
+          end
+
+          context 'when given options' do
+            it 'instantiates the class with given options' do
+              expect(layout_class).to receive(:new).with(foo: :bar)
+              rc.layout layout_class, foo: :bar
+            end
+          end
+        end
+
+        context 'when given an object' do
+          it 'sets a layout instance in the env' do
+            rc.layout layout = Object.new
+            expect(env.layout).to eq layout
+          end
+        end
+      end
+
       describe '#worker' do
         it 'sets the worker type in the env' do
           rc.worker :some_worker
