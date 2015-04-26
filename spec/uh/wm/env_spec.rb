@@ -70,19 +70,27 @@ module Uh
       end
 
       describe '#layout' do
-        context 'when a layout class is set' do
-          let(:some_layout) { Class.new }
+        let(:some_layout_class) { Class.new }
 
-          before { env.layout_class = some_layout }
+        it 'returns the default layout' do
+          expect(env.layout).to be_an_instance_of ::Uh::Layout
+        end
 
-          it 'returns a new instance of this layout class' do
-            expect(env.layout).to be_an_instance_of some_layout
+        context 'when a layout is set' do
+          let(:some_layout) { some_layout_class.new }
+
+          before { env.layout = some_layout }
+
+          it 'returns the assigned layout' do
+            expect(env.layout).to be some_layout
           end
         end
 
-        context 'when a layout class is not set' do
-          it 'returns an instance of the default layout' do
-            expect(env.layout).to be_an_instance_of ::Uh::Layout
+        context 'when a layout class is set' do
+          before { env.layout_class = some_layout_class }
+
+          it 'returns a new instance of this layout class' do
+            expect(env.layout).to be_an_instance_of some_layout_class
           end
         end
       end

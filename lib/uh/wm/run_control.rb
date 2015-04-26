@@ -32,6 +32,14 @@ module Uh
         @env.keybinds[translate_keysym *keysyms] = block
       end
 
+      def layout obj
+        if obj.is_a? Class
+          @env.layout_class = obj
+        else
+          @env.layout = obj
+        end
+      end
+
       def worker type, **options
         @env.worker = [type, options]
       end
