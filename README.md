@@ -12,7 +12,7 @@ you can configure and extend features directly with ruby code.
 
   The layout strategy is interchangeable, the default one being the
 `uh-layout` ruby gem. A layout is a simple ruby object responding to
-specific methods.
+specific messages.
 
   Main features:
 
