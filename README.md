@@ -8,7 +8,7 @@ uh-wm
 
   uh-wm is a minimalistic tiling and stacking window manager for X. It
 shares some similarities with dwm and wmii, but is written in ruby so
-you can configure and extend features with ruby code.
+you can configure and extend features directly with ruby code.
 
   The layout strategy is interchangeable, the default one being the
 `uh-layout` ruby gem. A layout is a simple ruby object responding to
