@@ -17,17 +17,17 @@ specific methods.
   Main features:
 
   * Xinerama support;
-  * Multiple event handling strategy: blocking or multiplexing
+  * multiple event handling strategy: blocking or multiplexing
     with `select()`;
-  * Configuration with a run control file (ruby DSL);
-  * Key bindings with user defined code as callback;
-  * Configurable modifier key;
-  * Support user-defined layout strategies;
-  * Program execution;
-  * No re-parenting (therefore, no window decoration either);
-  * No grabbing of the modifier key alone;
-  * No mouse handling;
-  * Very limited ICCCM support.
+  * configuration with a run control file (ruby DSL);
+  * key bindings with user defined code as callback;
+  * configurable modifier key;
+  * support user-defined layout strategies;
+  * program execution;
+  * no re-parenting (therefore, no window decoration either);
+  * no grabbing of the modifier key alone;
+  * no mouse handling;
+  * very limited ICCCM support.
 
 
 Getting started
