@@ -4,12 +4,14 @@ Feature: layout CLI option
     Given a file named layout.rb with:
       """
       class MyLayout
-        def register _; end
+        def register *_
+          puts 'testing_cli_layout'
+        end
       end
       """
-    When I run uhwm with option -v -r./layout -l MyLayout
-    Then the output must match /layout.+mylayout/i
+    When I run uhwm with options -r./layout -l MyLayout
+    Then the output must contain "testing_cli_layout"
 
   Scenario: resolves layout class from the root namespace
-    When I run uhwm with option -v -l Layout
+    When I run uhwm with option -l Layout
     Then the output must contain "uninitialized constant Layout"
