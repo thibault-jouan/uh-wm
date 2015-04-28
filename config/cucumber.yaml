@@ -1,1 +1,2 @@
-default: --require features/support --require features/steps
+default: --require features/support --require features/steps --no-source
+quiet: --format progress
