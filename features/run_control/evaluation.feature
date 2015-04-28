@@ -4,7 +4,7 @@ Feature: run control file evaluation
     Given a run control file with:
       """
       'no error on first line'
-      fail 'fails on second line'
+      fail 'testing_rc_failure'
       """
     When I start uhwm
-    Then the output must match /\.uhwmrc\.rb:2:.+fails on second line/
+    Then the output must match /\.uhwmrc\.rb:2:.+testing_rc_failure/
