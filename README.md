@@ -27,6 +27,7 @@ specific messages.
   * no re-parenting (therefore, no window decoration either);
   * no grabbing of the modifier key alone;
   * no mouse handling;
+  * no EWMH support;
   * very limited ICCCM support.
 
 
