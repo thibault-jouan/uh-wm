@@ -17,11 +17,12 @@ module Factories
       modifier_mask:  modifier_mask
   end
 
-  def mock_window override_redirect: false
+  def mock_window override_redirect: false, icccm_wm_protocols: []
     instance_spy Uh::Window, 'window',
       to_s:               'wid',
       name:               'wname',
       wclass:             'wclass',
-      override_redirect?: override_redirect
+      override_redirect?: override_redirect,
+      icccm_wm_protocols: icccm_wm_protocols
   end
 end
