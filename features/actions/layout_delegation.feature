@@ -13,7 +13,7 @@ Feature: `layout_*' action keywords
       """
     And a run control file with:
       """
-      key(:f) { puts "CALL!"; layout_some_action 'with_arg' }
+      key(:f) { layout_some_action 'with_arg' }
       """
     And uhwm is running with options -v -r./layout.rb -l Layout
     When I press the alt+f keys
