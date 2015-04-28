@@ -5,11 +5,11 @@ Feature: `layout' run control keyword
       """
       class MyLayout
         def initialize **options
-          puts "testing_rc_layout_#{options.inspect}" if options.any?
+          @options = options
         end
 
-        def register *_, **options
-          puts "testing_rc_layout_register"
+        def register *_
+          puts "testing_rc_layout_#{@options.inspect}"
         end
       end
       """
@@ -20,7 +20,7 @@ Feature: `layout' run control keyword
       layout MyLayout
       """
     When I run uhwm with options -r./my_layout
-    Then the output must contain "testing_rc_layout_register"
+    Then the output must contain "testing_rc_layout_{}"
 
   Scenario: configures a layout class with options
     Given a run control file with:
@@ -36,4 +36,4 @@ Feature: `layout' run control keyword
       layout MyLayout.new
       """
     When I run uhwm with options -r./my_layout
-    Then the output must contain "testing_rc_layout_register"
+    Then the output must contain "testing_rc_layout_{}"
