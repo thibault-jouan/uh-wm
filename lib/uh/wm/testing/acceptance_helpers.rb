@@ -89,15 +89,6 @@ expected `#{message}' (#{times}) not seen after #{e.timeout} seconds in:
           fail "cannot simulate X key `#{k}'" unless system "xdotool key #{k}"
         end
 
-        def x_socket_check pid
-          case RbConfig::CONFIG['host_os']
-          when /linux/
-            `netstat -xp 2> /dev/null`.lines.grep /\s+#{pid}\/ruby/
-          else
-            `sockstat -u`.lines.grep /\s+ruby.+\s+#{pid}/
-          end.any?
-        end
-
         def x_window_map_state window_id
           `xwininfo -id #{window_id}`[/Map State: (\w+)/, 1]
         end

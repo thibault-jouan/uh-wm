@@ -36,11 +36,6 @@ When /^the window name changes to "([^"]+)"$/ do |name|
   x_client.window_name = name
 end
 
-Then /^it must connect to X display$/ do
-  uhwm_wait_ready
-  expect(x_socket_check uhwm.pid).to be true
-end
-
 Then /^the(?:\s(\w+))? window must be mapped$/ do |ident|
   timeout_until 'window not mapped after %d seconds' do
     x_window_map_state(x_client(ident).window_id) == 'IsViewable'
