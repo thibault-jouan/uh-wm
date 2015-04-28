@@ -24,6 +24,13 @@ module Uh
         end
       end
 
+      describe '#log_separator' do
+        it 'logs a separator' do
+          expect(env).to receive(:log).with /(?:- ){20,}/
+          actions.log_separator
+        end
+      end
+
       describe '#layout_*' do
         it 'delegates messages to the layout with handle_ prefix' do
           expect(env.layout).to receive :handle_screen_sel

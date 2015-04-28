@@ -38,6 +38,10 @@ module Uh
         Process.waitpid pid
       end
 
+      def log_separator
+        log '- ' * 24
+      end
+
       def method_missing(m, *args, &block)
         if respond_to? m
           meth = layout_method m
