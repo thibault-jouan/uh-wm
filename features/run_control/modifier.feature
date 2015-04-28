@@ -1,10 +1,9 @@
 Feature: `modifier' run control keyword
 
   Scenario: configures the modifier key
-    Given a run control file with:
+    Given uhwm is running with this run control file:
       """
       modifier :ctrl
       """
-    And uhwm is running
     When I press the ctrl+shift+q keys
     Then uhwm must terminate successfully

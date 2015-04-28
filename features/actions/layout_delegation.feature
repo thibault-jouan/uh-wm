@@ -13,19 +13,17 @@ Feature: `layout_*' action keywords
       """
 
   Scenario: delegates messages matching `layout_*' to `layout_handle_*'
-    Given a run control file with:
+    Given uhwm is running with this run control file:
       """
       key(:f) { layout_some_action :testing_some_action }
       """
-    And uhwm is running
     When I press the alt+f keys
     Then the output must contain ":testing_some_action"
 
   Scenario: logs an error about unimplemented messages
-    Given a run control file with:
+    Given uhwm is running with this run control file:
       """
       key(:f) { layout_unknown_action }
       """
-    And uhwm is running
     When I press the alt+f keys
     Then the output must match /layout.+no.+implem.+handle_unknown_action/i
