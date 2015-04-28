@@ -1,6 +1,8 @@
 module Uh
   module WM
     class Client
+      include GeoAccessors
+
       attr_reader   :window
       attr_accessor :geo, :unmap_count
 
