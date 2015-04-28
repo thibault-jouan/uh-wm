@@ -1,24 +1,23 @@
 Feature: `layout_*' action keywords
 
-  Background:
+  Scenario: delegates messages matching `layout_*' to `layout_handle_*'
     Given a file named layout.rb with:
       """
       class Layout
         def register _; end
 
         def handle_some_action arg
-          puts arg
+          puts "testing_layout_action_#{arg}"
         end
       end
       """
-
-  Scenario: delegates messages matching `layout_*' to `layout_handle_*'
-    Given uhwm is running with this run control file:
+    And a run control file with:
       """
-      key(:f) { layout_some_action :testing_some_action }
+      key(:f) { puts "CALL!"; layout_some_action 'with_arg' }
       """
+    And uhwm is running with options -v -r./layout.rb -l Layout
     When I press the alt+f keys
-    Then the output must contain ":testing_some_action"
+    Then the output must contain "testing_layout_action_with_arg"
 
   Scenario: logs an error about unimplemented messages
     Given uhwm is running with this run control file:
