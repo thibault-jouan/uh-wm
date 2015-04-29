@@ -27,14 +27,6 @@ module Uh
           allow(described_class).to receive(:new) { rc }
           described_class.evaluate env
         end
-
-        context 'when run control file is not present' do
-          before { env.rc_path = 'non_existent_rc_file.rb' }
-
-          it 'does not raise any error' do
-            expect { described_class.evaluate env }.not_to raise_error
-          end
-        end
       end
 
       describe '#evaluate' do
