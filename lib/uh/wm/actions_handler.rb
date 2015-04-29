@@ -38,6 +38,10 @@ module Uh
         Process.waitpid pid
       end
 
+      def kill_current
+        layout.current_client.kill
+      end
+
       def log_separator
         log '- ' * 24
       end
