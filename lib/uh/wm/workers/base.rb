@@ -9,7 +9,7 @@ module Uh
         end
 
         def watch io
-          @ios << io
+          @ios << io.to_io
         end
 
         CALLBACKS.each do |m|

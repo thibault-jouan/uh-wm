@@ -172,6 +172,9 @@ module Uh
       end
 
       describe '#run_until' do
+        let(:manager)     { instance_spy Manager }
+        subject(:runner)  { described_class.new env, manager: manager }
+
         it 'tells the worker to watch the manager' do
           expect(runner.worker).to receive(:watch).with runner.manager
           runner.run_until { true }
