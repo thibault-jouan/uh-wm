@@ -8,6 +8,19 @@ module Uh
         QUIT_KEYBINDING = 'alt+shift+q'.freeze
         LOG_READY       = 'Working events'.freeze
 
+        def icccm_window_start
+          @icccm_window = ChildProcess.build(*%w[xmessage window])
+          @icccm_window.start
+        end
+
+        def icccm_window_ensure_stop
+          @icccm_window.stop
+        end
+
+        def icccm_window_name
+          'xmessage'
+        end
+
         def uhwm_run options = '-v'
           command = %w[uhwm]
           command << options if options
