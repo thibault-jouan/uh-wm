@@ -8,6 +8,19 @@ module Uh
         QUIT_KEYBINDING = 'alt+shift+q'.freeze
         LOG_READY       = 'Working events'.freeze
 
+        def icccm_window_start
+          @icccm_window = ChildProcess.build(*%w[xmessage window])
+          @icccm_window.start
+        end
+
+        def icccm_window_ensure_stop
+          @icccm_window.stop
+        end
+
+        def icccm_window_name
+          'xmessage'
+        end
+
         def uhwm_run options = '-v'
           command = %w[uhwm]
           command << options if options
@@ -89,8 +102,14 @@ expected `#{message}' (#{times}) not seen after #{e.timeout} seconds in:
           fail "cannot simulate X key `#{k}'" unless system "xdotool key #{k}"
         end
 
-        def x_window_map_state window_id
-          `xwininfo -id #{window_id}`[/Map State: (\w+)/, 1]
+        def x_window_map_state window_selector
+          select_args = case window_selector
+            when Integer  then "-id #{window_selector}"
+            when String   then "-name #{window_selector}"
+            else fail ArgumentError,
+              "not an Integer nor a String: `#{window_selector.inspect}'"
+          end
+          `xwininfo #{select_args} 2> /dev/null`[/Map State: (\w+)/, 1]
         end
 
 

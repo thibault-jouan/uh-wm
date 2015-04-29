@@ -28,6 +28,10 @@ Around '@other_wm_running' do |_, block|
   with_other_wm { block.call }
 end
 
+After '@icccm_window' do
+  icccm_window_ensure_stop
+end
+
 if ENV.key? 'TRAVIS'
   ENV['UHWMTEST_TIMEOUT'] = 8.to_s
 end

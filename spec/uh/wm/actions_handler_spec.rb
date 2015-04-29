@@ -24,6 +24,21 @@ module Uh
         end
       end
 
+      describe '#kill_current' do
+        let(:client) { instance_spy Client }
+
+        context 'when layout has a client' do
+          before do
+            allow(actions.layout).to receive(:current_client) { client }
+          end
+
+          it 'kills layout current client' do
+            expect(client).to receive :kill
+            actions.kill_current
+          end
+        end
+      end
+
       describe '#log_separator' do
         it 'logs a separator' do
           expect(env).to receive(:log).with /(?:- ){20,}/

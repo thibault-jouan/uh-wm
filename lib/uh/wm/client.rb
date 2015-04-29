@@ -66,6 +66,20 @@ module Uh
         @window.focus
         self
       end
+
+      def kill
+        if @window.icccm_wm_protocols.include? :WM_DELETE_WINDOW
+          @window.icccm_wm_delete
+        else
+          @window.kill
+        end
+        self
+      end
+
+      def kill!
+        window.kill
+        self
+      end
     end
   end
 end

@@ -1,7 +1,8 @@
 module Uh
   module WM
     RSpec.describe Client do
-      let(:window)      { mock_window }
+      let(:protocols)   { [] }
+      let(:window)      { mock_window icccm_wm_protocols: protocols }
       let(:geo)         { build_geo }
       subject(:client)  { described_class.new window, geo }
 
@@ -141,6 +142,37 @@ module Uh
 
         it 'returns self' do
           expect(client.focus).to be client
+        end
+      end
+
+      describe '#kill' do
+        it 'kills the window' do
+          expect(window).to receive :kill
+          client.kill
+        end
+
+        it 'returns self' do
+          expect(client.kill).to be client
+        end
+
+        context 'when window supports icccm wm delete' do
+          let(:protocols) { [:WM_DELETE_WINDOW] }
+
+          it 'icccm deletes the window' do
+            expect(window).to receive :icccm_wm_delete
+            client.kill
+          end
+        end
+      end
+
+      describe '#kill!' do
+        it 'kills the window' do
+          expect(window).to receive :kill
+          client.kill!
+        end
+
+        it 'returns self' do
+          expect(client.kill!).to be client
         end
       end
     end

@@ -1,3 +1,10 @@
+Given /^an ICCCM compliant window is mapped$/ do
+  icccm_window_start
+  timeout_until 'window not mapped after %d seconds' do
+    x_window_map_state(icccm_window_name) == 'IsViewable'
+  end
+end
+
 Given /^a(?:\s(\w+))? window is mapped$/ do |ident|
   x_client(ident).map.sync
   timeout_until 'window not mapped after %d seconds' do
@@ -40,6 +47,10 @@ Then /^the(?:\s(\w+))? window must be mapped$/ do |ident|
   timeout_until 'window not mapped after %d seconds' do
     x_window_map_state(x_client(ident).window_id) == 'IsViewable'
   end
+end
+
+Then /^the ICCCM window must be unmapped by the manager$/ do
+  uhwm_wait_output /unmanag.+#{icccm_window_name}/i
 end
 
 Then /^the window must be focused$/ do
