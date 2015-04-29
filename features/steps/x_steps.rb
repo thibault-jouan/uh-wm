@@ -20,6 +20,10 @@ When /^I press the ([^ ]+) keys? (\d+) times$/ do |keys, times|
   times.to_i.times { x_key keys }
 end
 
+When /^I quickly press the ([^ ]+) keys? (\d+) times$/ do |keys, times|
+  x_key [keys] * times.to_i, delay: 0
+end
+
 When /^a window requests to be mapped$/ do
   x_client.map.sync
 end
