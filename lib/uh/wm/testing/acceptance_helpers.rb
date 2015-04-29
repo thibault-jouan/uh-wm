@@ -98,7 +98,8 @@ expected `#{message}' (#{times}) not seen after #{e.timeout} seconds in:
             .grep /Mask\z/
         end
 
-        def x_key k
+        def x_key *k, delay: 12
+          k = k.join " key --delay #{delay} "
           fail "cannot simulate X key `#{k}'" unless system "xdotool key #{k}"
         end
 
