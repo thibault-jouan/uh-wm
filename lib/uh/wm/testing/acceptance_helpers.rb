@@ -89,8 +89,14 @@ expected `#{message}' (#{times}) not seen after #{e.timeout} seconds in:
           fail "cannot simulate X key `#{k}'" unless system "xdotool key #{k}"
         end
 
-        def x_window_map_state window_id
-          `xwininfo -id #{window_id}`[/Map State: (\w+)/, 1]
+        def x_window_map_state window_selector
+          select_args = case window_selector
+            when Integer  then "-id #{window_selector}"
+            when String   then "-name #{window_selector}"
+            else fail ArgumentError,
+              "not an Integer nor a String: `#{window_selector.inspect}'"
+          end
+          `xwininfo #{select_args}`[/Map State: (\w+)/, 1]
         end
 
 
