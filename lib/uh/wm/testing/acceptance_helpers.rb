@@ -109,7 +109,7 @@ expected `#{message}' (#{times}) not seen after #{e.timeout} seconds in:
             else fail ArgumentError,
               "not an Integer nor a String: `#{window_selector.inspect}'"
           end
-          `xwininfo #{select_args}`[/Map State: (\w+)/, 1]
+          `xwininfo #{select_args} 2> /dev/null`[/Map State: (\w+)/, 1]
         end
 
 
