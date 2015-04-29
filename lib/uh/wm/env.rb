@@ -16,6 +16,7 @@ module Uh
 
       extend Forwardable
       def_delegator   :logger, :info,   :log
+      def_delegator   :logger, :fatal,  :log_fatal
       def_delegator   :logger, :error,  :log_error
       def_delegator   :logger, :debug,  :log_debug
       def_delegators  :@output, :print, :puts

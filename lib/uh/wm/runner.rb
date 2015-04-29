@@ -94,7 +94,13 @@ module Uh
         end
         @events.on(:disconnected) { log "Disconnected from X server" }
         @events.on(:xevent) { |event| XEventLogger.new(env).log_event event }
-        @events.on(:xerror) { |*error| XEventLogger.new(env).log_xerror *error }
+        @events.on(:xerror) do |*error|
+          if error.none?
+            log_fatal 'Fatal X IO Error received'
+          else
+            XEventLogger.new(env).log_xerror *error
+          end
+        end
       end
 
       def register_layout_hooks
