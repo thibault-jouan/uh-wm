@@ -2,7 +2,9 @@ module Uh
   module WM
     module Workers
       class Mux < Base
-        def initialize timeout: 1
+        TIMEOUT_DEFAULT = 1
+
+        def initialize timeout: TIMEOUT_DEFAULT
           super
           @timeout = timeout
         end
