@@ -8,6 +8,7 @@ before_install:
   - travis_retry sudo apt-get update -qq
   - travis_retry sudo apt-get install -qq twm x11-utils xdotool
 matrix:
+  fast_finish: true
   allow_failures:
     - rvm: ruby-head
 notifications:
