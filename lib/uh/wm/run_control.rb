@@ -50,6 +50,10 @@ module Uh
         @env.worker = [type, options]
       end
 
+      def rule selectors = '', &block
+        [*selectors].each { |selector| @env.rules[/\A#{selector}/i] = block }
+      end
+
 
       private
 

@@ -23,7 +23,7 @@ module Uh
 
       attr_reader   :output, :keybinds
       attr_accessor :verbose, :debug, :rc_path, :modifier, :worker,
-                    :layout, :layout_class
+                    :layout, :layout_class, :rules
 
       def initialize output
         @output   = output
@@ -31,6 +31,7 @@ module Uh
         @modifier = MODIFIER
         @keybinds = KEYBINDS.dup
         @worker   = :block
+        @rules    = {}
       end
 
       def verbose?

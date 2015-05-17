@@ -127,6 +127,17 @@ module Uh
             runner.events.emit :key, :f
           end
         end
+
+        context 'rules hooks' do
+          let(:client) { double 'client', wclass: 'some_client_class' }
+
+          it 'registers rule code evaluation with the actions handler' do
+            env.rules[/#{client.wclass}/] = code = proc { }
+            runner.register_event_hooks
+            expect(runner.actions).to receive(:evaluate).with code
+            runner.events.emit :manage, args: client
+          end
+        end
       end
 
       describe '#connect_manager' do

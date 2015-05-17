@@ -44,7 +44,7 @@ module Uh
       end
 
       def register_event_hooks
-        %w[runner manager layout keybinds]
+        %w[runner manager layout keybinds rules]
           .map  { |e| "register_#{e}_hooks".to_sym }
           .each { |e| send e }
       end
@@ -133,6 +133,14 @@ module Uh
       def register_keybinds_hooks
         @env.keybinds.each do |keysym, code|
           @events.on(:key, *keysym) { @actions.evaluate code }
+        end
+      end
+
+      def register_rules_hooks
+        @events.on :manage do |client|
+          @env.rules.each do |selector, code|
+            @actions.evaluate code if client.wclass =~ selector
+          end
         end
       end
 

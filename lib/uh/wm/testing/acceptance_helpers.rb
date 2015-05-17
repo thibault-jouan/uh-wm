@@ -174,6 +174,10 @@ expected `#{message}' (#{times}) not seen after #{e.timeout} seconds in:
             window.name
           end
 
+          def window_class= wclass
+            window.wclass = [wclass] * 2
+          end
+
           def map times: 1
             times.times { window.map }
             window.map

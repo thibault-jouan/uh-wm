@@ -32,6 +32,11 @@ When /^a window requests to be mapped (\d+) times$/ do |times|
   x_client.map times: times.to_i
 end
 
+When /^a window with class "([^"]+)" requests to be mapped$/ do |wclass|
+  x_client.window_class = wclass
+  x_client.map.sync
+end
+
 When /^the(?:\s(\w+))? window is unmapped$/ do |ident|
   x_client(ident).unmap.sync
   timeout_until 'window not unmapped after %d seconds' do

@@ -113,6 +113,15 @@ module Uh
           expect(env.worker[1]).to eq({ some: :option })
         end
       end
+
+      describe '#rule' do
+        let(:code) { -> { :rule_code } }
+
+        it 'registers a rule in the env' do
+          rc.rule 'some_client_class', &code
+          expect(env.rules[/\Asome_client_class/i].call).to eq :rule_code
+        end
+      end
     end
   end
 end

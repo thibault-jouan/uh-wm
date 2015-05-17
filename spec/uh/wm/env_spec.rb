@@ -33,6 +33,10 @@ module Uh
         expect(env.worker).to eq :block
       end
 
+      it 'has no rules' do
+        expect(env.rules).to be_empty
+      end
+
       describe '#verbose?' do
         context 'when verbose mode is disabled' do
           before { env.verbose = false }
