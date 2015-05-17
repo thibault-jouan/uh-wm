@@ -170,7 +170,7 @@ expected `#{message}' (#{times}) not seen after #{e.timeout} seconds in:
           end
 
           def window_name= name
-            @name = @window.name = name
+            @name = window.name = name
             window.name
           end
 
