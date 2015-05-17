@@ -21,9 +21,10 @@ require 'uh/wm/workers/mux'
 
 module Uh
   module WM
-    Error               = Class.new(StandardError)
-    RuntimeError        = Class.new(RuntimeError)
-    ArgumentError       = Class.new(Error)
+    Error                     = Class.new(StandardError)
+    RuntimeError              = Class.new(RuntimeError)
+    ArgumentError             = Class.new(Error)
+    RunControlEvaluationError = Class.new(RuntimeError)
 
     class OtherWMRunningError < RuntimeError
       def message

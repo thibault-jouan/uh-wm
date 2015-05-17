@@ -22,6 +22,8 @@ module Uh
 
       def evaluate code, path
         instance_eval code, path
+      rescue ::StandardError, ::ScriptError => e
+        raise RunControlEvaluationError, e.message, e.backtrace
       end
 
       def modifier mod
