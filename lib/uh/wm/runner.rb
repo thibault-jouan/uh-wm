@@ -74,7 +74,7 @@ module Uh
       end
 
       def terminate
-        log "Terminating..."
+        log 'Terminating...'
         manager.disconnect
       end
 
@@ -92,7 +92,7 @@ module Uh
         @events.on :connected do |display|
           log "Connected to X server on `#{display}'"
         end
-        @events.on(:disconnected) { log "Disconnected from X server" }
+        @events.on(:disconnected) { log 'Disconnected from X server' }
         @events.on(:xevent) { |event| XEventLogger.new(env).log_event event }
         @events.on(:xerror) do |*error|
           if error.none?

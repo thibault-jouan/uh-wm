@@ -52,7 +52,7 @@ module Uh
           end
           value
         rescue TimeoutError => e
-          fail <<-eoh
+          raise <<-eoh
 expected `#{message}' (#{times}) not seen after #{e.timeout} seconds in:
   ```\n#{output.call.lines.map { |e| "  #{e}" }.join}  ```
           eoh
@@ -127,7 +127,7 @@ expected `#{message}' (#{times}) not seen after #{e.timeout} seconds in:
             end
           end
         rescue Timeout::Error
-          fail TimeoutError.new(message % timeout, timeout)
+          raise TimeoutError.new(message % timeout, timeout)
         end
 
 
@@ -146,7 +146,7 @@ expected `#{message}' (#{times}) not seen after #{e.timeout} seconds in:
           def initialize name = object_id
             @name     = "#{self.class.name.split('::').last}/#{name}"
             @geo      = Geo.new(0, 0, 640, 480)
-            @display  = Display.new.tap { |o| o.open }
+            @display  = Display.new.tap &:open
           end
 
           def terminate

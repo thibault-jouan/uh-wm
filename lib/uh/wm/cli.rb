@@ -35,7 +35,7 @@ module Uh
       def parse_arguments!
         option_parser.parse! @arguments
       rescue OptionParser::InvalidOption => e
-        fail ArgumentError, option_parser
+        raise ArgumentError, option_parser
       end
 
       def run
