@@ -39,6 +39,7 @@ module Uh
       end
 
       def kill_current
+        return unless layout.current_client
         layout.current_client.kill
       end
 
