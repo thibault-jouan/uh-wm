@@ -23,7 +23,7 @@ module Uh
 
       attr_reader   :output, :keybinds
       attr_accessor :verbose, :debug, :rc_path, :modifier, :worker,
-                    :layout, :layout_class, :rules
+                    :layout, :layout_class, :rules, :launch
 
       def initialize output
         @output   = output

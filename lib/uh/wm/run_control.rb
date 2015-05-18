@@ -54,6 +54,10 @@ module Uh
         [*selectors].each { |selector| @env.rules[/\A#{selector}/i] = block }
       end
 
+      def launch &block
+        @env.launch = block
+      end
+
 
       private
 

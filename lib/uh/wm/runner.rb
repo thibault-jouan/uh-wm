@@ -17,7 +17,7 @@ module Uh
       extend Forwardable
       def_delegator :@env, :layout
 
-      attr_reader :env, :events, :actions
+      attr_reader :env, :events, :actions, :rules
 
       def initialize env, manager: nil, stopped: false
         @env      = env
@@ -25,6 +25,7 @@ module Uh
         @manager  = manager
         @actions  = ActionsHandler.new(@env, @events)
         @stopped  = stopped
+        @rules    = @env.rules
       end
 
       def stopped?
@@ -44,7 +45,7 @@ module Uh
       end
 
       def register_event_hooks
-        %w[runner manager layout keybinds rules]
+        %w[runner manager layout keybinds rules launcher]
           .map  { |e| "register_#{e}_hooks".to_sym }
           .each { |e| send e }
       end
@@ -138,9 +139,15 @@ module Uh
 
       def register_rules_hooks
         @events.on :manage do |client|
-          @env.rules.each do |selector, code|
+          @rules.each do |selector, code|
             @actions.evaluate code if client.wclass =~ selector
           end
+        end
+      end
+
+      def register_launcher_hooks
+        @events.on :connected do
+          Launcher.launch(self, @env.launch) if @env.launch
         end
       end
 

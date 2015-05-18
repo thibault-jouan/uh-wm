@@ -138,6 +138,17 @@ module Uh
             runner.events.emit :manage, args: client
           end
         end
+
+        context 'launcher hooks' do
+          let(:client) { double 'client', wclass: 'some_client_class' }
+
+          it 'registers launcher execution' do
+            env.launch = -> { :launch_code }
+            runner.register_event_hooks
+            expect(Launcher).to receive(:launch).with(runner, env.launch)
+            runner.events.emit :connected
+          end
+        end
       end
 
       describe '#connect_manager' do

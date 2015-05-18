@@ -37,6 +37,10 @@ module Uh
         expect(env.rules).to be_empty
       end
 
+      it 'has no launch code' do
+        expect(env.launch).to be nil
+      end
+
       describe '#verbose?' do
         context 'when verbose mode is disabled' do
           before { env.verbose = false }

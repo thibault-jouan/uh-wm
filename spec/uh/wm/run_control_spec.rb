@@ -122,6 +122,13 @@ module Uh
           expect(env.rules[/\Asome_client_class/i].call).to eq :rule_code
         end
       end
+
+      describe '#launch' do
+        it 'registers launch code in the env' do
+          rc.launch { :launch_code }
+          expect(env.launch.call).to eq :launch_code
+        end
+      end
     end
   end
 end
