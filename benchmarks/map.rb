@@ -7,19 +7,10 @@ include Uh::WM::Testing::AcceptanceHelpers
 
 n = 100
 
-def gets_nonblock io
-  buffer = ''
-  buffer << io.read_nonblock(1) while buffer[-1] != "\n"
-  buffer
-rescue IO::EAGAINWaitReadable
-  sleep 0.1
-  retry
-end
-
 Headless.ly do
   io = IO.popen(%w[uhwm -v -f /dev/null])
   loop do
-    break if gets_nonblock(io).include? 'Working events'
+    break if io.gets.include? 'Working events'
   end
 
   cl = XClient.new
