@@ -15,7 +15,7 @@ Headless.ly do
       loop { break if io.gets.include? 'Working events' }
     end
 
-    x.report 'maps/unmaps:' do
+    report = x.report 'maps/unmaps:' do
       n.times { cl.map.unmap }
       fail 'cannot quit uhwm' unless system 'xdotool key alt+shift+q'
       loop { break if io.gets.include? 'Quit requested' }
@@ -27,5 +27,11 @@ Headless.ly do
 
     cl.destroy.terminate
     puts io.read if ENV.key 'VERBOSE'
+
+    iter_time = report.real / n
+    puts "\nIPS: %.2f (%.0f ns)" % [
+      1 / iter_time,
+      iter_time * 1000 * 1000,
+    ]
   end
 end
