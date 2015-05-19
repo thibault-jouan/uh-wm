@@ -3,20 +3,16 @@ require 'headless'
 require 'uh/wm'
 require 'uh/wm/testing/x_client'
 
-include Uh::WM::Testing::AcceptanceHelpers
-
 n = 2 ** 16
 
 Headless.ly do
   Benchmark.bm 12 do |x|
     io = nil
-    cl = XClient.new
+    cl = Uh::WM::Testing::XClient.new
 
     x.report 'start:' do
       io = IO.popen(%w[uhwm -v -f /dev/null])
-      loop do
-        break if io.gets.include? 'Working events'
-      end
+      loop { break if io.gets.include? 'Working events' }
     end
 
     x.report 'maps/unmaps:' do
