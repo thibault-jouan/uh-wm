@@ -5,25 +5,31 @@ require 'uh/wm/testing/x_client'
 
 include Uh::WM::Testing::AcceptanceHelpers
 
-n = 100
+n = 2 ** 16
 
 Headless.ly do
-  io = IO.popen(%w[uhwm -v -f /dev/null])
-  loop do
-    break if io.gets.include? 'Working events'
-  end
+  Benchmark.bm 12 do |x|
+    io = nil
+    cl = XClient.new
 
-  cl = XClient.new
-  Benchmark.benchmark do |bm|
-    bm.report do
-      n.times do
-        cl.map.unmap
+    x.report 'start:' do
+      io = IO.popen(%w[uhwm -v -f /dev/null])
+      loop do
+        break if io.gets.include? 'Working events'
       end
     end
-  end
-  cl.destroy.terminate
 
-  fail 'cannot quit uhwm' unless system 'xdotool key alt+shift+q'
-  Process.wait(io.pid)
-  puts io.read
+    x.report 'maps/unmaps:' do
+      n.times { cl.map.unmap }
+      fail 'cannot quit uhwm' unless system 'xdotool key alt+shift+q'
+      loop { break if io.gets.include? 'Quit requested' }
+    end
+
+    x.report 'stop:' do
+      Process.wait(io.pid)
+    end
+
+    cl.destroy.terminate
+    puts io.read if ENV.key 'VERBOSE'
+  end
 end
