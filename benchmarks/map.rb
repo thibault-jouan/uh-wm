@@ -14,7 +14,7 @@ Headless.ly do
     cl  = Uh::WM::Testing::XClient.new
 
     x.report 'start:' do
-      io = IO.popen(%w[uhwm -v -f /dev/null])
+      io = IO.popen(%w[./bin/uhwm -v -f /dev/null])
       wait_output io, 'Working events'
     end
 
