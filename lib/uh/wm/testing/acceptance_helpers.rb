@@ -155,6 +155,7 @@ expected `#{message}' (#{times}) not seen after #{e.timeout} seconds in:
 
           def sync
             @display.sync false
+            self
           end
 
           def window
