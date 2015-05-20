@@ -1,4 +1,4 @@
-Feature: X errors logging
+Feature: manager X errors logging
 
   Scenario: logs error details
     Given a file named layout.rb with:

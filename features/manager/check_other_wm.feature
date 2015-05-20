@@ -1,4 +1,4 @@
-Feature: checking if another window manager is running
+Feature: manager check for other window manager running
 
   @other_wm_running
   Scenario: fails when another window manager is running
