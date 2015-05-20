@@ -15,6 +15,7 @@ Gem::Specification.new do |s|
   s.executable  = 'uhwm'
   s.extra_rdoc_files = %w[README.md]
 
+  s.add_dependency 'rb-kqueue', '~> 0.2.4'
   s.add_dependency 'uh',        '2.0.2'
   s.add_dependency 'uh-layout', '~> 0.4.0'
 

@@ -3,6 +3,7 @@ module Uh
     module Workers
       FACTORIES = {
         block:  ->(options) { Blocking.new(options) },
+        kqueue: ->(options) { KQueue.new(options) },
         mux:    ->(options) { Mux.new(options) }
       }.freeze
 
