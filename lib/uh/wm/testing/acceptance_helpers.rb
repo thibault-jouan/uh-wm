@@ -9,6 +9,16 @@ module Uh
         QUIT_KEYBINDING = 'alt+shift+q'.freeze
         LOG_READY       = 'Working events'.freeze
 
+        def build_regexp pattern, options
+          Regexp.new(pattern, options.each_char.inject(0) do |m, e|
+            m | case e
+            when ?i then Regexp::IGNORECASE
+            when ?m then Regexp::MULTILINE
+            when ?x then Regexp::EXTENDED
+            end
+          end)
+        end
+
         def icccm_window_start
           @icccm_window = ChildProcess.build(*%w[xmessage window])
           @icccm_window.start

@@ -20,21 +20,21 @@ Then /^the output must contain exactly the version$/ do
 end
 
 Then /^the output must match \/([^\/]+)\/([a-z]*)$/ do |pattern, options|
-  uhwm_wait_output Regexp.new(pattern, options)
+  uhwm_wait_output build_regexp(pattern, options)
 end
 
 Then /^the output must not match \/([^\/]+)\/([a-z]*)$/ do |pattern, options|
-  expect(all_output).not_to match Regexp.new(pattern, options)
+  expect(all_output).not_to match build_regexp(pattern, options)
 end
 
 Then /^the output must match \/([^\/]+)\/([a-z]*) at least (\d+) times$/ do
     |pattern, options, times|
-  uhwm_wait_output Regexp.new(pattern, options), times.to_i
+  uhwm_wait_output build_regexp(pattern, options), times.to_i
 end
 
 Then /^the output must match \/([^\/]+)\/([a-z]*) exactly (\d+) times$/ do
     |pattern, options, times|
-  scans = uhwm_wait_output Regexp.new(pattern, options)
+  scans = uhwm_wait_output build_regexp(pattern, options)
   expect(scans.size).to eq times.to_i
 end
 
