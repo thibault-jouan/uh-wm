@@ -81,7 +81,7 @@ module Uh
             exit
           end
           opts.on_tail '-V', '--version', 'print version' do
-            @env.puts VERSION
+            @env.puts WM::VERSION
             exit
           end
         end
