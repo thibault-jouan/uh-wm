@@ -1,6 +1,7 @@
 require 'forwardable'
 require 'logger'
 require 'optparse'
+require 'rb-kqueue'
 require 'uh'
 
 require 'uh/wm/env_logging'
@@ -19,6 +20,7 @@ require 'uh/wm/version'
 require 'uh/wm/workers'
 require 'uh/wm/workers/base'
 require 'uh/wm/workers/blocking'
+require 'uh/wm/workers/kqueue'
 require 'uh/wm/workers/mux'
 
 module Uh
