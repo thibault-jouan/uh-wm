@@ -106,6 +106,12 @@ module Uh
             expect(env.layout).to receive(:update).with :client
             runner.events.emit :change, args: :client
           end
+
+          it 'registers for :tick event' do
+            runner.register_event_hooks
+            expect(env.layout).to receive(:update)
+            runner.events.emit :tick
+          end
         end
 
         context 'keys hooks' do

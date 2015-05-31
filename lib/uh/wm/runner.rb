@@ -130,6 +130,7 @@ module Uh
           log "Exposing window: #{window}"
           layout.expose window
         end
+        @events.on(:tick) { layout.update }
       end
 
       def register_keybinds_hooks
