@@ -17,13 +17,13 @@ specific messages, so it's easy to write your own layout.
   Main features:
 
   * Xinerama support;
-  * multiple event handling strategy: blocking or multiplexing
-    with `select()`;
-  * configuration with a run control file (ruby DSL);
+  * different adapters for event handling: blocking, multiplexing
+    with `select()` or `kqueue()`;
+  * configuration with a run control file;
   * key bindings with user defined code as callback;
   * configurable modifier key;
   * support user-defined layout strategies;
-  * program execution;
+  * external program execution;
   * no re-parenting (therefore, no window decoration either);
   * no grabbing of the modifier key alone;
   * no mouse handling;
@@ -64,9 +64,9 @@ options:
 Configuration
 -------------
 
-  uhwm can be configured with a run control file, written in ruby. A
-simple example is provided below, more details will be available in
-the [`RunControl` class documentation][run_control_doc].
+  uhwm can be configured with a run control file written in ruby. A
+simple example is provided below, more details are available in the
+[`RunControl` class documentation][run_control_doc].
 
 ``` ruby
 DMENU     = 'dmenu_run -b'.freeze
@@ -77,8 +77,8 @@ BROWSERS  = %w[
 ].freeze
 
 
-modifier :mod1                # This key will be added to the modifier mask for
-                              # *all* key bindings.
+modifier :mod1                # This key is added to the modifier mask for *all*
+                              # key bindings.
 key(:p)     { execute DMENU } # Execute given command in a shell when mod1+shift
                               # is pressed.
 key(:Q)     { quit }          # Quit when mod1+shift+q is pressed (a capitalized
@@ -87,19 +87,19 @@ key(:enter) { execute VT }    # Common key names (`enter') are translated to
                               # their X equivalent (`return').
 
 rule BROWSERS do              # Move windows to the `www' view when their app
-  layout_view_set 'www'       # class matches either /\Aarora/, /\Achromium/… etc
+  layout_view_set 'www'       # class match either /\Aarora/, /\Achromium/… etc
 end
 
 launch do                         # Execute urxvt program twice, synchronously.
   execute! VT                     # `execute!' is a variant of `execute' which
-  execute! VT                     # will only return when a window is mapped.
+  execute! VT                     # return when a window is mapped.
   layout_client_column_set :succ  # Move last mapped window to next column.
 end
 ```
 
   Blocks given to `key`, `rule`, `launch` are executed in a special
 context providing access to methods named "actions", which are
-described in next section.
+described in the following section.
 
 [run_control_doc]: http://www.rubydoc.info/gems/uh-wm/Uh/WM/RunControl
 
@@ -108,10 +108,10 @@ Actions
 -------
 
   The actions DSL implements a few built-in messages, but also acts as
-a proxy to the layout. Any message prefixed with `layout_` will be
-forwarded to the layout, with the prefix stripped. That is, if
+a proxy to the layout. Any message prefixed with `layout_` is
+forwarded to the layout, with its prefix stripped. That is, if
 `layout_view_sel '2'` is evaluated, then the layout will receive the
-`view_sel` message with `"2"` as argument. Up to date information is
+`view_sel` message with `"2"` as argument. Accurate information is
 available in the [`ActionsHandler` class documentation][actions_doc]
 
 | Message       | Arguments | Description
