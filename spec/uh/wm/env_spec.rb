@@ -78,10 +78,15 @@ module Uh
       end
 
       describe '#layout' do
-        let(:some_layout_class) { Class.new }
+        let(:some_layout_class) { Class.new { def initialize **_; end } }
 
         it 'returns the default layout' do
           expect(env.layout).to be_an_instance_of ::Uh::Layout
+        end
+
+        it 'instantiates the default layout with layout_options' do
+          env.layout_options[:colors] = { foo: :bar }
+          expect(env.layout.colors[:foo]).to eq :bar
         end
 
         context 'when a layout is set' do
@@ -99,6 +104,12 @@ module Uh
 
           it 'returns a new instance of this layout class' do
             expect(env.layout).to be_an_instance_of some_layout_class
+          end
+
+          it 'instantiates the layout class with layout_options' do
+            env.layout_options[:foo] = :bar
+            expect(some_layout_class).to receive(:new).with(foo: :bar)
+            env.layout
           end
         end
       end

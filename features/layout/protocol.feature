@@ -4,6 +4,8 @@ Feature: layout protocol
     Given a file named layout.rb with:
       """
       class Layout
+        def initialize **_; end
+
         def register display
           puts display
           display.create_subwindow(Uh::Geo.new(0, 0, 640, 16)).tap do |o|

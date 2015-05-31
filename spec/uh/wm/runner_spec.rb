@@ -1,6 +1,7 @@
 SomeLayout = Class.new do
   include Factories
 
+  define_method(:initialize)  { |*_| }
   define_method(:register)    { |*_| }
   define_method(:suggest_geo) { build_geo 0, 0, 42, 42 }
   define_method(:<<)          { |*_| }

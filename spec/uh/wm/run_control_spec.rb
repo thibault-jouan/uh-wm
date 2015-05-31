@@ -100,6 +100,13 @@ module Uh
             expect(env.layout).to eq layout
           end
         end
+
+        context 'when given options' do
+          it 'sets layout options in the env' do
+            rc.layout foo: :bar
+            expect(env.layout_options).to eq(foo: :bar)
+          end
+        end
       end
 
       describe '#worker' do

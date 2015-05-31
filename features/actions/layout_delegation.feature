@@ -4,6 +4,8 @@ Feature: `layout_*' action keywords
     Given a file named layout.rb with:
       """
       class Layout
+        def initialize **_; end
+
         def register _; end
 
         def handle_some_action arg

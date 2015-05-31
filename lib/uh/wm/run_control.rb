@@ -35,12 +35,15 @@ module Uh
       end
 
       def layout arg, **options
-        if arg.is_a? Class
+        case arg
+        when Class
           if options.any?
             @env.layout = arg.new options
           else
             @env.layout_class = arg
           end
+        when Hash
+          @env.layout_options = arg
         else
           @env.layout = arg
         end

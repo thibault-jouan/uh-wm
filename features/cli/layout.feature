@@ -4,6 +4,8 @@ Feature: layout CLI option
     Given a file named layout.rb with:
       """
       class MyLayout
+        def initialize **_; end
+
         def register *_
           puts 'testing_cli_layout'
         end

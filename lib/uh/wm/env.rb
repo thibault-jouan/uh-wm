@@ -23,15 +23,16 @@ module Uh
 
       attr_reader   :output, :keybinds
       attr_accessor :verbose, :debug, :rc_path, :modifier, :worker,
-                    :layout, :layout_class, :rules, :launch
+                    :layout, :layout_class, :layout_options, :rules, :launch
 
       def initialize output
-        @output   = output
-        @rc_path  = RC_PATH
-        @modifier = MODIFIER
-        @keybinds = KEYBINDS.dup
-        @worker   = :block
-        @rules    = {}
+        @output         = output
+        @rc_path        = RC_PATH
+        @modifier       = MODIFIER
+        @keybinds       = KEYBINDS.dup
+        @layout_options = {}
+        @worker         = :block
+        @rules          = {}
       end
 
       def verbose?
@@ -44,10 +45,10 @@ module Uh
 
       def layout
         @layout ||= if layout_class
-          layout_class.new
+          layout_class.new @layout_options
         else
           require 'uh/layout'
-          ::Uh::Layout.new
+          ::Uh::Layout.new(@layout_options)
         end
       end
 

@@ -4,6 +4,8 @@ Feature: manager X errors logging
     Given a file named layout.rb with:
       """
       class Layout
+        def initialize **_; end
+
         def register _; end
 
         # Focusing a client before mapping will force an error
