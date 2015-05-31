@@ -1,10 +1,6 @@
 Feature: blocking worker
 
-  Scenario: processes initial events
-    Given uhwm is running with options -d -w block
-    Then the output must match /xevent/i at least 2 times
-
-  Scenario: processes generated events
+  Scenario: processes events
     Given a run control file with:
       """
       key(:f) { puts 'testing_worker_read' }

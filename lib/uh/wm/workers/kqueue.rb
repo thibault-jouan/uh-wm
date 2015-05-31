@@ -6,24 +6,30 @@ module Uh
 
         def initialize timeout: TIMEOUT_DEFAULT
           super
-          @queue = ::KQueue::Queue.new
-        end
-
-        def watch io
-          @queue.watch_stream_for_read io.to_io do
-            @on_read.call
-          end
-        end
-
-        def on_timeout &block
-          ::KQueue::Watcher.new(@queue, 1, :timer, [], 1000, proc do |event|
-            block.call
-          end)
+          @timeout = timeout * 1000
         end
 
         def work_events
           @before_watch.call if @before_watch
-          events = @queue.process
+          queue.run
+        end
+
+
+        private
+
+        def queue
+          @queue ||= ::KQueue::Queue.new.tap do |q|
+            @ios.each do |io|
+              ::KQueue::Watcher.new(q, io.fileno, :read, [], nil, proc do |_|
+                q.stop
+                @on_read.call
+              end)
+            end
+            ::KQueue::Watcher.new(q, 1, :timer, [], @timeout, proc do |_|
+              q.stop
+              @on_timeout.call
+            end)
+          end
         end
       end
     end
