@@ -6,6 +6,7 @@ module Uh
 
         def initialize timeout: TIMEOUT_DEFAULT
           super
+          @timeout = timeout * 1000
         end
 
         def work_events
@@ -24,7 +25,7 @@ module Uh
                 @on_read.call
               end)
             end
-            ::KQueue::Watcher.new(q, 1, :timer, [], 1000, proc do |_|
+            ::KQueue::Watcher.new(q, 1, :timer, [], @timeout, proc do |_|
               q.stop
               @on_timeout.call
             end)
