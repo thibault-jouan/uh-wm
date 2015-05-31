@@ -1,6 +1,8 @@
 module Uh
   module WM
+    # Provides the context and behavior for run control file evaluation.
     class RunControl
+      # Key sym translations for key bindings.
       KEYSYM_TRANSLATIONS = {
         backspace:  :BackSpace,
         enter:      :Return,
@@ -9,6 +11,10 @@ module Uh
       }.freeze
 
       class << self
+        # Builds an instance and evaluates any run control file defined in
+        # the given {Env} instance
+        # @api private
+        # @param env [Env] An environment
         def evaluate env
           rc_path = File.expand_path(env.rc_path)
           rc = new env
@@ -16,24 +22,59 @@ module Uh
         end
       end
 
+      # @api private
+      # @param env [Env] An environment
       def initialize env
         @env = env
       end
 
+      # Evaluates run control code
+      # @api private
+      # @param code [String] The run control file content
+      # @param path [String] The run control file path
       def evaluate code, path
         instance_eval code, path
       rescue ::StandardError, ::ScriptError => e
         raise RunControlEvaluationError, e.message, e.backtrace
       end
 
-      def modifier mod
-        @env.modifier = mod
-      end
-
+      # Registers a key binding
+      # @example Output message on standard output when `modkey+f` is pressed
+      #   key(:f) { puts 'hello world!' }
+      # @example Add `shift` key sym to the modifier mask
+      #   key(:q, :shift) { quit }
+      # @example Convert capitalized key sym `Q` to `shift+q`
+      #   key(:Q) { quit }
+      # @example Convert `enter` to `return` X key sym
+      #   key(:enter) { execute 'xterm' }
+      # @param keysyms [Symbol] X key sym
+      # @param block Code to execute when the key binding is triggered, with
+      #   `self` as an {ActionsHandler} instance
       def key *keysyms, &block
         @env.keybinds[translate_keysym *keysyms] = block
       end
 
+      # Declares code to execute on window manager connection
+      # @example
+      #   launch { execute 'xterm' }
+      # @param block Code to execute when the window manager has connected,
+      #   with `self` as a {Launcher} instance
+      def launch &block
+        @env.launch = block
+      end
+
+      # Defines the layout with either a layout class or an instance with
+      # optional layout options. When given only a hash, configures options for
+      # the default layout and ignores the `options` parameter.
+      # @example
+      #   layout MyLayout
+      #   layout MyLayout, foo: :bar
+      #   layout MyLayout.new
+      #   layout MyLayout.new(foo: :bar)
+      #   layout foo: :bar
+      # @param arg [Class, Object, Hash] A layout class, a layout instance, or
+      #   options for the default layout
+      # @param options [Hash] Layout options
       def layout arg, **options
         case arg
         when Class
@@ -49,16 +90,38 @@ module Uh
         end
       end
 
-      def worker type, **options
-        @env.worker = [type, options]
+      # Defines the modifier key to use for key bindings
+      # @example
+      #   modifier :mod1 # Use `mod1' as modifier
+      # @param keysym [Symbol] X key sym
+      def modifier keysym
+        @env.modifier = keysym
       end
 
+      # Declares a client rule
+      # @example
+      #   rule %w[firefox chrome] do
+      #     log 'moving client to `www\' view!'
+      #     layout_view_set 'www'
+      #   end
+      # @param selectors [String, Array<String>] Substring matched against the
+      #   beginning of clients window application name
+      # @param block Code to execute when the client rule is matched
       def rule selectors = '', &block
         [*selectors].each { |selector| @env.rules[/\A#{selector}/i] = block }
       end
 
-      def launch &block
-        @env.launch = block
+      # Configures the worker
+      # @example Use the blocking worker
+      #   worker :block
+      # @example Use the kqueue worker with 1 second timeout
+      #   worker :kqueue, timeout: 1
+      # @example Use the multiplexing (`select()`) worker with 1 second timeout
+      #   worker :mux, timeout: 1
+      # @param type [Symbol] Worker type: `:block`, `:kqueue` or `:mux`
+      # @param options [Hash] Worker options
+      def worker type, **options
+        @env.worker = [type, options]
       end
 
 
