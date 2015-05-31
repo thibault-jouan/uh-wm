@@ -1,3 +1,5 @@
+require 'rb-kqueue'
+
 module Uh
   module WM
     module Workers
