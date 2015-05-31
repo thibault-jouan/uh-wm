@@ -1,3 +1,4 @@
+@kqueue
 Feature: kqueue worker
 
   Scenario: processes events

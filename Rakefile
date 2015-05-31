@@ -11,7 +11,10 @@ XEPHYR_SCREENS_XINERAMA =
 task default: %i[features spec]
 
 Cucumber::Rake::Task.new :features do |t|
-  t.profile = 'quiet' if ENV.key? 'TRAVIS'
+  if ENV.key? 'TRAVIS'
+    t.profile       = 'quiet'
+    t.cucumber_opts = '--tags ~@kqueue'
+  end
 end
 
 RSpec::Core::RakeTask.new do |t|
