@@ -57,7 +57,7 @@ module Uh
 
       def worker
         @worker ||= Workers.build(*(@env.worker)).tap do |w|
-          w.before_watch  { @manager.handle_pending_events }
+          w.before_watch  { @manager.flush }
           w.on_read       { @manager.handle_pending_events }
           w.on_read_next  { @manager.handle_next_event }
           w.on_timeout do |*args|

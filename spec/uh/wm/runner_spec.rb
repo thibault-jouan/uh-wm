@@ -173,7 +173,7 @@ module Uh
         end
 
         it 'setups the before_watch callback' do
-          expect(runner.manager).to receive :handle_pending_events
+          expect(runner.manager).to receive :flush
           runner.worker.before_watch.call
         end
 
