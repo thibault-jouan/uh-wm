@@ -169,6 +169,9 @@ module Uh
       end
 
       describe '#worker' do
+        let(:manager)     { instance_spy Manager }
+        subject(:runner)  { described_class.new env, manager: manager }
+
         it 'returns a worker' do
           expect(runner.worker).to respond_to :work_events
         end
@@ -188,7 +191,12 @@ module Uh
           runner.worker.on_read_next.call
         end
 
-        it 'setups the timeout callback' do
+        it 'setups the timeout callback to emit :tick event' do
+          expect(runner.events).to receive(:emit).with :tick
+          runner.worker.on_timeout.call
+        end
+
+        it 'setups the timeout callback to flush manager' do
           expect(runner.manager).to receive :flush
           runner.worker.on_timeout.call
         end

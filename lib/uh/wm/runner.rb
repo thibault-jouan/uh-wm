@@ -60,8 +60,9 @@ module Uh
           w.before_watch  { @manager.flush }
           w.on_read       { @manager.handle_pending_events }
           w.on_read_next  { @manager.handle_next_event }
-          w.on_timeout do |*args|
-            log_debug "Worker timeout: #{args.inspect}"
+          w.on_timeout do
+            log_debug "Worker timeout, ticking..."
+            @events.emit :tick
             log_debug 'Flushing X output buffer'
             @manager.flush
           end
