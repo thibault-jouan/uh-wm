@@ -124,6 +124,166 @@ available in the [`ActionsHandler` class documentation][actions_doc]
 [actions_doc]: http://www.rubydoc.info/gems/uh-wm/Uh/WM/ActionsHandler
 
 
+Complete configuration example
+------------------------------
+
+``` ruby
+COLORS    = {
+  bg:   'rgb:0c/0c/0c'.freeze,
+  fg:   'rgb:d0/d0/d0'.freeze,
+  sel:  'rgb:d7/00/5f'.freeze,
+  hi:   'rgb:82/00/3a'.freeze
+}.freeze
+DMENU     = ('dmenu_run -b -nb %s -nf %s -sb %s -sf %s' %
+              COLORS.values_at(:bg, :fg, :sel, :fg)).freeze
+VT        = 'urxvt'.freeze
+VT_SHELL  = "#{VT} -e zsh -i -c".freeze
+LOCKER    = 'xautolock -locknow &'.freeze
+BROWSERS  = %w[
+  arora chrome chromium firebird firefox galeon iceweasel konqueror pentadactyl
+  phoenix vimperator
+].freeze
+DATETIME  = -> { Time.new.strftime('%FT%T %a') }.freeze
+
+
+worker    :kqueue, timeout: 1
+modifier  :mod1
+layout    colors: COLORS, bar_status: DATETIME
+
+key(:Q)           { quit }
+key(:z)           { execute LOCKER }
+
+key(:enter)       { execute VT }
+key(:p)           { execute DMENU }
+
+key(:c)           { layout_screen_sel :succ }
+key(:C)           { layout_screen_set :succ }
+(0..9).each       { |e| key(e)          { layout_view_sel e } }
+(0..9).each       { |e| key(e, :shift)  { layout_view_set e } }
+key(:w)           { layout_view_sel 'www' }
+key(:W)           { layout_view_set 'www' }
+key(:h)           { layout_column_sel :pred }
+key(:s)           { layout_column_sel :succ }
+key(:n)           { layout_client_sel :pred }
+key(:t)           { layout_client_sel :succ }
+key(:d)           { layout_column_mode_toggle }
+key(:N)           { layout_client_swap :pred }
+key(:T)           { layout_client_swap :succ }
+key(:H)           { layout_client_column_set :pred }
+key(:S)           { layout_client_column_set :succ }
+
+key(:tab)         { layout_history_view_pred }
+
+key(:e)           { kill_current }
+
+key(:apostrophe)  { execute 'mocp --toggle-pause' }
+key(:comma)       { execute 'mixer vol -3' }
+key(:period)      { execute 'mixer vol +3' }
+key(:Apostrophe)  { execute 'mocp --seek 30' }
+key(:Comma)       { execute 'mocp --previous' }
+key(:Period)      { execute 'mocp --next' }
+
+key(:l)           { log_layout }
+key(:L)           { log_client }
+key(:backspace)   { log_separator }
+
+if ENV['DISPLAY'] == ':42'
+  key(:q)         { quit }
+  key(:f)         { execute VT }
+  key(:F)         { execute 'firefox -P test' }
+end
+
+rule BROWSERS do
+  layout_view_set 'www'
+  next unless layout.current_view.columns.size == 1
+  next unless layout.current_view.clients.size >= 2
+  next unless layout.current_view.clients.any? { |c| c.wclass =~ /\A#{VT}/i }
+  layout_client_column_set :succ
+end
+
+rule VT do
+  next unless layout.current_view.columns.size == 1
+  next unless layout.current_view.clients.size >= 2
+  if layout.current_view.clients.all? { |c| c.wclass =~ /\A#{VT}/i }
+    layout_client_column_set :succ
+  elsif layout.current_view.clients.any? { |c| c.wclass =~ /\Afirefox/i }
+    layout_client_column_set :pred
+  end
+end
+
+rule 'xephyr' do
+  if layout.current_view.clients.select { |c| c.wclass =~ /\Axephyr/i }.size > 1
+    layout_screen_set :succ
+    layout_view_set 7
+    layout_view_sel 7
+    layout_screen_sel :pred
+    layout_screen_set :succ
+    layout_column_mode_toggle
+  else
+    layout_client_column_set :succ
+  end
+end
+
+launch do
+  layout_screen_sel :succ
+
+  layout_view_sel '2'
+  execute! "#{VT_SHELL} 'tail -F ~/.uhwm.log'"
+
+  layout_view_sel '1'
+  execute! "#{VT_SHELL} mutt"
+  layout_column_mode_toggle
+  execute! "#{VT_SHELL} 'mtr -n foo.example; exec zsh'"
+  execute! "#{VT_SHELL} 'mtr -n bar.example; exec zsh'"
+
+  execute! "#{VT_SHELL} 'ssh -t foo.example zsh -i -c \\\"tmux attach -t irc\\\"; exec zsh'"
+  layout_client_column_set :succ
+
+  execute! "#{VT_SHELL} 'ssh -t foo.example tmux attach -t log; exec zsh'"
+  layout_client_column_set :succ
+  layout_column_mode_toggle
+  execute! "#{VT_SHELL} 'ssh -t bar.example tmux attach -t log; exec zsh'"
+  execute! "#{VT_SHELL} 'tmux attach -t log; exec zsh'"
+  layout_column_sel :pred
+
+  layout_screen_sel :pred
+
+  execute! "#{VT_SHELL} mutt"
+  execute! "#{VT_SHELL} 'vim ~/TODO; exec zsh'"
+  layout_client_column_set :succ
+  execute! VT
+  layout_client_column_set :succ
+
+  layout_view_sel '2'
+  execute! "#{VT_SHELL} 'cd ~/src/.../uh-wm; exec zsh'"
+  execute! "#{VT_SHELL} 'cd ~/src/.../uh-wm; exec zsh'"
+  layout_client_column_set :pred
+
+  layout_view_sel '4'
+  execute! "#{VT_SHELL} mocp; exec zsh"
+  execute! VT
+  layout_client_column_set :succ
+
+  layout_view_sel '8'
+  execute! "#{VT_SHELL} 'top -o res; exec zsh'"
+  execute! VT
+  layout_client_column_set :succ
+
+  layout_view_sel '1'
+end if ENV['DISPLAY'] == ':0'
+
+launch do
+  layout_view_sel '2'
+  execute! "#{VT_SHELL} 'tail -F ~/.uhwm.log'"
+
+  layout_view_sel '1'
+  execute! "#{VT_SHELL} 'echo hello\!; exec zsh'"
+  execute! VT
+  layout_client_column_set :succ
+end if ENV['DISPLAY'] == ':42'
+```
+
+
 
 [badge-version-img]:  https://img.shields.io/gem/v/uh-wm.svg?style=flat-square
 [badge-version-uri]:  https://rubygems.org/gems/uh-wm
