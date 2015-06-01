@@ -124,6 +124,50 @@ available in the [`ActionsHandler` class documentation][actions_doc]
 [actions_doc]: http://www.rubydoc.info/gems/uh-wm/Uh/WM/ActionsHandler
 
 
+Hacking uhwm
+------------
+
+### Installation with bundler
+
+``` shell
+git clone git://github.com/tjouan/uh-wm   # clone repository from github mirror
+bundle install                            # install dependencies with bundler
+```
+
+### Running the test suite
+
+``` shell
+rake            # Run all test suites
+rake features   # Run user acceptance test suite
+cucumber        # Run user acceptance test suite
+rake spec       # Run unit test suite
+rspec           # Run unit test suite
+```
+
+  Prefix the commands as `bundle exec COMMAND` to use bundler.
+
+### Running uhwm within a nested X session
+
+  For convenience, the `run` rake task is provided to execute uhwm in
+a new X session using Xephyr as the X server. The session is
+initialized with the `startx` program, the task will import the keymap
+from your current X session to the new one and change the background
+color to one that is neither used by uhwm nor commonly used by other.
+
+``` shell
+# Run uhwm (with default argument `-d', set by the task internally)
+rake run
+# Run uhwm with no argument
+rake run --
+# Run uhwm with `-v' argument
+rake run -- -v
+# Setup Xephyr with two screens
+rake run UHWM_XINERAMA=yes
+# Combine custom env and custom uhwm arguments
+rake run UHWM_XINERAMA=yes -- -v
+```
+
+
 Extensive configuration example
 -------------------------------
 
