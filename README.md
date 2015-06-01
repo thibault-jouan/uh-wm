@@ -314,8 +314,7 @@ FAQ
 and `expose`. No documentation is available yet, so read the source
 code or the cucumber scenarios in `features/layout/protocol.feature`.
 
-### Can I replace the behavior ignoring current view selection with my
-own implementation?
+### Can I change the default behavior ignoring current view selection?
 
   Yes, just test for this condition in the key binding code. For
 example the following code will select the last historized view (if
