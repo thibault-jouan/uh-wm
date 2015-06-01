@@ -8,26 +8,6 @@ Gem::Specification.new do |s|
   uhwm is a minimalistic tiling and stacking window manager for X. It
 shares some similarities with dwm and wmii, but is written in ruby so
 you can configure and extend features directly with ruby code.
-
-  The layout strategy is interchangeable, the default one being the
-`uh-layout` ruby gem. A layout is a simple ruby object responding to
-specific messages, so it's easy to write your own layout.
-
-  Main features:
-
-  * Xinerama support;
-  * different adapters for event handling: blocking, multiplexing
-    with `select()` or `kqueue()`;
-  * configuration with a run control file;
-  * key bindings with user defined code as callback;
-  * configurable modifier key;
-  * user-defined layout strategies;
-  * external program execution;
-  * no re-parenting (therefore, no window decoration either);
-  * no grabbing of the modifier key alone;
-  * no mouse event handling;
-  * no EWMH support;
-  * very limited ICCCM support.
   eoh
   s.license     = 'BSD-3-Clause'
   s.homepage    = 'https://rubygems.org/gems/uh-wm'
