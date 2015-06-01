@@ -342,7 +342,7 @@ BUGS
 FAQ
 ---
 
-_uhwm is stealing focus, how do I avoid this behavior?_
+_uhwm is stealing focus, how can I avoid this behavior?_
 
   You can't (yet). The default layout will be modified to accept an
 `autofocus: false` option in a future release.
