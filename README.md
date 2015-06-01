@@ -284,6 +284,17 @@ end if ENV['DISPLAY'] == ':42'
 ```
 
 
+BUGS
+----
+
+* Signal handling is broken under certain undocumented conditions.
+
+* Unicode is not supported everywhere (the `uh` ruby gem does not yet
+  support unicode text drawing).
+
+* Column width in default layout is hard coded.
+
+
 FAQ
 ---
 
