@@ -75,7 +75,7 @@ module Uh
           meth = layout_method m
           log "#{layout.class.name}##{meth} #{args.inspect}"
           begin
-            layout.send(meth, *args)
+            layout.send meth, *args
           rescue NoMethodError
             log_error "Layout does not implement `#{meth}'"
           end
