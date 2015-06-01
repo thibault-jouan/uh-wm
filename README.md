@@ -66,7 +66,8 @@ Configuration
 
   uhwm can be configured with a run control file written in ruby. A
 simple example is provided below, more details are available in the
-[`RunControl` class documentation][run_control_doc].
+[`RunControl` class documentation][run_control_doc]. The file must be
+located at the `~/.uhwmrc.rb` path.
 
 ``` ruby
 DMENU     = 'dmenu_run -b'
