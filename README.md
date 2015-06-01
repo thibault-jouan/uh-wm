@@ -124,8 +124,8 @@ available in the [`ActionsHandler` class documentation][actions_doc]
 [actions_doc]: http://www.rubydoc.info/gems/uh-wm/Uh/WM/ActionsHandler
 
 
-Complete configuration example
-------------------------------
+Extensive configuration example
+-------------------------------
 
 ``` ruby
 COLORS    = {
