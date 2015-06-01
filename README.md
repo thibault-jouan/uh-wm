@@ -284,6 +284,47 @@ end if ENV['DISPLAY'] == ':42'
 ```
 
 
+FAQ
+---
+
+### uhwm is stealing focus, how can I disable it?
+
+  You can't (yet). The default layout will be modified to accept an
+`autofocus: false` option in a future release.
+
+### What are the default key bindings?
+
+  Juste one: `mod+shift+q` is bound to the `quit` action.
+
+### How can I implement my own layout?
+
+  A layout is a simple ruby object responding to a set of messages:
+`register`, `current_client`, `suggest_geo`, `<<`, `remove`, `update`
+and `expose`. No documentation is available yet, so read the source
+code or the cucumber scenarios in `features/layout/protocol.feature`.
+
+### Can I replace the behavior ignoring current view selection with my
+own implementation?
+
+  Yes, just test for this condition in the key binding code. For
+example the following code will select the last historized view (if
+you are on view `"1"`, and select view `"2"` twice, the view `"1"` is
+selected.
+
+``` ruby
+# Replace the "simple" view selection key binding...
+key(:m) { layout_view_sel 'my_view' }
+# ...with this:
+key :m do
+  if layout.current_view.id == 'my_view'
+    layout_view_sel layout.history.last_view.id
+  else
+    layout_view_sel 'my_view'
+  end
+end
+```
+
+
 
 [badge-version-img]:  https://img.shields.io/gem/v/uh-wm.svg?style=flat-square
 [badge-version-uri]:  https://rubygems.org/gems/uh-wm
