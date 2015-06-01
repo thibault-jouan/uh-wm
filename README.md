@@ -69,12 +69,12 @@ simple example is provided below, more details are available in the
 [`RunControl` class documentation][run_control_doc].
 
 ``` ruby
-DMENU     = 'dmenu_run -b'.freeze
-VT        = 'urxvt'.freeze
+DMENU     = 'dmenu_run -b'
+VT        = 'urxvt'
 BROWSERS  = %w[
   arora chromium firebird firefox galeon iceweasel konqueror pentadactyl
   phoenix vimperator
-].freeze
+]
 
 
 modifier :mod1                # This key is added to the modifier mask for *all*
