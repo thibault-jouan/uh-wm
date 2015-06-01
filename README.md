@@ -298,23 +298,23 @@ BUGS
 FAQ
 ---
 
-### uhwm is stealing focus, how can I disable it?
+#### uhwm is stealing focus, how can I disable it?
 
   You can't (yet). The default layout will be modified to accept an
 `autofocus: false` option in a future release.
 
-### What are the default key bindings?
+#### What are the default key bindings?
 
   Juste one: `mod+shift+q` is bound to the `quit` action.
 
-### How can I implement my own layout?
+#### How can I implement my own layout?
 
   A layout is a simple ruby object responding to a set of messages:
 `register`, `current_client`, `suggest_geo`, `<<`, `remove`, `update`
 and `expose`. No documentation is available yet, so read the source
 code or the cucumber scenarios in `features/layout/protocol.feature`.
 
-### Can I change the default behavior ignoring current view selection?
+#### Can I change the default behavior ignoring current view selection?
 
   Yes, just test for this condition in the key binding code. For
 example the following code will select the last historized view (if
