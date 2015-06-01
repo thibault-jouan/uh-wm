@@ -47,7 +47,7 @@ module Uh
         log '- ' * 24
       end
 
-      def method_missing(m, *args, &block)
+      def method_missing m, *args, &block
         if respond_to? m
           meth = layout_method m
           log "#{layout.class.name}##{meth} #{args.inspect}"
@@ -61,14 +61,14 @@ module Uh
         end
       end
 
-      def respond_to_missing?(m, *)
+      def respond_to_missing? m, _
         m.to_s =~ /\Alayout_/ || super
       end
 
 
       private
 
-      def layout_method(m)
+      def layout_method m
         m.to_s.gsub(/\Alayout_/, 'handle_').to_sym
       end
     end
