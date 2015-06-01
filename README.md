@@ -22,11 +22,11 @@ specific messages, so it's easy to write your own layout.
   * configuration with a run control file;
   * key bindings with user defined code as callback;
   * configurable modifier key;
-  * support user-defined layout strategies;
+  * user-defined layout strategies;
   * external program execution;
   * no re-parenting (therefore, no window decoration either);
   * no grabbing of the modifier key alone;
-  * no mouse handling;
+  * no mouse event handling;
   * no EWMH support;
   * very limited ICCCM support.
 
