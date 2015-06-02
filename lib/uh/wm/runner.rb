@@ -37,7 +37,7 @@ module Uh
       end
 
       def manager
-        @manager ||= Manager.new(@events, @env.modifier)
+        @manager ||= Manager.new(@events, @env.modifier, @env.modifier_ignore)
       end
 
       def evaluate_run_control

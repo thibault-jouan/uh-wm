@@ -22,17 +22,19 @@ module Uh
       def_delegators  :@output, :print, :puts
 
       attr_reader   :output, :keybinds
-      attr_accessor :verbose, :debug, :rc_path, :modifier, :worker,
-                    :layout, :layout_class, :layout_options, :rules, :launch
+      attr_accessor :verbose, :debug, :rc_path, :modifier, :modifier_ignore,
+                    :worker, :layout, :layout_class, :layout_options, :rules,
+                    :launch
 
       def initialize output
-        @output         = output
-        @rc_path        = RC_PATH
-        @modifier       = MODIFIER
-        @keybinds       = KEYBINDS.dup
-        @layout_options = {}
-        @worker         = WORKER
-        @rules          = {}
+        @output           = output
+        @rc_path          = RC_PATH
+        @modifier         = MODIFIER
+        @modifier_ignore  = []
+        @keybinds         = KEYBINDS.dup
+        @layout_options   = {}
+        @worker           = WORKER
+        @rules            = {}
       end
 
       def verbose?

@@ -46,6 +46,16 @@ module Uh
           rc.modifier :ctrl
           expect(env.modifier).to eq :ctrl
         end
+
+        it 'updates env modifier ignore when given a symbol' do
+          rc.modifier :mod1, ignore: :mod2
+          expect(env.modifier_ignore).to eq [:mod2]
+        end
+
+        it 'updates env modifier ignore when given a symbol array' do
+          rc.modifier :mod1, ignore: %i[mod2 mod5]
+          expect(env.modifier_ignore).to eq %i[mod2 mod5]
+        end
       end
 
       describe '#key' do

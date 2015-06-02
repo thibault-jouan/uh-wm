@@ -90,12 +90,13 @@ module Uh
         end
       end
 
-      # Defines the modifier key to use for key bindings
+      # Defines the modifier masks to use for key bindings
       # @example
       #   modifier :mod1 # Use `mod1' as modifier
       # @param keysym [Symbol] X key sym
-      def modifier keysym
-        @env.modifier = keysym
+      def modifier keysym, ignore: []
+        @env.modifier         = keysym
+        @env.modifier_ignore  = [*ignore]
       end
 
       # Declares a client rule

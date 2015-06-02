@@ -25,6 +25,10 @@ module Uh
         expect(env.modifier).to eq :mod1
       end
 
+      it 'has no ignored modifiers' do
+        expect(env.modifier_ignore).to be_empty
+      end
+
       it 'has default key binding for quit set' do
         expect(env.keybinds.keys).to include [:q, :shift]
       end

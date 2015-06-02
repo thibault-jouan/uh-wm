@@ -8,13 +8,14 @@ module Uh
                     Events::STRUCTURE_NOTIFY_MASK
       DEFAULT_GEO = Geo.new(0, 0, 320, 240).freeze
 
-      attr_reader :modifier, :display, :clients
+      attr_reader :modifier, :modifier_ignore, :display, :clients
 
-      def initialize events, modifier, display = Display.new
-        @events   = events
-        @modifier = modifier
-        @display  = display
-        @clients  = []
+      def initialize events, mod, mod_ignore = [], display = Display.new
+        @events           = events
+        @modifier         = mod
+        @modifier_ignore  = mod_ignore
+        @display          = display
+        @clients          = []
       end
 
       def to_io
@@ -43,7 +44,9 @@ module Uh
       def grab_key keysym, mod = nil
         mod_mask = KEY_MODIFIERS[@modifier]
         mod_mask |= KEY_MODIFIERS[mod] if mod
-        @display.grab_key keysym.to_s, mod_mask
+        combine_modifier_masks(@modifier_ignore) do |ignore_mask|
+          @display.grab_key keysym.to_s, mod_mask | ignore_mask
+        end
       end
 
       def configure window
@@ -104,10 +107,12 @@ module Uh
       end
 
       def handle_key_press event
-        key_selector = event.modifier_mask & KEY_MODIFIERS[:shift] == 1 ?
-          [event.key.to_sym, :shift] :
-          event.key.to_sym
-        @events.emit :key, *key_selector
+        case remove_modifier_masks event.modifier_mask, @modifier_ignore
+        when KEY_MODIFIERS[@modifier]
+          @events.emit :key, event.key.to_sym
+        when KEY_MODIFIERS[@modifier] | KEY_MODIFIERS[:shift]
+          @events.emit :key, event.key.to_sym, :shift
+        end
       end
 
       def handle_configure_request event
@@ -147,6 +152,21 @@ module Uh
         Display.on_error { fail OtherWMRunningError }
         @display.listen_events INPUT_MASK
         @display.sync false
+      end
+
+      def combine_modifier_masks mods
+        yield 0
+        (1..mods.size).flat_map { |n| mods.combination(n).to_a }.each do |cmb|
+          yield cmb.map { |e| KEY_MODIFIERS[e] }.inject &:|
+        end
+      end
+
+      def remove_modifier_masks mask, remove
+        return mask unless remove.any?
+        mask & ~(@modifier_ignore
+          .map    { |e| KEY_MODIFIERS[e] }
+          .inject &:|
+        )
       end
     end
   end

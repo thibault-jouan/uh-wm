@@ -60,6 +60,10 @@ module Uh
         it 'sets the manager modifier as env modifier' do
           expect(runner.manager.modifier).to eq env.modifier
         end
+
+        it 'sets the manager modifier ignore as env modifier ignore ' do
+          expect(runner.manager.modifier_ignore).to eq env.modifier_ignore
+        end
       end
 
       describe '#evaluate_run_control' do

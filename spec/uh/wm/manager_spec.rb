@@ -7,7 +7,7 @@ module Uh
       let(:events)      { Dispatcher.new }
       let(:modifier)    { :mod1 }
       let(:display)     { Display.new }
-      subject(:manager) { described_class.new events, modifier, display }
+      subject(:manager) { described_class.new events, modifier, [], display }
 
       it 'has no clients' do
         expect(manager.clients).to be_empty
@@ -50,7 +50,7 @@ module Uh
         end
 
         it 'updates the root window mask in order to manage windows', :xvfb do
-          manager = described_class.new events, modifier, display = Display.new
+          manager = described_class.new events, modifier, [], display = Display.new
           manager.connect
           expect(display.root.mask).to eq Events::PROPERTY_CHANGE_MASK |
             Events::SUBSTRUCTURE_REDIRECT_MASK |
@@ -103,6 +103,25 @@ module Uh
               .to receive(:grab_key)
               .with('f', KEY_MODIFIERS[modifier] | KEY_MODIFIERS[:shift])
             manager.grab_key :f, :shift
+          end
+        end
+
+        context 'when some modifiers are ignored' do
+          subject :manager do
+            described_class.new events, modifier, %i[mod2 mod5], display
+          end
+
+          it 'grabs the key with all masks combining ignored modifiers' do
+            [
+              [modifier],
+              [modifier, :mod2],
+              [modifier, :mod5],
+              [modifier, :mod2, :mod5]
+            ].each do |mods|
+              mod_mask = mods.map { |e| KEY_MODIFIERS[e] }.inject &:|
+              expect(manager.display).to receive(:grab_key).with'f', mod_mask
+            end
+            manager.grab_key :f
           end
         end
       end
@@ -334,6 +353,18 @@ module Uh
 
             it 'emits :key event with the corresponding key and :shift' do
               events.on(:key, :f, :shift) { throw :key_press_code }
+              expect { manager.handle event }.to throw_symbol :key_press_code
+            end
+          end
+
+          context 'with an ignored modifier' do
+            let(:mod_mask) { KEY_MODIFIERS[modifier] | KEY_MODIFIERS[:mod2] }
+            subject :manager do
+              described_class.new events, modifier, %i[mod2 mod5], display
+            end
+
+            it 'emits :key event with the corresponding key' do
+              events.on(:key, :f) { throw :key_press_code }
               expect { manager.handle event }.to throw_symbol :key_press_code
             end
           end
