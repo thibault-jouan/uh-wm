@@ -401,6 +401,11 @@ key :m do
   end
 end
 ```
+_I get a \`cannot load such file -- uh/wm (LoadError)\` how do I fix?_
+
+  You are probably not using the gem. If you want to use uhwm from a
+local git clone or if you did a custom install, try to use bundler or
+to modify the ruby load path (set `RUBYOPT=lib` for example).
 
 
 
