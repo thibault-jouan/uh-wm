@@ -38,8 +38,8 @@ Installation
   uhwm requires ruby ~> 2.1 with rubygems, and is currently
 distributed as the `uh-wm` ruby gem.
 
-```
-$ gem install uh-wm
+``` shell
+gem install uh-wm   # install the gem or update to last release
 ```
 
 
