@@ -26,6 +26,7 @@ specific messages, so it's easy to write your own layout.
   * external program execution;
   * no re-parenting (therefore, no window decoration either);
   * no grabbing of the modifier key alone;
+  * no default key binding except for exiting;
   * no mouse event handling;
   * no EWMH support;
   * very limited ICCCM support.
@@ -68,6 +69,10 @@ Configuration
 simple example is provided below, more details are available in the
 [`RunControl` class documentation][run_control_doc]. The file must be
 located at the `~/.uhwmrc.rb` path.
+
+  Please note that uhwm ships with only one key binding: `mod+shift+q`
+which is bound to the `quit` action. You *need* to write your own
+configuration file if you want to do something useful with uhwm.
 
 ``` ruby
 DMENU     = 'dmenu_run -b'
