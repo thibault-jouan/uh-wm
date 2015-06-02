@@ -1,11 +1,11 @@
-require 'headless'
-
 require 'uh/wm'
+require 'uh/wm/testing/headless'
 
 Dir['spec/support/**/*.rb'].map { |e| require e.gsub 'spec/', '' }
 
 RSpec.configure do |config|
   config.include Factories
+  config.include Uh::WM::Testing::Headless
 
   config.expect_with :rspec do |expectations|
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true
@@ -23,8 +23,6 @@ RSpec.configure do |config|
   end
 
   config.around :example, :xvfb do |example|
-    Headless.ly do
-      example.run
-    end
+    with_xvfb { example.run }
   end
 end

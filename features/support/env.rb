@@ -1,7 +1,7 @@
 require 'aruba/cucumber'
-require 'headless'
 
 require 'uh/wm/testing/acceptance_helpers'
+require 'uh/wm/testing/headless'
 
 module Aruba
   class SpawnProcess
@@ -12,12 +12,12 @@ module Aruba
 end
 
 World(Uh::WM::Testing::AcceptanceHelpers)
+World(Uh::WM::Testing::Headless)
+
+ENV['DISPLAY'] = ':42'
 
 Around do |_, block|
-  @headless = Headless.new
-  @headless.start
-  block.call
-  @headless.destroy
+  with_xvfb { block.call }
 end
 
 Before do
