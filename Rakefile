@@ -24,7 +24,7 @@ end
 desc 'Run uhwm in a Xephyr X server'
 task :run do
   uhwm_args = ARGV.include?('--') ?
-    ARGV.slice_after('--').to_a.last :
+    ARGV.drop_while { |e| e != '--' }.drop(1) :
     %w[-d]
   Tempfile.create('uhwm_xinitrc') do |xinitrc|
     xinitrc.write <<-eoh
