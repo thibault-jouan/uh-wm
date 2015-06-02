@@ -31,7 +31,7 @@ module Uh
         @modifier       = MODIFIER
         @keybinds       = KEYBINDS.dup
         @layout_options = {}
-        @worker         = :block
+        @worker         = WORKER
         @rules          = {}
       end
 
