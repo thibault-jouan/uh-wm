@@ -23,6 +23,9 @@ RSpec.configure do |config|
   end
 
   config.around :example, :xvfb do |example|
-    with_xvfb { example.run }
+    with_xvfb do
+      sleep 0.05
+      example.run
+    end
   end
 end

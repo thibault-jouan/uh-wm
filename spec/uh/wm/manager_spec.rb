@@ -13,9 +13,9 @@ module Uh
         expect(manager.clients).to be_empty
       end
 
-      describe '#to_io', :xvfb do
+      describe '#to_io' do
         context 'when connected' do
-          before { manager.connect }
+          before { allow(display).to receive(:fileno) { 1 } }
 
           it 'returns an IO object wrapping the display file descriptor' do
             expect(manager.to_io)
@@ -25,9 +25,11 @@ module Uh
         end
       end
 
-      describe '#connect', :xvfb do
+      describe '#connect' do
+        let(:display) { double('display').as_null_object }
+
         it 'opens the display' do
-          expect(manager.display).to receive(:open).and_call_original
+          expect(manager.display).to receive(:open)
           manager.connect
         end
 
@@ -47,7 +49,8 @@ module Uh
           manager.connect
         end
 
-        it 'updates the root window mask in order to manage windows' do
+        it 'updates the root window mask in order to manage windows', :xvfb do
+          manager = described_class.new events, modifier, display = Display.new
           manager.connect
           expect(display.root.mask).to eq Events::PROPERTY_CHANGE_MASK |
             Events::SUBSTRUCTURE_REDIRECT_MASK |
