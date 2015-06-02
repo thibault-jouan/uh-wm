@@ -13,7 +13,12 @@ end
 
 World(Uh::WM::Testing::AcceptanceHelpers)
 
-Headless.new.start
+Around do |_, block|
+  @headless = Headless.new
+  @headless.start
+  block.call
+  @headless.destroy
+end
 
 Before do
   set_env 'HOME', File.expand_path(current_dir)
@@ -26,6 +31,7 @@ end
 
 Around '@other_wm_running' do |_, block|
   with_other_wm { block.call }
+  sleep 0.05
 end
 
 After '@icccm_window' do
