@@ -29,6 +29,7 @@ module Uh
     RuntimeError              = Class.new(RuntimeError)
     ArgumentError             = Class.new(Error)
     RunControlEvaluationError = Class.new(RuntimeError)
+    RunControlArgumentError   = Class.new(ArgumentError)
 
     class OtherWMRunningError < RuntimeError
       def message

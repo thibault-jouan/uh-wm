@@ -121,12 +121,12 @@ module Uh
 
       describe '#worker' do
         it 'sets the worker type in the env' do
-          rc.worker :some_worker
-          expect(env.worker[0]).to eq :some_worker
+          rc.worker :mux
+          expect(env.worker[0]).to eq :mux
         end
 
         it 'sets the worker options in the env' do
-          rc.worker :some_worker, some: :option
+          rc.worker :mux, some: :option
           expect(env.worker[1]).to eq({ some: :option })
         end
       end

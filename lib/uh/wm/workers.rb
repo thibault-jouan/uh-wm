@@ -12,6 +12,10 @@ module Uh
           FACTORIES.keys
         end
 
+        def type? type
+          FACTORIES.key? type
+        end
+
         def build type, **options
           (FACTORIES[type] or fail ArgumentError, "unknown worker: `#{type}'")
             .call options

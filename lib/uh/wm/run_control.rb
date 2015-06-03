@@ -94,7 +94,14 @@ module Uh
       # @example
       #   modifier :mod1 # Use `mod1' as modifier
       # @param keysym [Symbol] X key sym
+      # @raise [RunControlArgumentError] if any given modifier is invalid
       def modifier keysym, ignore: []
+        [keysym, *ignore].each do |mod|
+          unless KEY_MODIFIERS.keys.include? mod
+            fail RunControlArgumentError,
+              "invalid modifier keysym `#{mod.inspect}'"
+          end
+        end
         @env.modifier         = keysym
         @env.modifier_ignore  = [*ignore]
       end
@@ -121,7 +128,11 @@ module Uh
       #   worker :mux, timeout: 1
       # @param type [Symbol] Worker type: `:block`, `:kqueue` or `:mux`
       # @param options [Hash] Worker options
+      # @raise [RunControlArgumentError] if worker type is invalid
       def worker type, **options
+        unless Workers.type? type
+          fail RunControlArgumentError, "invalid worker type `#{type}'"
+        end
         @env.worker = [type, options]
       end
 
