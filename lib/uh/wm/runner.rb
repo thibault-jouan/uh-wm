@@ -61,7 +61,7 @@ module Uh
           w.on_read       { @manager.handle_pending_events }
           w.on_read_next  { @manager.handle_next_event }
           w.on_timeout do
-            log_debug "Worker timeout, ticking..."
+            log_debug 'Worker timeout, ticking...'
             @events.emit :tick
             log_debug 'Flushing X output buffer'
             @manager.flush
@@ -80,8 +80,7 @@ module Uh
         manager.disconnect
       end
 
-
-      private
+    private
 
       def register_runner_hooks
         @events.on(:quit) { stop! }
@@ -150,35 +149,6 @@ module Uh
       def register_launcher_hooks
         @events.on :connected do
           Launcher.launch(self, @env.launch) if @env.launch
-        end
-      end
-
-
-      class XEventLogger
-        include EnvLogging
-
-        def initialize env
-          @env = env
-        end
-
-        def log_event xev
-          complement = case xev.type
-          when :key_press
-            "window: #{xev.window} key: #{xev.key} mask: #{xev.modifier_mask}"
-          when :map_request
-            "window: #{xev.window}"
-          end
-
-          log_debug [
-            'XEvent',
-            xev.type,
-            xev.send_event ? 'SENT' : nil,
-            complement
-          ].compact.join ' '
-        end
-
-        def log_xerror req, resource_id, msg
-          log_error "XERROR: #{resource_id} #{req} #{msg}"
         end
       end
     end

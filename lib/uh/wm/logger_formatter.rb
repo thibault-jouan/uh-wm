@@ -3,7 +3,7 @@ module Uh
     class LoggerFormatter
       FORMAT_STR = "%s.%03i %s: %s\n".freeze
 
-      def call severity, datetime, progname, message
+      def call severity, datetime, _progname, message
         FORMAT_STR % [
           datetime.strftime('%FT%T'),
           datetime.usec / 1000,

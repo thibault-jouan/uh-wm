@@ -20,7 +20,7 @@ module Uh
           exit EX_USAGE
         rescue RuntimeError => e
           stderr.puts "#{e.class.name}: #{e.message}"
-          stderr.puts e.backtrace.map { |e| '  %s' % e } if cli.env.debug?
+          stderr.puts e.backtrace.map { |l| '  %s' % l } if cli.env.debug?
           exit EX_SOFTWARE
         end
       end
@@ -34,7 +34,7 @@ module Uh
 
       def parse_arguments!
         option_parser.parse! @arguments
-      rescue OptionParser::InvalidOption => e
+      rescue OptionParser::InvalidOption
         raise ArgumentError, option_parser
       end
 
@@ -42,8 +42,7 @@ module Uh
         Runner.run env
       end
 
-
-      private
+    private
 
       def option_parser
         OptionParser.new do |opts|
@@ -60,7 +59,7 @@ module Uh
             @env.log_logger_level
           end
           opts.on '-f', '--run-control PATH',
-              'specify alternate run control file' do |e|
+            'specify alternate run control file' do |e|
             @env.rc_path = e
           end
           opts.on '-r', '--require PATH', 'require ruby feature' do |feature|
@@ -71,7 +70,7 @@ module Uh
             @env.layout_class = Object.const_get layout.to_sym
           end
           opts.on '-w', Workers.types, '--worker WORKER',
-              'specify worker' do |worker|
+            'specify worker' do |worker|
             @env.worker = worker.to_sym
           end
 

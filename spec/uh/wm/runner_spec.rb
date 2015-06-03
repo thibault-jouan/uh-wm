@@ -120,19 +120,19 @@ module Uh
 
         context 'keys hooks' do
           it 'registers for :key' do
-            env.keybinds[:f] = -> { }
+            env.keybinds[:f] = -> {}
             runner.register_event_hooks
             expect(runner.events[:key, :f]).not_to be_empty
           end
 
           it 'registers for :key with combined key bindings' do
-            env.keybinds[[:f, :shift]] = -> { }
+            env.keybinds[[:f, :shift]] = -> {}
             runner.register_event_hooks
             expect(runner.events[:key, :f, :shift]).not_to be_empty
           end
 
           it 'registers code evaluation with the actions handler' do
-            env.keybinds[:f] = code = proc { }
+            env.keybinds[:f] = code = proc {}
             runner.register_event_hooks
             expect(runner.actions).to receive(:evaluate).with code
             runner.events.emit :key, :f
@@ -143,7 +143,7 @@ module Uh
           let(:client) { double 'client', wclass: 'some_client_class' }
 
           it 'registers rule code evaluation with the actions handler' do
-            env.rules[/#{client.wclass}/] = code = proc { }
+            env.rules[/#{client.wclass}/] = code = proc {}
             runner.register_event_hooks
             expect(runner.actions).to receive(:evaluate).with code
             runner.events.emit :manage, args: client
@@ -172,7 +172,7 @@ module Uh
         end
 
         it 'tells the manager to grab keys for env key bindings' do
-          env.keybinds[:f] = -> { }
+          env.keybinds[:f] = -> {}
           expect(runner.manager).to receive(:grab_key).with :f
           runner.connect_manager
         end
@@ -222,7 +222,7 @@ module Uh
         end
 
         it 'tells the worker to work events until given block is true' do
-          block = proc { }
+          block = proc {}
           allow(block).to receive(:call).and_return(false, false, false, true)
           expect(runner.worker).to receive(:work_events).exactly(3).times
           runner.run_until &block

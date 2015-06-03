@@ -99,8 +99,7 @@ module Uh
         send handler, event
       end
 
-
-      private
+    private
 
       def handle_error *args
         @events.emit :xerror, args: args

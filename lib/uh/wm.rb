@@ -22,6 +22,7 @@ require 'uh/wm/workers/base'
 require 'uh/wm/workers/blocking'
 require 'uh/wm/workers/kqueue' unless RbConfig::CONFIG['host_os'] =~ /linux/i
 require 'uh/wm/workers/mux'
+require 'uh/wm/x_event_logger'
 
 module Uh
   module WM

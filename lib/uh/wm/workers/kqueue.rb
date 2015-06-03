@@ -16,8 +16,7 @@ module Uh
           queue.run
         end
 
-
-        private
+      private
 
         def queue
           @queue ||= ::KQueue::Queue.new.tap do |q|

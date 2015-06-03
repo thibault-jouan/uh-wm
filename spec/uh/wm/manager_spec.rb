@@ -50,7 +50,8 @@ module Uh
         end
 
         it 'updates the root window mask in order to manage windows', :xvfb do
-          manager = described_class.new events, modifier, [], display = Display.new
+          manager = described_class.new events,
+            modifier, [], display = Display.new
           manager.connect
           expect(display.root.mask).to eq Events::PROPERTY_CHANGE_MASK |
             Events::SUBSTRUCTURE_REDIRECT_MASK |

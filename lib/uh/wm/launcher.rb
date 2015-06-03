@@ -29,8 +29,7 @@ module Uh
         end
       end
 
-
-      private
+    private
 
       def with_clean_rules
         original_rules = @rules.dup
@@ -39,7 +38,6 @@ module Uh
         @rules.clear
         @rules.merge! original_rules
       end
-
 
       class DSL
         def initialize actions

@@ -136,8 +136,7 @@ module Uh
         @env.worker = [type, options]
       end
 
-
-      private
+    private
 
       def translate_keysym keysym, modifier = nil
         return [translate_keysym(keysym)[0].to_sym, modifier] if modifier

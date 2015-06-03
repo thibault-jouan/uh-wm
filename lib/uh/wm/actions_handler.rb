@@ -17,7 +17,8 @@ module Uh
       # @param env [Env] An environment
       # @param events [Dispatcher] A dispatcher
       def initialize env, events
-        @env, @events = env, events
+        @env    = env
+        @events = events
       end
 
       # Evaluates action code given as normal argument or block parameter
@@ -96,8 +97,7 @@ module Uh
         m.to_s =~ /\Alayout_/ || super
       end
 
-
-      private
+    private
 
       def layout_method m
         m.to_s.gsub(/\Alayout_/, 'handle_').to_sym

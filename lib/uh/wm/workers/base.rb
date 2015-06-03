@@ -4,7 +4,7 @@ module Uh
       class Base
         CALLBACKS = %w[before_watch on_timeout on_read on_read_next].freeze
 
-        def initialize **options
+        def initialize **_options
           @ios = []
         end
 

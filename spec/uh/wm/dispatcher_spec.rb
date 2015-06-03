@@ -65,7 +65,7 @@ module Uh
 
         context 'when args keyword argument is given' do
           it 'calls hooks with given args' do
-            dispatcher.on(:hook_key) { |arg1, arg2| throw arg2 }
+            dispatcher.on(:hook_key) { |_, arg2| throw arg2 }
             expect { dispatcher.emit :hook_key, args: %i[arg1 arg2] }
               .to throw_symbol :arg2
           end

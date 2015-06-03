@@ -65,7 +65,7 @@ module Uh
         rescue TimeoutError => e
           raise <<-eoh
 expected `#{message}' (#{times}) not seen after #{e.timeout} seconds in:
-  ```\n#{output.call.lines.map { |e| "  #{e}" }.join}  ```
+  ```\n#{output.call.lines.map { |l| "  #{l}" }.join}  ```
           eoh
         end
 
@@ -124,8 +124,7 @@ expected `#{message}' (#{times}) not seen after #{e.timeout} seconds in:
           `xwininfo #{select_args} 2> /dev/null`[/Map State: (\w+)/, 1]
         end
 
-
-        private
+      private
 
         def timeout_until message = 'condition not met after %d seconds'
           timeout = ENV.key?('UHWMTEST_TIMEOUT') ?
@@ -140,7 +139,6 @@ expected `#{message}' (#{times}) not seen after #{e.timeout} seconds in:
         rescue Timeout::Error
           raise TimeoutError.new(message % timeout, timeout)
         end
-
 
         class TimeoutError < ::StandardError
           attr_reader :timeout

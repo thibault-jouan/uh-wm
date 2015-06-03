@@ -21,8 +21,7 @@ module Uh
         value
       end
 
-
-      private
+    private
 
       def translate_key key
         key.one? ? key[0] : key
