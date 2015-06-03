@@ -13,7 +13,7 @@ module Factories
 
   def mock_event_key_press key, modifier_mask
     mock_event :key_press,
-      key:            'f',
+      key:            key,
       modifier_mask:  modifier_mask
   end
 
