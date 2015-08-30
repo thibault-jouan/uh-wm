@@ -136,7 +136,7 @@ Hacking uhwm
   If you need to work with uhwm source code, you will need a local clone
 of the repository. A bundler `Gemfile` is provided, and if you are new
 to ruby and rubygems, we recommend that you use bundler to manage
-dependencies. Refer to the bundler documentation if you need no know
+dependencies. Refer to the bundler documentation if you need to know
 more than this short help:
 
   * Run `bundle install` after you update the repository sources to a
@@ -144,6 +144,7 @@ more than this short help:
     `Gemfile`
   * Prefix every ruby executable scripts (`bin/uhwm`, `rake`…) with
     `bundle exec`, for example `bundle exec rake spec`
+
 
   Please note this not the "supported" way of using uhwm, we recommend
 that you use the ruby gem. The `master` branch can sometimes receive
