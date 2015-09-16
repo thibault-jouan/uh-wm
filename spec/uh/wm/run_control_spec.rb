@@ -89,7 +89,7 @@ module Uh
 
       describe '#layout' do
         context 'when given a class' do
-          let(:layout_class) { Class.new }
+          let(:layout_class) { Class.new { def initialize *; end } }
 
           it 'sets a layout class in the env' do
             rc.layout layout_class
