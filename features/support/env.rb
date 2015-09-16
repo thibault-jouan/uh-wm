@@ -21,7 +21,7 @@ Around do |_, block|
 end
 
 Before do
-  set_env 'HOME', File.expand_path(current_dir)
+  set_env 'HOME', File.expand_path(current_directory)
 end
 
 After do
