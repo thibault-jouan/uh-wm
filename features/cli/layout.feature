@@ -11,9 +11,9 @@ Feature: layout CLI option
         end
       end
       """
-    When I run uhwm with options -r./layout -l MyLayout
-    Then the output must contain "testing_cli_layout"
+    When I start the program with options -r./layout -l MyLayout
+    Then the output will contain "testing_cli_layout"
 
   Scenario: resolves layout class from the root namespace
-    When I run uhwm with option -l Layout
+    When I run the program with option -l Layout
     Then the output must contain "uninitialized constant Layout"

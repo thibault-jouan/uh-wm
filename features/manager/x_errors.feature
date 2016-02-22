@@ -16,4 +16,4 @@ Feature: manager X errors logging
       """
     And uhwm is running with options -v -r./layout -l Layout
     When a window requests to be mapped
-    Then the output must match /x.*error.+x_setinputfocus.+/i
+    Then the output will match /x.*error.+x_setinputfocus.+/i

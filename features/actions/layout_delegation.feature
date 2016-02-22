@@ -19,7 +19,7 @@ Feature: `layout_*' action keywords
       """
     And uhwm is running with options -v -r./layout.rb -l Layout
     When I press the alt+f keys
-    Then the output must contain "testing_layout_action_with_arg"
+    Then the output will contain "testing_layout_action_with_arg"
 
   Scenario: logs an error about unimplemented messages
     Given uhwm is running with this run control file:
@@ -27,4 +27,4 @@ Feature: `layout_*' action keywords
       key(:f) { layout_unknown_action }
       """
     When I press the alt+f keys
-    Then the output must match /layout.+no.+implem.+handle_unknown_action/i
+    Then the output will match /layout.+no.+implem.+handle_unknown_action/i

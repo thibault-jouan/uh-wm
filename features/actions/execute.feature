@@ -6,4 +6,4 @@ Feature: `execute' action keyword
       key(:f) { execute 'echo etucexe_tset | rev' }
       """
     When I press the alt+f keys
-    Then the output must contain "test_execute"
+    Then the output will contain "test_execute"

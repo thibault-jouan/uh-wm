@@ -1,22 +1,17 @@
-require 'aruba/cucumber'
+Before do
+  @_baf_program = 'uhwm'.freeze
+end
+
+require 'baf/testing/cucumber'
+require 'baf/testing/cucumber/steps/output_wait'
 
 require 'uh/wm/testing/acceptance_helpers'
 require 'uh/wm/testing/headless'
-
-module Aruba
-  class SpawnProcess
-    def pid
-      @process.pid
-    end
-  end
-end
 
 World(Uh::WM::Testing::AcceptanceHelpers)
 World(Uh::WM::Testing::Headless)
 
 unless ENV.key? 'UHWMTEST_CI'
-  ENV['DISPLAY'] = ':42'
-
   Around do |_, block|
     with_xvfb do
       block.call
@@ -25,7 +20,8 @@ unless ENV.key? 'UHWMTEST_CI'
 end
 
 Before do
-  set_env 'HOME', File.expand_path(current_directory)
+  set_environment_variable 'HOME', expand_path(?.)
+  set_environment_variable 'DISPLAY', ':42' unless ENV.key? 'UHWMTEST_CI'
 end
 
 After do

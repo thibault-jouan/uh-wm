@@ -1,6 +1,6 @@
 module Uh
   module WM
-    class Env
+    class Env < Baf::Env
       RC_PATH = '~/.uhwmrc.rb'.freeze
 
       MODIFIER  = :mod1
@@ -15,19 +15,17 @@ module Uh
       LOGGER_LEVEL_STRINGS  = %w[DEBUG INFO WARN ERROR FATAL UNKNOWN].freeze
 
       extend Forwardable
-      def_delegator   :logger, :info,   :log
-      def_delegator   :logger, :fatal,  :log_fatal
-      def_delegator   :logger, :error,  :log_error
-      def_delegator   :logger, :debug,  :log_debug
-      def_delegators  :@output, :print, :puts
+      def_delegator :logger, :info,   :log
+      def_delegator :logger, :fatal,  :log_fatal
+      def_delegator :logger, :error,  :log_error
+      def_delegator :logger, :debug,  :log_debug
 
-      attr_reader   :output, :keybinds
-      attr_accessor :verbose, :debug, :rc_path, :modifier, :modifier_ignore,
-                    :worker, :layout, :layout_class, :layout_options, :rules,
-                    :launch
+      attr_reader   :keybinds
+      attr_accessor :rc_path, :modifier, :modifier_ignore, :worker, :layout,
+                    :layout_class, :layout_options, :rules, :launch
 
-      def initialize output
-        @output           = output
+      def initialize output: $stdout, **_
+        super
         @rc_path          = RC_PATH
         @modifier         = MODIFIER
         @modifier_ignore  = []
@@ -35,14 +33,6 @@ module Uh
         @layout_options   = {}
         @worker           = WORKER
         @rules            = {}
-      end
-
-      def verbose?
-        !!@verbose
-      end
-
-      def debug?
-        !!@debug
       end
 
       def layout

@@ -5,5 +5,5 @@ Feature: run control file path CLI option
       """
       puts 'testing_run_control'
       """
-    When I run uhwm with option -f uhwmrc.rb
-    Then the output must contain "testing_run_control"
+    When I start the program with option -f uhwmrc.rb
+    Then the output will contain "testing_run_control"

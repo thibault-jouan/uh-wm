@@ -6,4 +6,4 @@ Feature: `log_separator' action keyword
       key(:f) { log_separator }
       """
     When I press the alt+f keys
-    Then the output must contain "- - - - - - - - - - - - - - - - - - - - - - -"
+    Then the output will contain "- - - - - - - - - - - - - - - - - - - - - - -"

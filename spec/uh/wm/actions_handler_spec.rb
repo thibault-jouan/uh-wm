@@ -1,7 +1,7 @@
 module Uh
   module WM
     RSpec.describe ActionsHandler do
-      let(:env)         { Env.new(StringIO.new) }
+      let(:env)         { build_env output: StringIO.new }
       let(:events)      { Dispatcher.new }
       subject(:actions) { described_class.new env, events }
 

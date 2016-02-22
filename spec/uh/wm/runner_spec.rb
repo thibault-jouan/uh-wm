@@ -12,7 +12,7 @@ end
 module Uh
   module WM
     RSpec.describe Runner do
-      let(:env)         { Env.new(StringIO.new) }
+      let(:env)         { build_env output: StringIO.new }
       subject(:runner)  { described_class.new env }
 
       before do

@@ -5,5 +5,5 @@ Feature: require CLI option
       """
       puts 'testing_feature_load'
       """
-    When I run uhwm with option -r ./my_feature.rb
-    Then the output must contain "testing_feature_load"
+    When I start the program with option -r ./my_feature.rb
+    Then the output will contain "testing_feature_load"

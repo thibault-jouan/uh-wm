@@ -8,4 +8,4 @@ Feature: `rule' run control keyword
       end
       """
     When a window with class "some_window_class" requests to be mapped
-    Then the output must contain "testing_client_rule"
+    Then the output will contain "testing_client_rule"

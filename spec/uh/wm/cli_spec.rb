@@ -7,20 +7,29 @@ module Uh
 
       let(:stdout)    { StringIO.new }
       let(:stderr)    { StringIO.new }
+      let(:env)       { build_env output: stdout, output_error: stderr }
       let(:arguments) { [] }
-      subject(:cli)   { described_class.new arguments, stdout: stdout }
+      subject(:cli)   { described_class.new env, arguments }
+
+      # NOTE: hack to prevent `Runner' from connecting a `Manager' and blocking
+      # or failing.
+      before { allow(Runner).to receive :run }
+
+      it 'syncs the output' do
+        expect(stdout).to receive(:sync=)
+          .with(true)
+          .at_least :once
+        cli
+      end
 
       describe '.run' do
         subject(:run) do
           described_class.run arguments, stdout: stdout, stderr: stderr
         end
 
-        # Prevent Runner from connecting a Manager and blocking.
-        before { allow(Runner).to receive :run }
-
         it 'builds a new CLI with given arguments' do
           expect(described_class)
-            .to receive(:new).with(arguments, stdout: stdout).and_call_original
+            .to receive(:new).with(anything, arguments).and_call_original
           run
         end
 
@@ -87,18 +96,12 @@ module Uh
         end
       end
 
-      describe '#initialize' do
-        it 'builds an env with given stdout' do
-          expect(cli.env.output).to be stdout
-        end
-
-        it 'syncs the output' do
-          expect(stdout).to receive(:sync=).with(true)
-          cli
-        end
-      end
-
       describe '#run' do
+        it 'tells the env to log its logger level' do
+          expect(cli.env).to receive :log_logger_level
+          cli.run
+        end
+
         it 'runs a runner with the env' do
           expect(Runner).to receive(:run).with(cli.env)
           cli.run
@@ -113,11 +116,6 @@ module Uh
             cli.parse_arguments!
             expect(cli.env).to be_verbose
           end
-
-          it 'tells the env to log its logger level' do
-            expect(cli.env).to receive :log_logger_level
-            cli.parse_arguments!
-          end
         end
 
         context 'with debug option' do
@@ -126,11 +124,6 @@ module Uh
           it 'sets the env as debug' do
             cli.parse_arguments!
             expect(cli.env).to be_debug
-          end
-
-          it 'tells the env to log its logger level' do
-            expect(cli.env).to receive :log_logger_level
-            cli.parse_arguments!
           end
         end
 

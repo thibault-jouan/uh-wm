@@ -5,14 +5,14 @@ Feature: `launch' run control keyword
       """
       launch { puts :testing_launch_code }
       """
-    Then the output must match /connected.*testing_launch_code/mi
+    Then the output will match /connected.*testing_launch_code/mi
 
   Scenario: gives access to the actions DSL
     Given uhwm is running with this run control file:
       """
       launch { execute 'echo etucexe_tset | rev' }
       """
-    Then the output must contain "test_execute"
+    Then the output will contain "test_execute"
 
   Scenario: supports `execute!' keyword variant, waiting for client management
     Given uhwm is running with this run control file:
@@ -22,4 +22,4 @@ Feature: `launch' run control keyword
         execute 'echo after_execute!'
       end
       """
-    Then the output must match /execute.+manag.+xmessage.+after_execute!/mi
+    Then the output will match /execute.+manag.+xmessage.+after_execute!/mi
