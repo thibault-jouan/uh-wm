@@ -103,12 +103,6 @@ expected `#{message}' (#{times}) not seen after #{e.timeout} seconds in:
           Integer(`xdpyinfo`[/^focus:\s+window\s+(0x\h+)/, 1])
         end
 
-        def x_input_event_masks
-          `xdpyinfo`[/current input event mask:\s+0x\h+([\w\s]+):/, 1]
-            .split(/\s+/)
-            .grep /Mask\z/
-        end
-
         def x_key *k, delay: 12
           k = k.join " key --delay #{delay} "
           fail "cannot simulate X key `#{k}'" unless system "xdotool key #{k}"
