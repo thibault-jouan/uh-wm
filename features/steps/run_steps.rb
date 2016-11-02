@@ -23,10 +23,6 @@ When /^I run uhwm with options? (-.+)$/ do |options|
   uhwm_run options
 end
 
-When /^I tell uhwm to quit$/ do
-  uhwm_request_quit
-end
-
 When /^I quit uhwm$/ do
   uhwm_request_quit
   assert_exit_status 0

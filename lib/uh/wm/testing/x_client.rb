@@ -42,8 +42,7 @@ module Uh
           window.wclass = [wclass] * 2
         end
 
-        def map times: 1
-          times.times { window.map }
+        def map
           window.map
           self
         end
