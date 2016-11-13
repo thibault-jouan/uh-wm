@@ -33,8 +33,8 @@ module Uh
     RunControlArgumentError   = Class.new(ArgumentError)
 
     class OtherWMRunningError < RuntimeError
-      def message
-        'another window manager is already running'
+      def initialize *_
+        super 'another window manager is already running'
       end
     end
   end
