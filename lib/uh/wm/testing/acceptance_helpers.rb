@@ -9,6 +9,8 @@ module Uh
         QUIT_KEYBINDING = 'alt+shift+q'.freeze
         LOG_READY       = 'Working events'.freeze
 
+        attr_reader :other_wm
+
         def build_regexp pattern, options
           Regexp.new(pattern, options.each_char.inject(0) do |m, e|
             m | case e
@@ -83,10 +85,7 @@ expected `#{message}' (#{times}) not seen after #{e.timeout} seconds in:
           @other_wm.start
           yield
           @other_wm.stop
-        end
-
-        def other_wm
-          @other_wm
+          @other_wm = nil
         end
 
         def x_client ident = nil
