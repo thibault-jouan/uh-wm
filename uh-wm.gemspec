@@ -23,7 +23,7 @@ you can configure and extend features directly with ruby code.
   s.add_dependency 'uh',        '2.0.2'
   s.add_dependency 'uh-layout', '~> 0.4.2'
 
-  s.add_development_dependency 'aruba',     '~> 0.7', '< 0.8'
+  s.add_development_dependency 'aruba',     '0.7.4'
   s.add_development_dependency 'cucumber',  '~> 2.0'
   s.add_development_dependency 'rake',      '~> 10.4'
   s.add_development_dependency 'rspec',     '~> 3.2'
