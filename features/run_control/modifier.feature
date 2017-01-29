@@ -1,5 +1,6 @@
 Feature: `modifier' run control keyword
 
+  @rc_mod
   Scenario: configures the modifier key
     Given uhwm is running with this run control file:
       """
@@ -8,6 +9,7 @@ Feature: `modifier' run control keyword
     When I press the ctrl+shift+q keys
     Then uhwm must terminate successfully
 
+  @rc_mod
   Scenario: configures ignored modifier keys
     Given uhwm is running with this run control file:
       """

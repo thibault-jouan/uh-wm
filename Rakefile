@@ -13,7 +13,7 @@ task default: %i[features spec]
 Cucumber::Rake::Task.new :features do |t|
   if ENV.key? 'TRAVIS'
     t.profile       = 'quiet'
-    t.cucumber_opts = '--tags ~@kqueue'
+    t.cucumber_opts = '--tags ~@kqueue --tags ~@rc_mod'
   end
 end
 
