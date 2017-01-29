@@ -5,6 +5,7 @@ addons:
   apt:
     packages:
       - libxinerama-dev
+      - realpath
       - twm
       - x11-utils
       - xdotool
@@ -34,12 +35,13 @@ before_install:
   - test -x $RB || cd ruby-*
   - test -x $RB || ./configure --prefix=$HOME/usr --disable-install-doc --with-out-ext=tk
   - test -x $RB || (make && make install)
+  - echo "source 'https://rubygems.org'; gemspec" > ~/spec_deps.rb
 install:
   - unset gem GEM_HOME GEM_PATH RUBYOPT IRBRC
   - export GEM_HOME=~/.gem/travis GEM_PATH=~/.gem/travis
   - export PATH=$GEM_HOME/bin:$HOME/usr/bin:/bin:/usr/bin
   - cd $TRAVIS_BUILD_DIR
-  - gem install bundler
-  - bundle
+  - gem install -g ~/spec_deps.rb
 script:
+  - export RUBYOPT=-I$(realpath lib)
   - rake
