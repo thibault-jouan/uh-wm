@@ -2,12 +2,13 @@ uhwm
 ====
 
   uhwm is a minimalistic tiling and stacking window manager for X. It
-shares some similarities with dwm and wmii, but is written in ruby so
-you can configure and extend features directly with ruby code.
+is mostly written in ruby so you can configure and extend features
+directly with ruby code.
 
-  The layout strategy is interchangeable, the default one being the
-`uh-layout` ruby gem. A layout is a simple ruby object responding to
-specific messages, so it's easy to write your own layout.
+  The layout behavior can be changed, the default one being
+implemented by the `uh-layout` ruby gem. A layout is a simple ruby
+object responding to specific messages, so you can wrote your own in
+plain ruby without any dependency.
 
   Main features:
 
