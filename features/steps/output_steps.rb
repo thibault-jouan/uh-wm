@@ -16,7 +16,7 @@ options:
 end
 
 Then /^the output must contain exactly the version$/ do
-  assert_exact_output "%s\n" % Uh::WM::VERSION, all_output
+  expect(all_output).to match /\A\d+\.\d+\.\d+\n\z/
 end
 
 Then /^the output must match \/([^\/]+)\/([a-z]*)$/ do |pattern, options|
