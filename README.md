@@ -124,7 +124,7 @@ FAQ
 
 _What are the default key bindings?_
 
-  Juste one: `mod+shift+q` is bound to the `quit` action.
+  Just one: `mod+shift+q` is bound to the `quit` action.
 
 _How can I implement my own layout?_
 
