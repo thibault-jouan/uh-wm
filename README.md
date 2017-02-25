@@ -32,10 +32,15 @@ Installation
 ------------
 
   uhwm requires ruby ~> 2.1 with rubygems, and is currently
-distributed as the `uh-wm` ruby gem.
+distributed as the `uh-wm` ruby gem and the `x11-wm/rubygem-uh-wm`
+FreeBSD port.
 
 ``` shell
 gem install uh-wm   # install the gem or update to last release
+```
+
+``` shell
+pkg install x11-wm/rubygem-uh-wm    # use the FreeBSD port
 ```
 
 
