@@ -18,7 +18,7 @@ plain ruby without any dependency.
   * configuration with a run control file;
   * key bindings with user defined code as callback;
   * configurable modifier key;
-  * user-defined layout strategies;
+  * user-defined layout behavior (ruby);
   * external program execution;
   * no re-parenting (therefore, no window decoration either);
   * no grabbing of the modifier key alone;
