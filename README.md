@@ -1,11 +1,6 @@
 uhwm
 ====
 
-[![Version      ][badge-version-img]][badge-version-uri]
-[![Build status ][badge-build-img]][badge-build-uri]
-[![Code Climate ][badge-cclimate-img]][badge-cclimate-uri]
-
-
   uhwm is a minimalistic tiling and stacking window manager for X. It
 shares some similarities with dwm and wmii, but is written in ruby so
 you can configure and extend features directly with ruby code.
@@ -409,10 +404,12 @@ local git clone or if you did a custom install, try to use bundler or
 to modify the ruby load path (set `RUBYOPT=-Ilib` for example).
 
 
+---
+
+[![Version      ][badge-version-img]][badge-version-uri]
+[![Build status ][badge-build-img]][badge-build-uri]
 
 [badge-version-img]:  https://img.shields.io/gem/v/uh-wm.svg?style=flat-square
 [badge-version-uri]:  https://rubygems.org/gems/uh-wm
 [badge-build-img]:    https://img.shields.io/travis/tjouan/uh-wm/master.svg?style=flat-square
 [badge-build-uri]:    https://travis-ci.org/tjouan/uh-wm
-[badge-cclimate-img]: https://img.shields.io/codeclimate/github/tjouan/uh-wm.svg?style=flat-square
-[badge-cclimate-uri]: https://codeclimate.com/github/tjouan/uh-wm
