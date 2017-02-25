@@ -1,13 +1,16 @@
 require 'benchmark'
-require 'headless'
+
 require 'uh/wm'
+require 'uh/wm/testing/headless'
 require 'uh/wm/testing/x_client'
+
+include Uh::WM::Testing::Headless
 
 def wait_output io, message
   loop { break if io.gets.include? message }
 end
 
-Headless.ly do
+with_xvfb do
   Benchmark.bm 12 do |x|
     n   = 2 ** 16
     io  = nil
