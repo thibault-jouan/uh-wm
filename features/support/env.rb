@@ -17,7 +17,10 @@ World(Uh::WM::Testing::Headless)
 ENV['DISPLAY'] = ':42'
 
 Around do |_, block|
-  with_xvfb { block.call }
+  with_xvfb do
+    sleep 0.05 if ENV.key? 'TRAVIS'
+    block.call
+  end
 end
 
 Before do
