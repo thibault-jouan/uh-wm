@@ -87,7 +87,7 @@ end
 
   Blocks given to `key`, `rule`, `launch` are executed in a special
 context providing access to methods named "actions", which are
-described in the following section.
+described in the "Actions" section of this file.
 
 [run_control_doc]: http://www.rubydoc.info/gems/uh-wm/Uh/WM/RunControl
 
