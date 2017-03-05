@@ -42,6 +42,7 @@ install:
   - export PATH=$GEM_HOME/bin:$HOME/usr/bin:/bin:/usr/bin
   - cd $TRAVIS_BUILD_DIR
   - gem install -g ~/spec_deps.rb
-script:
+before_script:
   - export RUBYOPT=-I$(realpath lib)
+script:
   - rake
