@@ -43,6 +43,10 @@ install:
   - cd $TRAVIS_BUILD_DIR
   - gem install -g ~/spec_deps.rb
 before_script:
+  - export DISPLAY=:42
+  - sh -e /etc/init.d/xvfb start
+  - export UHWMTEST_CI=yes
+  - export UHWMTEST_TIMEOUT=8
   - export RUBYOPT=-I$(realpath lib)
 script:
   - rake

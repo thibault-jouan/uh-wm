@@ -11,7 +11,7 @@ XEPHYR_SCREENS_XINERAMA =
 task default: %i[features spec]
 
 Cucumber::Rake::Task.new :features do |t|
-  if ENV.key? 'TRAVIS'
+  if ENV.key? 'UHWMTEST_CI'
     t.profile       = 'quiet'
     t.cucumber_opts = %w[
       --tags ~@kqueue
@@ -22,7 +22,7 @@ Cucumber::Rake::Task.new :features do |t|
 end
 
 RSpec::Core::RakeTask.new do |t|
-  t.rspec_opts = '--format progress' if ENV.key? 'TRAVIS'
+  t.rspec_opts = '--format progress' if ENV.key? 'UHWMTEST_CI'
 end
 
 desc 'Run uhwm in a Xephyr X server'
