@@ -18,10 +18,9 @@ ENV['DISPLAY'] = ':42'
 
 Around do |_, block|
   with_xvfb do
-    sleep 0.05 if ENV.key? 'TRAVIS'
     block.call
   end
-end
+end if ENV.key? 'UHWMTEST_CI'
 
 Before do
   set_env 'HOME', File.expand_path(current_directory)
@@ -39,8 +38,4 @@ end
 
 After '@icccm_window' do
   icccm_window_ensure_stop
-end
-
-if ENV.key? 'TRAVIS'
-  ENV['UHWMTEST_TIMEOUT'] = 8.to_s
 end

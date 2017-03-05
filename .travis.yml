@@ -18,7 +18,6 @@ env:
   - RUBYVER=2.4-stable
   - RUBYVER=2.3-stable
   - RUBYVER=2.2-stable
-  - RUBYVER=2.1-stable
 cache:
   directories:
     - ${HOME}/.gem/travis
@@ -42,6 +41,11 @@ install:
   - export PATH=$GEM_HOME/bin:$HOME/usr/bin:/bin:/usr/bin
   - cd $TRAVIS_BUILD_DIR
   - gem install -g ~/spec_deps.rb
-script:
+before_script:
+  - export DISPLAY=:42
+  - sh -e /etc/init.d/xvfb start
+  - export UHWMTEST_CI=yes
+  - export UHWMTEST_TIMEOUT=8
   - export RUBYOPT=-I$(realpath lib)
+script:
   - rake
