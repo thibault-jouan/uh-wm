@@ -14,13 +14,15 @@ end
 World(Uh::WM::Testing::AcceptanceHelpers)
 World(Uh::WM::Testing::Headless)
 
-ENV['DISPLAY'] = ':42'
+unless ENV.key? 'UHWMTEST_CI'
+  ENV['DISPLAY'] = ':42'
 
-Around do |_, block|
-  with_xvfb do
-    block.call
+  Around do |_, block|
+    with_xvfb do
+      block.call
+    end
   end
-end if ENV.key? 'UHWMTEST_CI'
+end
 
 Before do
   set_env 'HOME', File.expand_path(current_directory)
