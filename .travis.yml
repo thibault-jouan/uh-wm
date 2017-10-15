@@ -6,7 +6,6 @@ addons:
     packages:
       - libxinerama-dev
       - realpath
-      - twm
       - x11-utils
       - xdotool
 notifications:

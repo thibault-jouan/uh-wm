@@ -81,7 +81,7 @@ expected `#{message}' (#{times}) not seen after #{e.timeout} seconds in:
         end
 
         def with_other_wm
-          @other_wm = ChildProcess.build('twm')
+          @other_wm = ChildProcess.build('./bin/uhwm')
           @other_wm.start
           yield
           @other_wm.stop

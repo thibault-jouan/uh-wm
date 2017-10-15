@@ -35,7 +35,6 @@ end
 
 Around '@other_wm_running' do |_, block|
   with_other_wm { block.call }
-  sleep 0.05
 end
 
 After '@icccm_window' do
