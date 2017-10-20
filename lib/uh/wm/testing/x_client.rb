@@ -9,7 +9,7 @@ module Uh
         def initialize name = object_id
           @name     = "#{self.class.name.split('::').last}/#{name}"
           @geo      = Geo.new(0, 0, 640, 480)
-          @display  = Display.new.tap &:open
+          @display  = Display.new.open
         end
 
         def terminate
