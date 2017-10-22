@@ -1,3 +1,5 @@
+require 'baf/testing/cucumber/steps/output_wait'
+
 require 'uh'
 require 'uh/wm/testing/x_client'
 
@@ -5,21 +7,10 @@ module Uh
   module WM
     module Testing
       module AcceptanceHelpers
-        TIMEOUT_DEFAULT = 2
         QUIT_KEYBINDING = 'alt+shift+q'.freeze
         LOG_READY       = 'Working events'.freeze
 
         attr_reader :other_wm
-
-        def build_regexp pattern, options
-          Regexp.new(pattern, options.each_char.inject(0) do |m, e|
-            m | case e
-              when ?i then Regexp::IGNORECASE
-              when ?m then Regexp::MULTILINE
-              when ?x then Regexp::EXTENDED
-            end
-          end)
-        end
 
         def icccm_window_start
           @icccm_window = ChildProcess.build(*%w[xmessage window])
@@ -34,49 +25,20 @@ module Uh
           'xmessage'
         end
 
-        def uhwm_run options = '-v'
-          command = %w[uhwm]
-          command << options if options
-          @interactive = @process = run command.join ' '
-        end
-
-        def uhwm
-          @process
-        end
-
         def uhwm_request_quit
           x_key QUIT_KEYBINDING
         end
 
         def uhwm_ensure_stop
-          if @process
-            x_key 'alt+shift+q'
-            @process.terminate
-          end
-        end
-
-        def uhwm_wait_output message, times = 1, value = nil
-          output = -> { @process.stdout + @process.stderr }
-          timeout_until do
-            case message
-            when Regexp then (value = output.call.scan(message)).size >= times
-            when String then output.call.include? message
-            end
-          end
-          value
-        rescue TimeoutError => e
-          raise <<-eoh
-expected `#{message}' (#{times}) not seen after #{e.timeout} seconds in:
-  ```\n#{output.call.lines.map { |l| "  #{l}" }.join}  ```
-          eoh
+          uhwm_request_quit
         end
 
         def uhwm_wait_ready
-          uhwm_wait_output LOG_READY
+          wait_output! LOG_READY
         end
 
-        def uhwm_run_wait_ready options = nil
-          if options then uhwm_run options else uhwm_run end
+        def uhwm_run_wait_ready options = '-v'
+          program_run wait: false, opts: options
           uhwm_wait_ready
         end
 
@@ -115,31 +77,6 @@ expected `#{message}' (#{times}) not seen after #{e.timeout} seconds in:
               "not an Integer nor a String: `#{window_selector.inspect}'"
           end
           `xwininfo #{select_args} 2> /dev/null`[/Map State: (\w+)/, 1]
-        end
-
-      private
-
-        def timeout_until message = 'condition not met after %d seconds'
-          timeout = ENV.key?('UHWMTEST_TIMEOUT') ?
-            ENV['UHWMTEST_TIMEOUT'].to_i :
-            TIMEOUT_DEFAULT
-          Timeout.timeout(timeout) do
-            loop do
-              break if yield
-              sleep 0.1
-            end
-          end
-        rescue Timeout::Error
-          raise TimeoutError.new(message % timeout, timeout)
-        end
-
-        class TimeoutError < ::StandardError
-          attr_reader :timeout
-
-          def initialize message, timeout
-            super message
-            @timeout = timeout
-          end
         end
       end
     end

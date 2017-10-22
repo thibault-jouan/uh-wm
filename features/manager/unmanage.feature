@@ -6,4 +6,4 @@ Feature: manager client unmanagement on destroy notifications
 
   Scenario: unmanages client on destroy notify X events
     When the window is destroyed
-    Then the output must match /unmanag.+xclient/i
+    Then the output will match /unmanag.+xclient/i

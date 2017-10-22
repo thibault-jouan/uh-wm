@@ -7,7 +7,7 @@ Feature: `modifier' run control keyword
       modifier :ctrl
       """
     When I press the ctrl+shift+q keys
-    Then uhwm must terminate successfully
+    Then the program must terminate successfully
 
   @rc_mod
   Scenario: configures ignored modifier keys
@@ -17,4 +17,4 @@ Feature: `modifier' run control keyword
       """
     When I press the Num_Lock key
     And I press the alt+shift+q keys
-    Then uhwm must terminate successfully
+    Then the program must terminate successfully

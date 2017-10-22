@@ -6,7 +6,7 @@ Feature: run control file evaluation
       'no error on first line'
       { # this will trigger a syntax error
       """
-    When I start uhwm
+    When I run the program
     Then the output must match /RunControlEvaluationError:.*\.uhwmrc\.rb:2:/
 
   Scenario: reports errors with run control code backtrace in debug mode
@@ -15,5 +15,5 @@ Feature: run control file evaluation
       'no error on first line'
       fail 'testing_rc_failure'
       """
-    When I run uhwm with option -d
+    When I run the program with option -d
     Then the output must match /\.uhwmrc\.rb:2:in.*\w+/

@@ -6,7 +6,7 @@ Feature: `key' run control keyword
       key(:f) { puts 'testing_rc_key' }
       """
     When I press the alt+f keys
-    Then the output must contain "testing_rc_key"
+    Then the output will contain "testing_rc_key"
 
   Scenario: defines code to run when given keys are pressed
     Given uhwm is running with this run control file:
@@ -14,7 +14,7 @@ Feature: `key' run control keyword
       key(:f, :shift) { puts 'testing_rc_key' }
       """
     When I press the alt+shift+f keys
-    Then the output must contain "testing_rc_key"
+    Then the output will contain "testing_rc_key"
 
   Scenario: translates common key names to their X equivalent
     Given uhwm is running with this run control file:
@@ -22,7 +22,7 @@ Feature: `key' run control keyword
       key(:enter) { puts 'testing_rc_key' }
       """
     When I press the alt+Return keys
-    Then the output must contain "testing_rc_key"
+    Then the output will contain "testing_rc_key"
 
   Scenario: translates upcased key names to combination with shift key
     Given uhwm is running with this run control file:
@@ -30,4 +30,4 @@ Feature: `key' run control keyword
       key(:F) { puts 'testing_rc_key' }
       """
     When I press the alt+shift+f keys
-    Then the output must contain "testing_rc_key"
+    Then the output will contain "testing_rc_key"

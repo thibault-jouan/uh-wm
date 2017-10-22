@@ -6,4 +6,4 @@ Feature: `quit' action keyword
       key(:f) { quit }
       """
     When I press the alt+f keys
-    Then uhwm must terminate successfully
+    Then the program must terminate successfully

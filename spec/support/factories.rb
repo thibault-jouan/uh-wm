@@ -7,6 +7,10 @@ module Factories
     Uh::WM::Client.new(window)
   end
 
+  def build_env **options
+    Uh::WM::CLI.new(Uh::WM::Env.new(**options), []).env
+  end
+
   def mock_event type = :xany, **options
     double 'event', type: type, **options
   end

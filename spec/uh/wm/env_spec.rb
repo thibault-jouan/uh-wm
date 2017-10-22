@@ -3,7 +3,7 @@ module Uh
     RSpec.describe Env do
       let(:output)  { StringIO.new }
       let(:logger)  { Logger.new(StringIO.new) }
-      subject(:env) { described_class.new output }
+      subject(:env) { build_env output: output }
 
       it 'has verbose mode disabled' do
         expect(env).not_to be_verbose

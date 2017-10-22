@@ -1,5 +1,5 @@
 Then /^the output must contain exactly the usage$/ do
-  assert_exact_output <<-eoh, all_output
+  expect_output <<-eoh
 Usage: uhwm [options]
 
 options:
@@ -16,23 +16,15 @@ options:
 end
 
 Then /^the output must contain exactly the version$/ do
-  expect(all_output).to match /\A\d+\.\d+\.\d+\n\z/
-end
-
-Then /^the output must match \/([^\/]+)\/([a-z]*)$/ do |pattern, options|
-  uhwm_wait_output build_regexp(pattern, options)
+  expect(last_command_started.output).to match /\A\d+\.\d+\.\d+\n\z/
 end
 
 Then /^the output must match \/([^\/]+)\/([a-z]*) exactly (\d+) times$/ do
     |pattern, options, times|
-  scans = uhwm_wait_output build_regexp(pattern, options)
+  scans = wait_output! build_regexp(pattern, options)
   expect(scans.size).to eq times.to_i
 end
 
-Then /^the output must contain "([^"]+)"$/ do |content|
-  uhwm_wait_output content.to_s
-end
-
-Then /^the output must contain current display$/ do
-  uhwm_wait_output ENV['DISPLAY']
+Then /^the output will contain current display$/ do
+  wait_output! ENV['DISPLAY']
 end
