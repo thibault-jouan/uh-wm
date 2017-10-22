@@ -19,7 +19,7 @@ you can configure and extend features directly with ruby code.
   s.executable  = 'uhwm'
   s.extra_rdoc_files = %w[README.md]
 
-  s.add_dependency 'baf',       '~> 0.9'
+  s.add_dependency 'baf',       '~> 0.14'
   s.add_dependency 'rb-kqueue', '~> 0.2', '>= 0.2.4'
   s.add_dependency 'uh',        '~> 2.1'
   s.add_dependency 'uh-layout', '~> 0.4', '>= 0.4.2'
