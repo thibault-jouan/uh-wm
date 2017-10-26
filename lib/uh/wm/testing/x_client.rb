@@ -26,7 +26,7 @@ module Uh
         end
 
         def window_id
-          @window.id
+          window.id
         end
 
         def window_name
