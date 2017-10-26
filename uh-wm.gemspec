@@ -24,6 +24,6 @@ you can configure and extend features directly with ruby code.
   s.add_dependency 'uh',        '~> 2.1'
   s.add_dependency 'uh-layout', '~> 0.4', '>= 0.4.2'
 
-  s.add_development_dependency 'rake',        '~> 10'
+  s.add_development_dependency 'rake'
   s.add_development_dependency 'baf-testing', '~> 0.0'
 end
