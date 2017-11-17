@@ -7,7 +7,7 @@ directly with ruby code.
 
   The layout behavior can be changed, the default one being
 implemented by the `uh-layout` ruby gem. A layout is a simple ruby
-object responding to specific messages, so you can wrote your own in
+object responding to specific messages, so you can write your own in
 plain ruby without any dependency.
 
   Main features:
@@ -16,7 +16,7 @@ plain ruby without any dependency.
   * different adapters for event handling: blocking, multiplexing
     with `select()` or `kqueue()`;
   * configuration with a run control file;
-  * key bindings with user defined code as callback;
+  * key bindings with user defined callbacks;
   * configurable modifier key;
   * user-defined layout behavior (ruby);
   * external program execution;
@@ -67,8 +67,7 @@ BROWSERS  = %w[
 
 modifier :mod1                # This key is added to the modifier mask for *all*
                               # key bindings.
-key(:p)     { execute DMENU } # Execute given command in a shell when mod1+shift
-                              # is pressed.
+key(:p)     { execute DMENU } # Execute given command in a shell with mod1+p.
 key(:Q)     { quit }          # Quit when mod1+shift+q is pressed (a capitalized
                               # key adds shift to mod mask).
 key(:enter) { execute VT }    # Common key names (`enter') are translated to
