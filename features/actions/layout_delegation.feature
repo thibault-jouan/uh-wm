@@ -1,6 +1,6 @@
 Feature: `layout_*' action keywords
 
-  Scenario: delegates messages matching `layout_*' to `layout_handle_*'
+  Scenario: delegates `layout_*' messages to layout instance as `handle_*'
     Given a file named layout.rb with:
       """
       class Layout

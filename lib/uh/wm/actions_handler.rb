@@ -68,9 +68,9 @@ module Uh
       end
 
       # Forwards unhandled messages prefixed with `layout_` to the layout,
-      # without the prefix
+      # replacing the prefix with `handle_`
       # @example
-      #   layout_foo # delegates to `layout.foo'
+      #   layout_foo # delegates to `layout.handle_foo'
       def method_missing m, *args, &block
         if respond_to? m
           meth = layout_method m
