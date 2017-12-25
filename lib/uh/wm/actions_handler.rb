@@ -75,9 +75,9 @@ module Uh
         if respond_to? m
           meth = layout_method m
           log "#{layout.class.name}##{meth} #{args.inspect}"
-          begin
+          if layout.respond_to? meth
             layout.send meth, *args
-          rescue NoMethodError
+          else
             log_error "Layout does not implement `#{meth}'"
           end
         else
