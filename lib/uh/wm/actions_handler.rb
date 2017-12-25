@@ -68,16 +68,16 @@ module Uh
       end
 
       # Forwards unhandled messages prefixed with `layout_` to the layout,
-      # without the prefix
+      # replacing the prefix with `handle_`
       # @example
-      #   layout_foo # delegates to `layout.foo'
+      #   layout_foo # delegates to `layout.handle_foo'
       def method_missing m, *args, &block
         if respond_to? m
           meth = layout_method m
           log "#{layout.class.name}##{meth} #{args.inspect}"
-          begin
+          if layout.respond_to? meth
             layout.send meth, *args
-          rescue NoMethodError
+          else
             log_error "Layout does not implement `#{meth}'"
           end
         else
@@ -100,7 +100,7 @@ module Uh
     private
 
       def layout_method m
-        m.to_s.gsub(/\Alayout_/, 'handle_').to_sym
+        m.to_s.sub(/\Alayout_/, 'handle_').to_sym
       end
     end
   end
