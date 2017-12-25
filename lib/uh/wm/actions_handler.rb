@@ -100,7 +100,7 @@ module Uh
     private
 
       def layout_method m
-        m.to_s.gsub(/\Alayout_/, 'handle_').to_sym
+        m.to_s.sub(/\Alayout_/, 'handle_').to_sym
       end
     end
   end
