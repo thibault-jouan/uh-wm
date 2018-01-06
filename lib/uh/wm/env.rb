@@ -24,7 +24,7 @@ module Uh
       attr_accessor :rc_path, :modifier, :modifier_ignore, :worker, :layout,
                     :layout_class, :layout_options, :rules, :launch
 
-      def initialize output: $stdout, **_
+      def initialize **_
         super
         @rc_path          = RC_PATH
         @modifier         = MODIFIER
