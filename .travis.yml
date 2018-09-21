@@ -1,6 +1,6 @@
 sudo: required
 dist: trusty
-language: generic
+language: minimal
 addons:
   apt:
     packages:
@@ -8,6 +8,7 @@ addons:
       - realpath
       - x11-utils
       - xdotool
+      - xvfb
 notifications:
   email:
     - tj+travis_uh_wm@a13.fr

@@ -11,17 +11,15 @@ require 'uh/wm/testing/headless'
 World(Uh::WM::Testing::AcceptanceHelpers)
 World(Uh::WM::Testing::Headless)
 
-unless ENV.key? 'UHWMTEST_CI'
-  Around do |_, block|
-    with_xvfb do
-      block.call
-    end
+Around do |_, block|
+  with_xvfb do
+    block.call
   end
 end
 
 Before do
   set_environment_variable 'HOME', expand_path(?.)
-  set_environment_variable 'DISPLAY', ':42' unless ENV.key? 'UHWMTEST_CI'
+  set_environment_variable 'DISPLAY', ':42'
 end
 
 After do
