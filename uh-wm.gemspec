@@ -15,7 +15,7 @@ you can configure and extend features directly with ruby code.
   s.authors     = 'Thibault Jouan'
   s.email       = 'tj@a13.fr'
 
-  s.files       = `git ls-files lib`.split $/
+  s.files       = Dir['lib/**/*']
   s.executable  = 'uhwm'
   s.extra_rdoc_files = %w[README.md]
 
