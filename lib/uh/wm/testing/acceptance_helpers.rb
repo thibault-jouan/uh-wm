@@ -1,4 +1,4 @@
-require 'baf/testing/cucumber/steps/output_wait'
+require 'baf/testing/process'
 
 require 'uh'
 require 'uh/wm/testing/x_client'
@@ -13,7 +13,8 @@ module Uh
         attr_reader :other_wm
 
         def icccm_window_start
-          @icccm_window = ChildProcess.build(*%w[xmessage window])
+          @icccm_window = Baf::Testing::Process.new %w[xmessage window],
+            env_allow: %w[DISPLAY]
           @icccm_window.start
         end
 
@@ -33,20 +34,21 @@ module Uh
           uhwm_request_quit
         end
 
-        def uhwm_wait_ready
-          wait_output! LOG_READY
-        end
-
         def uhwm_run_wait_ready options = '-v'
-          program_run wait: false, opts: options
-          uhwm_wait_ready
+          cmd = $_baf[:program] + options.split(' ')
+          env = Baf::Testing::ENV_WHITELIST + $_baf[:env_allow]
+          Baf::Testing::Process.new(cmd, env_allow: env).tap do |uhwm|
+            uhwm.start
+            Baf::Testing.wait_output LOG_READY, stream: -> { uhwm.output }
+          end
         end
 
-        def with_other_wm
-          @other_wm = ChildProcess.build('./bin/uhwm')
+        def with_other_wm uhwm_command
+          env = Baf::Testing::ENV_WHITELIST + $_baf[:env_allow]
+          @other_wm = Baf::Testing::Process.new uhwm_command, env_allow: env
           @other_wm.start
           yield
-          @other_wm.stop
+          uhwm_request_quit
           @other_wm = nil
         end
 

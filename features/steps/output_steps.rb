@@ -1,5 +1,5 @@
 Then /^the output must contain exactly the usage$/ do
-  expect_output <<-eoh
+  expect($_baf[:process].output).to eq <<-eoh
 Usage: uhwm [options]
 
 options:
@@ -16,15 +16,15 @@ options:
 end
 
 Then /^the output must contain exactly the version$/ do
-  expect(last_command_started.output).to match /\A\d+\.\d+\.\d+\n\z/
+  expect($_baf[:process].output).to match /\A\d+\.\d+\.\d+\n\z/
 end
 
 Then /^the output must match \/([^\/]+)\/([a-z]*) exactly (\d+) times$/ do
     |pattern, options, times|
-  scans = wait_output! build_regexp(pattern, options)
+  scans = wait_output Baf::Testing.build_regexp pattern, options
   expect(scans.size).to eq times.to_i
 end
 
 Then /^the output will contain current display$/ do
-  wait_output! ENV['DISPLAY']
+  wait_output ENV['DISPLAY']
 end

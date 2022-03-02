@@ -1,4 +1,4 @@
-require 'childprocess'
+require 'baf/testing/process'
 
 module Uh
   module WM
@@ -8,15 +8,18 @@ module Uh
         DISPLAY_SCREEN  = '640x480x24'
 
         def with_xvfb
-          xvfb = ChildProcess.build(*%W[
+          xvfb = Baf::Testing::Process.new %W[
             Xvfb -ac #{DISPLAY_NAME} -screen 0 #{DISPLAY_SCREEN}
-          ])
+          ]
           xvfb.start
           original_display = ENV['DISPLAY']
           ENV['DISPLAY'] = DISPLAY_NAME
-          yield
-          ENV['DISPLAY'] = original_display
-          xvfb.stop
+          begin
+            yield
+          ensure
+            ENV['DISPLAY'] = original_display
+            xvfb.stop
+          end
         end
       end
     end

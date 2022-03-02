@@ -5,4 +5,4 @@ Feature: `worker' run control keyword
       """
       worker :mux
       """
-    Then the output must match /work.+event.+mux/i
+    Then the output will match /work.+event.+mux/i
