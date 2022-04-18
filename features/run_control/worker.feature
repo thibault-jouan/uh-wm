@@ -1,6 +1,6 @@
 Feature: `worker' run control keyword
 
-  Scenario: configures the modifier key
+  Scenario: configures the event worker
     Given uhwm is running with this run control file:
       """
       worker :mux
