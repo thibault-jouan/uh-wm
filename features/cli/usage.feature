@@ -7,5 +7,5 @@ Feature: CLI usage
 
   Scenario: prints the help when -h option is given
     When I run the program with option -h
-    Then the program must terminate successfully
+    Then the exit status must be 0
     And the output must contain exactly the usage
